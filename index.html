@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PixelPro — Professional Pixel Art Editor with AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Create stunning pixel art with AI-powered tools. Professional pixel art editor with layers, animation, and real AI integration.">
+  <meta name="keywords" content="pixel art, editor, AI, drawing, animation, sprite, game art, digital art">
+  <meta name="author" content="PixelPro">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pixelpro.app/">
+  <meta property="og:title" content="PixelPro - Professional Pixel Art Editor">
+  <meta property="og:description" content="Create stunning pixel art with AI-powered tools and professional editing features">
+  <meta property="og:image" content="https://pixelpro.app/og-image.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://pixelpro.app/">
+  <meta property="twitter:title" content="PixelPro - Professional Pixel Art Editor">
+  <meta property="twitter:description" content="Create stunning pixel art with AI-powered tools and professional editing features">
+  <meta property="twitter:image" content="https://pixelpro.app/og-image.png">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PixelPro">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.ico">
+  
+  <!-- Tailwind CDN for quick styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#23272E] text-gray-200">
+  <!-- Advanced Menu Bar -->
+  <nav class="menubar flex items-center px-2 py-1 bg-[#282C34] border-b border-[#444] shadow z-40 select-none">
+    <!-- Logo and App Name -->
+    <span class="font-bold tracking-tight text-[1.1rem] text-blue-400 mr-5 select-none flex items-center gap-2">
+      <svg width="32" height="32"><rect x="2" y="2" width="12" height="12" fill="#2563eb"/><rect x="18" y="2" width="12" height="12" fill="#fbbf24"/><rect x="2" y="18" width="12" height="12" fill="#38bdf8"/><rect x="18" y="18" width="12" height="12" fill="#e11d48"/></svg>
+      PixelPro
+    </span>
+    
+    <!-- File Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="file" tabindex="0">File</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="showStartScreen">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v14M1 8h14"/></svg>
+          Start Screen
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="newFile">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v14M1 8h14"/></svg>
+          New Project
+          <span class="menu-shortcut">Ctrl+N</span>
+        </button>
+        <button class="menuitem" id="openFile">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 7v6a2 2 0 002 2h6a2 2 0 002-2V9a2 2 0 00-2-2h-3l-1-1H5a2 2 0 00-2 2z"/></svg>
+          Open…
+          <span class="menu-shortcut">Ctrl+O</span>
+        </button>
+        <button class="menuitem" id="saveFile">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 3v10a2 2 0 002 2h6a2 2 0 002-2V5l-2-2H5a2 2 0 00-2 2z"/><path d="M5 3v2h4V3"/></svg>
+          Save
+          <span class="menu-shortcut">Ctrl+S</span>
+        </button>
+        <button class="menuitem" id="saveAsFile">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 3v10a2 2 0 002 2h6a2 2 0 002-2V5l-2-2H5a2 2 0 00-2 2z"/><path d="M5 3v2h4V3"/></svg>
+          Save As…
+          <span class="menu-shortcut">Ctrl+Shift+S</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="exportBtnMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v10M5 8l3 3 3-3"/></svg>
+          Export PNG
+          <span class="menu-shortcut">Ctrl+E</span>
+        </button>
+        <button class="menuitem" id="exportGifMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v10M5 8l3 3 3-3"/></svg>
+          Export GIF
+        </button>
+        <button class="menuitem" id="exportSpriteSheetMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v10M5 8l3 3 3-3"/></svg>
+          Export Sprite Sheet
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="printMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M4 2h8v2H4z"/><path d="M2 6h12v6H2z"/><path d="M4 12h8v2H4z"/></svg>
+          Print
+          <span class="menu-shortcut">Ctrl+P</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="exitApp">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg>
+          Exit
+          <span class="menu-shortcut">Ctrl+Q</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Edit Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="edit" tabindex="0">Edit</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="undoBtnMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M9 14L4 9l5-5"/><path d="M4 9h7a4 4 0 110 8h-1"/></svg>
+          Undo
+          <span class="menu-shortcut">Ctrl+Z</span>
+        </button>
+        <button class="menuitem" id="redoBtnMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M7 14l5-5-5-5"/><path d="M12 9H5a4 4 0 100 8h1"/></svg>
+          Redo
+          <span class="menu-shortcut">Ctrl+Y</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="cutMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M6 2l2 2 2-2"/><path d="M8 4v8"/><path d="M2 6h12"/></svg>
+          Cut
+          <span class="menu-shortcut">Ctrl+X</span>
+        </button>
+        <button class="menuitem" id="copyMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M4 2h8v2H4z"/><path d="M2 6h12v8H2z"/></svg>
+          Copy
+          <span class="menu-shortcut">Ctrl+C</span>
+        </button>
+        <button class="menuitem" id="pasteMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M4 2h8v2H4z"/><path d="M2 6h12v8H2z"/><path d="M6 10h4v2H6z"/></svg>
+          Paste
+          <span class="menu-shortcut">Ctrl+V</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="selectAllMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Select All
+          <span class="menu-shortcut">Ctrl+A</span>
+        </button>
+        <button class="menuitem" id="clearSelectionMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6l4 4M10 6l-4 4"/></svg>
+          Clear Selection
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="clearBtnMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6l4 4M10 6l-4 4"/></svg>
+          Clear Canvas
+          <span class="menu-shortcut">Ctrl+Shift+C</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="resizeGridMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6h4v4H6z"/></svg>
+          Resize Canvas
+        </button>
+        <button class="menuitem" id="cropMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Crop to Selection
+        </button>
+      </div>
+    </div>
+    
+    <!-- Image Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="image" tabindex="0">Image</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="flipHorizontalMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 8h12"/><path d="M6 4l4 4-4 4"/></svg>
+          Flip Horizontal
+        </button>
+        <button class="menuitem" id="flipVerticalMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12"/><path d="M4 6l4 4 4-4"/></svg>
+          Flip Vertical
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="rotate90Menu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12"/><path d="M4 6l4 4 4-4"/></svg>
+          Rotate 90° Clockwise
+        </button>
+        <button class="menuitem" id="rotate180Menu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12"/><path d="M4 6l4 4 4-4"/></svg>
+          Rotate 180°
+        </button>
+        <button class="menuitem" id="rotate270Menu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12"/><path d="M4 6l4 4 4-4"/></svg>
+          Rotate 90° Counter-clockwise
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="invertColorsMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Invert Colors
+        </button>
+        <button class="menuitem" id="adjustBrightnessMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v12"/></svg>
+          Adjust Brightness
+        </button>
+        <button class="menuitem" id="adjustContrastMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 8h12"/><path d="M4 4l8 8"/></svg>
+          Adjust Contrast
+        </button>
+      </div>
+    </div>
+    
+    <!-- Layer Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="layer" tabindex="0">Layer</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="newLayerMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M8 4v8M4 8h8"/></svg>
+          New Layer
+          <span class="menu-shortcut">Ctrl+Shift+N</span>
+        </button>
+        <button class="menuitem" id="duplicateLayerMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h8v8H2z"/><path d="M6 6h8v8H6z"/></svg>
+          Duplicate Layer
+          <span class="menu-shortcut">Ctrl+J</span>
+        </button>
+        <button class="menuitem" id="deleteLayerMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6l4 4M10 6l-4 4"/></svg>
+          Delete Layer
+          <span class="menu-shortcut">Delete</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="mergeLayersMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6h4v4H6z"/></svg>
+          Merge Down
+          <span class="menu-shortcut">Ctrl+E</span>
+        </button>
+        <button class="menuitem" id="mergeVisibleMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6h4v4H6z"/></svg>
+          Merge Visible
+          <span class="menu-shortcut">Ctrl+Shift+E</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="layerOpacityMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v12"/></svg>
+          Layer Opacity
+        </button>
+        <button class="menuitem" id="layerBlendModeMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6h4v4H6z"/></svg>
+          Blend Mode
+        </button>
+      </div>
+    </div>
+    
+    <!-- Animation Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="animation" tabindex="0">Animation</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="newFrameMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v14M1 8h14"/></svg>
+          New Frame
+          <span class="menu-shortcut">Ctrl+Shift+F</span>
+        </button>
+        <button class="menuitem" id="duplicateFrameMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h8v8H2z"/><path d="M6 6h8v8H6z"/></svg>
+          Duplicate Frame
+          <span class="menu-shortcut">Ctrl+D</span>
+        </button>
+        <button class="menuitem" id="deleteFrameMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 6l4 4M10 6l-4 4"/></svg>
+          Delete Frame
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="playAnimationMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+          Play Animation
+          <span class="menu-shortcut">Space</span>
+        </button>
+        <button class="menuitem" id="stopAnimationMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><rect x="4" y="4" width="8" height="8"/></svg>
+          Stop Animation
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="setFrameDelayMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v6l4 2"/></svg>
+          Set Frame Delay
+        </button>
+        <button class="menuitem" id="exportAnimationMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 1v10M5 8l3 3 3-3"/></svg>
+          Export Animation
+        </button>
+      </div>
+    </div>
+    
+    <!-- View Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="view" tabindex="0">View</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="zoomInMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4v8M4 8h8"/></svg>
+          Zoom In
+          <span class="menu-shortcut">Ctrl++</span>
+        </button>
+        <button class="menuitem" id="zoomOutMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4v8M4 8h8"/></svg>
+          Zoom Out
+          <span class="menu-shortcut">Ctrl+-</span>
+        </button>
+        <button class="menuitem" id="zoomFitMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Fit to Screen
+          <span class="menu-shortcut">Ctrl+0</span>
+        </button>
+        <button class="menuitem" id="zoom100Menu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Actual Size
+          <span class="menu-shortcut">Ctrl+1</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="toggleGridMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 2v12M10 2v12"/><path d="M2 6h12M2 10h12"/></svg>
+          Show Grid
+          <span class="menu-shortcut">Ctrl+G</span>
+        </button>
+        <button class="menuitem" id="togglePixelGridMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M6 2v12M10 2v12"/><path d="M2 6h12M2 10h12"/></svg>
+          Show Pixel Grid
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="toggleSidebar">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v2H4z"/></svg>
+          Toggle Tools Panel
+        </button>
+        <button class="menuitem" id="toggleLayers">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v2H4z"/></svg>
+          Toggle Layers Panel
+        </button>
+        <button class="menuitem" id="toggleColorPanel">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v12"/></svg>
+          Toggle Color Panel
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="toggleDarkMode">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v12"/></svg>
+          Toggle Dark Mode
+        </button>
+        <button class="menuitem" id="toggleFullscreen">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Toggle Fullscreen
+          <span class="menu-shortcut">F11</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Tools Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="tools" tabindex="0">Tools</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="pencilToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M12 2l2 2-8 8H4v-2l8-8z"/></svg>
+          Pencil Tool
+          <span class="menu-shortcut">B</span>
+        </button>
+        <button class="menuitem" id="brushToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2c0 1.5-6 2.5-6 8s6 6.5 6 8c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 6-2.5 6-8s-6-6.5-6-8c0-1.1.9-2 2-2s2 .9 2 2z"/></svg>
+          Brush Tool
+          <span class="menu-shortcut">B</span>
+        </button>
+        <button class="menuitem" id="eraserToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3.5 11.5L11 4l7 7-6 6c-1 1-2.5 1-3.5 0L3.5 12.5a1 1 0 0 1 0-1z"/></svg>
+          Eraser Tool
+          <span class="menu-shortcut">E</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="fillToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M17 2c0 1.5-6 2.5-6 8s6 6.5 6 8c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 6-2.5 6-8s-6-6.5-6-8c0-1.1.9-2 2-2s2 .9 2 2z"/></svg>
+          Fill Tool
+          <span class="menu-shortcut">G</span>
+        </button>
+        <button class="menuitem" id="eyedropperToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 21l9-9"/><path d="M15 6l3-3 3 3-3 3-3-3"/><path d="M12 12l6-6"/><path d="M9 15l-3 3v3h3l3-3"/></svg>
+          Eyedropper Tool
+          <span class="menu-shortcut">I</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="lineToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M5 19L19 5"/></svg>
+          Line Tool
+          <span class="menu-shortcut">L</span>
+        </button>
+        <button class="menuitem" id="rectangleToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><rect x="3" y="3" width="10" height="10" rx="2"/></svg>
+          Rectangle Tool
+          <span class="menu-shortcut">R</span>
+        </button>
+        <button class="menuitem" id="circleToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/></svg>
+          Circle Tool
+          <span class="menu-shortcut">C</span>
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="textToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M4 7V4h8v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+          Text Tool
+          <span class="menu-shortcut">T</span>
+        </button>
+        <button class="menuitem" id="moveToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M12 2v20M2 12h20"/><path d="m8 6 4-4 4 4"/><path d="m6 8-4 4 4 4"/><path d="m18 8 4 4-4 4"/><path d="m8 18 4 4 4-4"/></svg>
+          Move Tool
+          <span class="menu-shortcut">V</span>
+        </button>
+        <button class="menuitem" id="aiToolMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          AI Generator
+          <span class="menu-shortcut">A</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Window Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="window" tabindex="0">Window</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="minimizeWindow">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 8h12"/></svg>
+          Minimize
+        </button>
+        <button class="menuitem" id="maximizeWindow">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Maximize
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="resetPanels">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v8H4z"/></svg>
+          Reset Panel Layout
+        </button>
+        <button class="menuitem" id="saveLayout">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 3v10a2 2 0 002 2h6a2 2 0 002-2V5l-2-2H5a2 2 0 00-2 2z"/></svg>
+          Save Layout
+        </button>
+        <button class="menuitem" id="loadLayout">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M3 7v6a2 2 0 002 2h6a2 2 0 002-2V9a2 2 0 00-2-2h-3l-1-1H5a2 2 0 00-2 2z"/></svg>
+          Load Layout
+        </button>
+      </div>
+    </div>
+    
+    <!-- Help Menu -->
+    <div class="dropdown relative">
+      <button class="menubar-btn" data-menu="help" tabindex="0">Help</button>
+      <div class="dropdown-menu">
+        <button class="menuitem" id="helpMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 12v-1"/><path d="M8 8c0-1.5 1.5-2 1.5-2s1.5.5 1.5 2"/></svg>
+          Help Documentation
+          <span class="menu-shortcut">F1</span>
+        </button>
+        <button class="menuitem" id="shortcutsMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/><path d="M4 4h8v2H4z"/></svg>
+          Keyboard Shortcuts
+        </button>
+        <button class="menuitem" id="tutorialMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Interactive Tutorial
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="checkUpdatesMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Check for Updates
+        </button>
+        <button class="menuitem" id="reportBugMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Report Bug
+        </button>
+        <button class="menuitem" id="feedbackMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+          Send Feedback
+        </button>
+        <div class="separator"></div>
+        <button class="menuitem" id="aboutMenu">
+          <svg class="menu-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v12M2 8h12"/></svg>
+          About PixelPro
+        </button>
+      </div>
+    </div>
+    
+    <!-- Status Bar -->
+    <div class="ml-auto flex items-center gap-4 text-xs text-gray-400">
+      <span id="statusText">Ready</span>
+      <span id="canvasSize">16×16</span>
+      <span id="currentTool">Pencil</span>
+      <span id="zoomLevel">100%</span>
+    </div>
+  </nav>
+  
+  <!-- Application Bar -->
+  <div id="appBar" class="bg-[#1a1d23] border-b border-[#373737] px-4 py-2 flex items-center justify-between shadow-sm z-40">
+    <!-- Frame Controls Section -->
+    <div class="flex items-center gap-4">
+      <div class="text-gray-400 text-sm font-medium">Animation:</div>
+      <div class="flex items-center gap-2">
+        <button id="prevFrame" class="app-btn" title="Previous Frame">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <span id="frameLabel" class="font-mono text-blue-300 text-sm min-w-12 text-center">1 / 1</span>
+        <button id="nextFrame" class="app-btn" title="Next Frame">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+        <div class="w-px h-6 bg-[#373737] mx-2"></div>
+        <button id="addFrame" class="app-btn bg-green-600 hover:bg-green-700 text-white" title="Add Frame">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+        <button id="deleteFrame" class="app-btn bg-red-600 hover:bg-red-700 text-white" title="Delete Frame">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+        <button id="playAnim" class="app-btn bg-purple-600 hover:bg-purple-700 text-white" title="Play Animation">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <polygon points="5,3 19,12 5,21 5,3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Edit Controls Section -->
+    <div class="flex items-center gap-4">
+      <div class="text-gray-400 text-sm font-medium">Edit:</div>
+      <div class="flex items-center gap-2">
+        <button id="undoBtn" class="app-btn text-yellow-300" title="Undo (Ctrl+Z)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 14L4 9l5-5"/><path d="M4 9h11a4 4 0 110 8h-1"/>
+          </svg>
+        </button>
+        <button id="redoBtn" class="app-btn text-green-400" title="Redo (Ctrl+Y)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M15 14l5-5-5-5"/><path d="M20 9H9a4 4 0 100 8h1"/>
+          </svg>
+        </button>
+        <button id="clearBtn" class="app-btn text-red-400" title="Clear Canvas (Ctrl+Shift+C)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/>
+          </svg>
+        </button>
+        <div class="w-px h-6 bg-[#373737] mx-2"></div>
+        <button id="exportBtn" class="app-btn bg-blue-600 hover:bg-blue-700 text-white" title="Export PNG">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
+          <span class="text-xs">Export</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Text/Font Controls Section -->
+    <div id="fontControls" class="flex items-center gap-4 hidden">
+      <div class="text-gray-400 text-sm font-medium">Font:</div>
+      <div class="flex items-center gap-2">
+        <select id="fontFamily" class="app-select text-sm">
+          <option value="pixel">Pixel (5x7)</option>
+          <option value="small">Small (3x5)</option>
+          <option value="large">Large (7x9)</option>
+        </select>
+        <div class="w-px h-6 bg-[#373737] mx-1"></div>
+        <label class="text-gray-400 text-xs">Size:</label>
+        <input type="range" id="fontSize" min="1" max="3" value="1" class="range-slider w-16">
+        <span id="fontSizeLabel" class="text-blue-300 text-xs min-w-4">1x</span>
+      </div>
+    </div>
+    
+    <!-- Grid Controls Section -->
+    <div class="flex items-center gap-4">
+      <div class="text-gray-400 text-sm font-medium">Grid:</div>
+      <div class="flex items-center gap-2">
+        <input type="number" id="gridSizeApp" value="16" min="8" max="40" class="app-input w-16 text-center text-sm"/>
+        <button id="resizeGridApp" class="app-btn bg-blue-600 hover:bg-blue-700 text-white text-sm">Resize</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Photoshop-style Layout -->
+  <div class="flex w-full min-h-screen overflow-hidden" style="height: calc(100vh - 7rem);">
+    <!-- Toolbar (vertical, left) -->
+    <nav id="sidebar" class="toolbar flex flex-col items-center py-2 flex-shrink-0 z-20">
+      <button id="toolDraw" class="toolbar-btn" title="Pencil (B)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M17.263 2.177c0.652-0.651 1.708-0.651 2.359 0s0.652 1.708 0 2.359l-14.142 14.142c-0.195 0.195-0.451 0.293-0.707 0.293s-0.512-0.098-0.707-0.293l-2.359-2.359c-0.195-0.195-0.293-0.451-0.293-0.707s0.098-0.512 0.293-0.707l14.556-12.778z"/>
+            <path d="m15.5 4.5 3 3"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolBrush" class="toolbar-btn" title="Brush">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M9.06 11.9c.8-.8 2.04-.8 2.84 0l8.49 8.49c.8.8.8 2.04 0 2.84-.8.8-2.04.8-2.84 0L8.06 14.74c-.8-.8-.8-2.04 0-2.84z"/>
+            <path d="M21 5a2 2 0 0 0-2-2l-5.5 5.5"/>
+            <path d="M16 2a2 2 0 0 1 2 2v2l-4-4h2z"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolEraser" class="toolbar-btn" title="Eraser (E)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <rect x="6" y="16" width="12" height="4" rx="2"/>
+            <path d="M3.5 11.5L11 4l7 7-6 6c-1 1-2.5 1-3.5 0L3.5 12.5a1 1 0 0 1 0-1z"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <button id="toolFill" class="toolbar-btn" title="Fill (G)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M17 2c0 1.5-6 2.5-6 8s6 6.5 6 8c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 6-2.5 6-8s-6-6.5-6-8c0-1.1.9-2 2-2s2 .9 2 2z"/>
+            <path d="M6 14h3v8H6z"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <button id="toolLine" class="toolbar-btn" title="Line (L)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 19L19 5"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolRect" class="toolbar-btn" title="Rectangle (R)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolCircle" class="toolbar-btn" title="Circle (C)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <button id="toolEyedropper" class="toolbar-btn" title="Eyedropper (I)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 21l9-9"/>
+            <path d="M15 6l3-3 3 3-3 3-3-3"/>
+            <path d="M12 12l6-6"/>
+            <path d="M9 15l-3 3v3h3l3-3"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolMove" class="toolbar-btn" title="Move (V)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2v20M2 12h20"/>
+            <path d="m8 6 4-4 4 4"/>
+            <path d="m6 8-4 4 4 4"/>
+            <path d="m18 8 4 4-4 4"/>
+            <path d="m8 18 4 4 4-4"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <button id="toolText" class="toolbar-btn" title="Text (T)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 7V4h16v3"/>
+            <path d="M9 20h6"/>
+            <path d="M12 4v16"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolTransform" class="toolbar-btn" title="Transform (Q)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 9L9 15"/>
+            <path d="M9 9h6v6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolAI" class="toolbar-btn" title="AI Generator (A)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Brush options -->
+      <div id="brushControls" class="flex flex-col items-center gap-2 mt-2 hidden">
+        <input type="range" id="brushSize" min="1" max="7" value="3" class="range-slider w-10">
+        <div class="flex gap-1 mt-1">
+          <button id="brushShapeSquare" class="shape-btn-mini active">■</button>
+          <button id="brushShapeCircle" class="shape-btn-mini">●</button>
+        </div>
+      </div>
+      <!-- Shape tool options -->
+      <div id="shapeControls" class="flex flex-col items-center gap-2 mt-2 hidden">
+        <div class="flex gap-1">
+          <button id="shapeOutline" class="shape-btn-mini active" title="Outline">□</button>
+          <button id="shapeFilled" class="shape-btn-mini" title="Filled">■</button>
+        </div>
+      </div>
+      <!-- Transform options -->
+      <div id="transformControls" class="flex flex-col items-center gap-2 mt-2 hidden">
+        <div class="text-gray-400 text-xs mb-1">Transform</div>
+        <div class="flex gap-1">
+          <button id="transformRotate" class="shape-btn-mini active" title="Rotate">↻</button>
+          <button id="transformScale" class="shape-btn-mini" title="Scale">⟲</button>
+        </div>
+        <div class="flex gap-1 mt-1 text-xs">
+          <button id="applyTransform" class="px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs">Apply</button>
+          <button id="cancelTransform" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs">Cancel</button>
+        </div>
+      </div>
+      <!-- Photoshop-style color picker -->
+      <div class="mt-auto mb-2 flex flex-col items-center gap-3">
+        <!-- Tool Group Separator -->
+        <div class="w-8 h-px bg-[#2A2A2A]"></div>
+        <!-- Foreground/Background Color Squares -->
+        <div class="relative">
+          <input type="color" id="colorPicker" value="#22223b" class="ps-color-fg" title="Foreground Color"/>
+          <div class="ps-color-bg" title="Background Color"></div>
+          <!-- Reset Colors Icon -->
+          <button class="ps-color-reset" title="Reset to Default (D)">
+            <svg viewBox="0 0 12 12" class="w-3 h-3">
+              <rect x="1" y="1" width="4" height="4" fill="currentColor"/>
+              <rect x="7" y="7" width="4" height="4" fill="none" stroke="currentColor"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <!-- Main content area with responsive layout -->
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Main work area -->
+      <main class="flex flex-1 flex-col items-center py-4 px-2 bg-[#23272E] min-w-0 overflow-auto">
+        <!-- Responsive container for canvas and controls -->
+        <div class="w-full max-w-4xl mx-auto">
+      <!-- Palette bar (top) - REMOVED for cleaner workspace -->
+      <!-- <div id="paletteBar" class="flex gap-2 mb-3 max-w-full">
+        <div id="palette" class="flex gap-1 flex-nowrap overflow-x-auto py-1 px-1 rounded-xl"></div>
+      </div> -->
+      <!-- "Work area" with shadowed background and canvas -->
+      <section id="workPanel" class="work-panel bg-[#262a30] rounded-2xl shadow-2xl border border-[#373737] p-5 flex flex-col items-center justify-center">
+
+        <!-- Canvas/Pixel Grid -->
+        <div class="relative">
+          <div id="grid" class="rounded-lg border border-[#373737] bg-[#23272E] shadow-xl"></div>
+          <!-- Transform handles overlay -->
+          <div id="transformOverlay" class="absolute inset-0 pointer-events-none hidden">
+            <div id="transformBox" class="absolute border-2 border-blue-400 pointer-events-auto">
+              <!-- Corner handles for scaling -->
+              <div class="transform-handle corner-handle" data-handle="nw" style="top: -4px; left: -4px;"></div>
+              <div class="transform-handle corner-handle" data-handle="ne" style="top: -4px; right: -4px;"></div>
+              <div class="transform-handle corner-handle" data-handle="sw" style="bottom: -4px; left: -4px;"></div>
+              <div class="transform-handle corner-handle" data-handle="se" style="bottom: -4px; right: -4px;"></div>
+              <!-- Rotation handle -->
+              <div class="transform-handle rotation-handle" data-handle="rotate" style="top: -20px; left: 50%; transform: translateX(-50%);"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Animation Frame Panel - REMOVED for cleaner workspace -->
+      <!-- <section id="animationPanel" class="animation-panel bg-[#262a30] rounded-t-2xl shadow-2xl border border-[#373737] border-b-0">
+        ... animation panel content ...
+      </section> -->
+        </div>
+      </main>
+      
+      <!-- Photoshop 2025 Style Layers Panel -->
+      <aside id="layersPanel" class="ps-layers-panel flex-shrink-0 resizable-panel">
+        <!-- Panel Header (Drag Handle) -->
+        <div class="ps-panel-header panel-drag-handle">
+          <div class="ps-panel-title">Layers</div>
+          <div class="ps-panel-controls">
+            <button class="ps-panel-menu" title="Panel Options">≡</button>
+            <button id="closeLayers" class="ps-panel-close lg:hidden" title="Close">×</button>
+          </div>
+        </div>
+        
+        <!-- Blend Mode & Opacity Controls -->
+        <div class="ps-blend-controls">
+          <div class="ps-blend-row">
+            <select class="ps-blend-mode">
+              <option>Normal</option>
+              <option>Multiply</option>
+              <option>Screen</option>
+              <option>Overlay</option>
+              <option>Soft Light</option>
+              <option>Hard Light</option>
+            </select>
+          </div>
+          <div class="ps-opacity-row">
+            <label class="ps-opacity-label">Opacity:</label>
+            <div class="ps-opacity-input-wrapper">
+              <input type="range" class="ps-opacity-slider" min="0" max="100" value="100">
+              <input type="number" class="ps-opacity-number" min="0" max="100" value="100">
+              <span class="ps-opacity-percent">%</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Layer Controls Bar -->
+        <div class="ps-layer-controls">
+          <button id="addLayer" class="ps-layer-btn" title="Create a new layer">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <rect x="1" y="1" width="14" height="14" rx="1" fill="none" stroke="currentColor"/>
+              <path d="M8 4v8M4 8h8" stroke="currentColor"/>
+            </svg>
+          </button>
+          <button id="duplicateLayer" class="ps-layer-btn" title="Duplicate layer">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <rect x="1" y="1" width="10" height="10" rx="1" fill="none" stroke="currentColor"/>
+              <rect x="5" y="5" width="10" height="10" rx="1" fill="none" stroke="currentColor"/>
+            </svg>
+          </button>
+          <button id="renameLayer" class="ps-layer-btn" title="Rename layer (F2)">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <path d="M12 2h2v12h-2z" fill="currentColor"/>
+              <path d="M2 2h2v12H2z" fill="currentColor"/>
+              <path d="M5 7h6M5 9h6" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+          </button>
+          <button class="ps-layer-btn" title="Add layer style">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor"/>
+              <path d="M8 5v6M5 8h6" stroke="currentColor"/>
+            </svg>
+          </button>
+          <button class="ps-layer-btn" title="Add layer mask">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor"/>
+              <circle cx="8" cy="8" r="3" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="ps-layer-btn" title="Create adjustment layer">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor"/>
+              <path d="M8 2v12" stroke="currentColor"/>
+            </svg>
+          </button>
+          <button class="ps-layer-btn" title="Create new group">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <path d="M3 4h10v8H3z" fill="none" stroke="currentColor"/>
+              <path d="M5 2h6v2H5z" fill="none" stroke="currentColor"/>
+            </svg>
+          </button>
+          <button id="deleteLayer" class="ps-layer-btn" title="Delete layer">
+            <svg viewBox="0 0 16 16" class="ps-icon">
+              <path d="M3 6h10v8H3z" fill="none" stroke="currentColor"/>
+              <path d="M5 6V4h6v2M7 9v3M9 9v3" stroke="currentColor"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Layers List Container -->
+        <div class="ps-layers-container">
+          <div id="layersList" class="ps-layers-list">
+            <!-- Layers will be dynamically added here -->
+          </div>
+        </div>
+        
+        <!-- Resize Handles -->
+        <div class="resize-handle resize-handle-right" data-direction="e"></div>
+        <div class="resize-handle resize-handle-bottom" data-direction="s"></div>
+        <div class="resize-handle resize-handle-corner" data-direction="se"></div>
+      </aside>
+      
+      <!-- Photoshop 2025 Style Color Panel -->
+      <aside id="colorPanel" class="ps-color-panel flex-shrink-0 resizable-panel">
+        <!-- Panel Header (Drag Handle) -->
+        <div class="ps-panel-header panel-drag-handle">
+          <div class="ps-panel-title">Color</div>
+          <div class="ps-panel-controls">
+            <button class="ps-panel-menu" title="Panel Options">≡</button>
+            <button id="closeColor" class="ps-panel-close lg:hidden" title="Close">×</button>
+          </div>
+        </div>
+        
+        <!-- Color Display Section -->
+        <div class="ps-color-display">
+          <div class="ps-color-squares">
+            <div class="ps-fg-bg-container">
+              <div class="ps-fg-color" id="foregroundColor" title="Foreground Color">
+                <div class="ps-color-preview" style="background-color: #000000;"></div>
+              </div>
+              <div class="ps-bg-color" id="backgroundColor" title="Background Color">
+                <div class="ps-color-preview" style="background-color: #ffffff;"></div>
+              </div>
+            </div>
+            <div class="ps-color-controls">
+              <button class="ps-swap-btn" id="swapColors" title="Swap Colors">
+                <svg viewBox="0 0 12 12" class="ps-icon">
+                  <path d="M3 6h6M6 3l3 3-3 3" stroke="currentColor" fill="none" stroke-width="1.5"/>
+                </svg>
+              </button>
+              <button class="ps-reset-btn" id="resetColors" title="Reset Colors">
+                <svg viewBox="0 0 12 12" class="ps-icon">
+                  <rect x="1" y="1" width="4" height="4" fill="currentColor"/>
+                  <rect x="7" y="7" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Picker Area -->
+        <div class="ps-color-picker-area">
+          <div class="ps-hsb-picker">
+            <div class="ps-color-field" id="colorField">
+              <div class="ps-color-field-overlay"></div>
+              <div class="ps-color-cursor" id="colorCursor"></div>
+            </div>
+            <div class="ps-hue-slider-container">
+              <div class="ps-hue-slider" id="hueSlider">
+                <div class="ps-hue-cursor" id="hueCursor"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Color Values -->
+          <div class="ps-color-values">
+            <div class="ps-value-row">
+              <span class="ps-value-label">H</span>
+              <input type="number" id="hueInput" class="ps-value-input" min="0" max="360" value="0">
+              <span class="ps-value-unit">°</span>
+              <span class="ps-value-label">S</span>
+              <input type="number" id="satInput" class="ps-value-input" min="0" max="100" value="0">
+              <span class="ps-value-unit">%</span>
+              <span class="ps-value-label">B</span>
+              <input type="number" id="briInput" class="ps-value-input" min="0" max="100" value="0">
+              <span class="ps-value-unit">%</span>
+            </div>
+            <div class="ps-value-divider"></div>
+            <div class="ps-value-row">
+              <span class="ps-value-label">R</span>
+              <input type="number" id="redInput" class="ps-value-input" min="0" max="255" value="0">
+              <span class="ps-value-label">G</span>
+              <input type="number" id="greenInput" class="ps-value-input" min="0" max="255" value="0">
+              <span class="ps-value-label">B</span>
+              <input type="number" id="blueInput" class="ps-value-input" min="0" max="255" value="0">
+            </div>
+            <div class="ps-value-divider"></div>
+            <div class="ps-hex-row">
+              <span class="ps-value-label">#</span>
+              <input type="text" id="hexInput" class="ps-hex-input" value="000000" maxlength="6">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Harmony -->
+        <div class="ps-color-harmony">
+          <div class="ps-harmony-header">
+            <div class="ps-harmony-title">Harmony</div>
+            <div class="ps-harmony-controls">
+              <select class="ps-harmony-select" id="harmonyType">
+                <option value="complementary">Complementary</option>
+                <option value="triadic">Triadic</option>
+                <option value="analogous">Analogous</option>
+                <option value="split-complementary">Split</option>
+                <option value="tetradic">Tetradic</option>
+              </select>
+            </div>
+          </div>
+          <div class="ps-harmony-grid" id="harmonyGrid">
+            <!-- Harmony colors will be generated dynamically -->
+          </div>
+        </div>
+        
+        <!-- Color Schemes -->
+        <div class="ps-color-schemes">
+          <div class="ps-schemes-header">
+            <div class="ps-schemes-title">Schemes</div>
+            <div class="ps-schemes-controls">
+              <select class="ps-schemes-select" id="schemeType">
+                <option value="monochromatic">Mono</option>
+                <option value="warm">Warm</option>
+                <option value="cool">Cool</option>
+                <option value="earth">Earth</option>
+              </select>
+            </div>
+          </div>
+          <div class="ps-schemes-grid" id="schemesGrid">
+            <!-- Scheme colors will be generated dynamically -->
+          </div>
+        </div>
+        
+        <!-- Color Swatches -->
+        <div class="ps-color-swatches">
+          <div class="ps-swatches-header">
+            <div class="ps-swatches-title">Swatches</div>
+            <div class="ps-swatches-controls">
+              <button class="ps-swatch-btn" id="addSwatch" title="Add Color">+</button>
+              <button class="ps-swatch-btn" id="clearSwatches" title="Clear All">×</button>
+            </div>
+          </div>
+          <div class="ps-swatches-grid" id="swatchesGrid">
+            <!-- Default swatches -->
+            <div class="ps-swatch" style="background-color: #000000;" data-color="#000000" title="#000000"></div>
+            <div class="ps-swatch" style="background-color: #FFFFFF;" data-color="#FFFFFF" title="#FFFFFF"></div>
+            <div class="ps-swatch" style="background-color: #FF0000;" data-color="#FF0000" title="#FF0000"></div>
+            <div class="ps-swatch" style="background-color: #00FF00;" data-color="#00FF00" title="#00FF00"></div>
+            <div class="ps-swatch" style="background-color: #0000FF;" data-color="#0000FF" title="#0000FF"></div>
+            <div class="ps-swatch" style="background-color: #FFFF00;" data-color="#FFFF00" title="#FFFF00"></div>
+            <div class="ps-swatch" style="background-color: #FF00FF;" data-color="#FF00FF" title="#FF00FF"></div>
+            <div class="ps-swatch" style="background-color: #00FFFF;" data-color="#00FFFF" title="#00FFFF"></div>
+            <div class="ps-swatch" style="background-color: #808080;" data-color="#808080" title="#808080"></div>
+            <div class="ps-swatch" style="background-color: #800000;" data-color="#800000" title="#800000"></div>
+            <div class="ps-swatch" style="background-color: #008000;" data-color="#008000" title="#008000"></div>
+            <div class="ps-swatch" style="background-color: #000080;" data-color="#000080" title="#000080"></div>
+          </div>
+        </div>
+        
+        <!-- Recent Colors -->
+        <div class="ps-recent-colors">
+          <div class="ps-recent-header">
+            <div class="ps-recent-title">Recent</div>
+            <button class="ps-recent-clear" id="clearRecent" title="Clear Recent">×</button>
+          </div>
+          <div class="ps-recent-grid" id="recentColorsGrid">
+            <!-- Recent colors will be populated dynamically -->
+          </div>
+        </div>
+        
+        <!-- Resize Handles -->
+        <div class="resize-handle resize-handle-right" data-direction="e"></div>
+        <div class="resize-handle resize-handle-bottom" data-direction="s"></div>
+        <div class="resize-handle resize-handle-corner" data-direction="se"></div>
+      </aside>
+    </div>
+  </div>
+  <!-- Start Screen Modal -->
+  <div id="startScreen" class="fixed inset-0 bg-[#1a1d23] flex items-center justify-center z-50 hidden">
+    <div class="bg-[#22252B] rounded-lg shadow-2xl border border-[#373737] w-full max-w-4xl mx-4 overflow-hidden">
+      <div class="flex">
+        <!-- Left Panel - Actions -->
+        <div class="w-1/2 p-8 border-r border-[#373737]">
+          <div class="mb-8">
+            <h1 class="text-3xl font-bold text-blue-400 mb-2">PixelPro</h1>
+            <p class="text-gray-400 text-sm">Professional Pixel Art Editor</p>
+          </div>
+          
+          <div class="space-y-4">
+            <button id="startNewFile" class="start-action-btn bg-blue-600 hover:bg-blue-700">
+              <div class="flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+                <div class="text-left">
+                  <div class="font-semibold">New File</div>
+                  <div class="text-sm opacity-75">Create a new pixel art project</div>
+                </div>
+              </div>
+            </button>
+            
+            <button id="startOpenFile" class="start-action-btn bg-green-600 hover:bg-green-700">
+              <div class="flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5l-2-2H5a2 2 0 00-2 2z"/>
+                </svg>
+                <div class="text-left">
+                  <div class="font-semibold">Open File</div>
+                  <div class="text-sm opacity-75">Open an existing project</div>
+                </div>
+              </div>
+            </button>
+            
+            <div class="flex gap-2 pt-4">
+              <button id="startDemo" class="flex-1 start-demo-btn">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <polygon points="5,3 19,12 5,21 5,3"/>
+                </svg>
+                Demo
+              </button>
+              <button id="startTutorial" class="flex-1 start-demo-btn">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                  <path d="M12 17h.01"/>
+                </svg>
+                Tutorial
+              </button>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-6 border-t border-[#373737]">
+            <p class="text-xs text-gray-500">
+              Welcome to PixelPro! Create amazing pixel art with professional tools.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Right Panel - Recent Files -->
+        <div class="w-1/2 p-8">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-200">Recent Files</h3>
+            <button id="clearRecent" class="text-xs text-gray-500 hover:text-red-400 transition">Clear All</button>
+          </div>
+          
+          <div id="recentFilesList" class="space-y-2 max-h-80 overflow-y-auto">
+            <!-- Recent files will be populated here -->
+          </div>
+          
+          <div id="noRecentFiles" class="text-center text-gray-500 py-8">
+            <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <p class="text-sm">No recent files</p>
+            <p class="text-xs mt-1">Your recent projects will appear here</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="px-8 py-4 bg-[#1a1d23] border-t border-[#373737] flex items-center justify-between">
+        <div class="flex items-center space-x-4 text-xs text-gray-500">
+          <span>Version 1.0</span>
+          <span>•</span>
+          <span>Professional Pixel Art Editor</span>
+        </div>
+        <button id="skipStart" class="text-xs text-gray-400 hover:text-white transition">
+          Skip and start with empty canvas
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas Settings Modal -->
+  <div id="canvasSettingsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-[#22252B] rounded-lg shadow-2xl border border-[#373737] w-full max-w-2xl mx-4 overflow-hidden">
+      <div class="p-6 border-b border-[#373737]">
+        <h2 class="text-xl font-bold text-blue-400">New Project Settings</h2>
+        <p class="text-gray-400 text-sm mt-1">Configure your canvas and choose a preset size</p>
+      </div>
+      
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Canvas Size Settings -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-200">Canvas Size</h3>
+            
+            <div class="space-y-3">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Canvas Size (Square)</label>
+                <div class="flex items-center gap-2">
+                  <input type="number" id="canvasWidth" value="16" min="8" max="256" class="canvas-input w-20 text-center">
+                  <span class="text-gray-400">×</span>
+                  <input type="number" id="canvasHeight" value="16" min="8" max="256" class="canvas-input w-20 text-center">
+                  <span class="text-gray-400 text-sm">pixels</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Width and height are kept equal for square canvases</p>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Background</label>
+                <div class="flex items-center gap-3">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="bgType" value="transparent" checked class="bg-radio">
+                    <span class="text-sm text-gray-300">Transparent</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="bgType" value="color" class="bg-radio">
+                    <span class="text-sm text-gray-300">Color:</span>
+                    <input type="color" id="canvasBackground" value="#ffffff" class="w-8 h-8 rounded border border-[#444] cursor-pointer">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Canvas Presets -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-200">Common Presets</h3>
+            
+            <div class="grid grid-cols-2 gap-2">
+              <button class="canvas-preset-btn" data-size="8">
+                <div class="preset-icon">8×8</div>
+                <div class="preset-label">Tiny Icon</div>
+              </button>
+              
+              <button class="canvas-preset-btn active" data-size="16">
+                <div class="preset-icon">16×16</div>
+                <div class="preset-label">Classic Sprite</div>
+              </button>
+              
+              <button class="canvas-preset-btn" data-size="32">
+                <div class="preset-icon">32×32</div>
+                <div class="preset-label">Detailed Sprite</div>
+              </button>
+              
+              <button class="canvas-preset-btn" data-size="64">
+                <div class="preset-icon">64×64</div>
+                <div class="preset-label">Large Sprite</div>
+              </button>
+              
+              <button class="canvas-preset-btn" data-size="128">
+                <div class="preset-icon">128×128</div>
+                <div class="preset-label">Artwork</div>
+              </button>
+              
+              <button class="canvas-preset-btn" data-size="256">
+                <div class="preset-icon">256×256</div>
+                <div class="preset-label">Detailed Art</div>
+              </button>
+            </div>
+            
+            <div class="mt-4 p-3 bg-[#1a1d23] rounded border border-[#373737]">
+              <div class="text-xs text-gray-400 mb-1">Preview</div>
+              <div id="canvasPreview" class="text-sm text-blue-300">16×16 pixels (256 total)</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Palette Presets -->
+        <div class="mt-6 pt-6 border-t border-[#373737]">
+          <h3 class="text-lg font-semibold text-gray-200 mb-3">Color Palette</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <button class="palette-preset-btn active" data-palette="default">
+              <div class="palette-preview">
+                <div class="palette-color" style="background: #22223b;"></div>
+                <div class="palette-color" style="background: #f72585;"></div>
+                <div class="palette-color" style="background: #b5179e;"></div>
+                <div class="palette-color" style="background: #3a86ff;"></div>
+                <div class="palette-color" style="background: #ffbe0b;"></div>
+              </div>
+              <div class="palette-name">Default</div>
+            </button>
+            
+            <button class="palette-preset-btn" data-palette="gameboy">
+              <div class="palette-preview">
+                <div class="palette-color" style="background: #0f380f;"></div>
+                <div class="palette-color" style="background: #306230;"></div>
+                <div class="palette-color" style="background: #8bac0f;"></div>
+                <div class="palette-color" style="background: #9bbc0f;"></div>
+              </div>
+              <div class="palette-name">Game Boy</div>
+            </button>
+            
+            <button class="palette-preset-btn" data-palette="nes">
+              <div class="palette-preview">
+                <div class="palette-color" style="background: #000000;"></div>
+                <div class="palette-color" style="background: #fcfcfc;"></div>
+                <div class="palette-color" style="background: #f83800;"></div>
+                <div class="palette-color" style="background: #3cbcfc;"></div>
+                <div class="palette-color" style="background: #00d800;"></div>
+              </div>
+              <div class="palette-name">NES Classic</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Footer Actions -->
+      <div class="px-6 py-4 bg-[#1a1d23] border-t border-[#373737] flex items-center justify-between">
+        <div class="text-xs text-gray-500">
+          Choose your canvas size and colors to get started
+        </div>
+        <div class="flex gap-2">
+          <button id="cancelCanvasSettings" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded transition">
+            Cancel
+          </button>
+          <button id="createCanvas" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition">
+            Create Project
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animation Modal -->
+  <div id="animModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-[#22252B] rounded-lg p-6 shadow-xl flex flex-col items-center border border-[#444]">
+      <canvas id="animCanvas"></canvas>
+      <button id="closeAnim" class="mt-4 px-4 py-1 bg-gray-700 text-white rounded hover:bg-gray-900">Close</button>
+    </div>
+  </div>
+  <!-- Text Input Modal -->
+  <div id="textModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-[#22252B] rounded-lg p-6 shadow-xl flex flex-col border border-[#444] min-w-80">
+      <h3 class="text-blue-400 font-semibold mb-4">Add Text</h3>
+      <input type="text" id="textInput" placeholder="Enter your text..." class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 mb-4 focus:outline-none focus:border-blue-400">
+      <div class="flex gap-2 justify-end">
+        <button id="cancelText" class="px-4 py-1 bg-gray-700 text-white rounded hover:bg-gray-600">Cancel</button>
+        <button id="addText" class="px-4 py-1 bg-blue-700 text-white rounded hover:bg-blue-800">Add Text</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- AI Generation Modal -->
+  <div id="aiModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-[#22252B] rounded-lg p-6 shadow-xl flex border border-[#444] min-w-[900px] max-w-[1200px] h-[700px]">
+      <!-- Large Preview Window (Left Side) -->
+      <div class="w-1/2 pr-4 flex flex-col">
+        <h3 class="text-purple-400 font-semibold mb-4">🖼️ Preview</h3>
+        <div class="flex-1 bg-[#1a1d23] rounded border border-[#444] flex items-center justify-center relative overflow-hidden">
+          <!-- Loading State -->
+          <div id="aiLoading" class="hidden flex flex-col items-center justify-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mb-4"></div>
+            <span class="text-gray-300 text-lg">Generating pixel art...</span>
+          </div>
+          
+          <!-- Preview Image -->
+          <div id="aiPreview" class="hidden flex flex-col items-center justify-center w-full h-full">
+            <img id="aiPreviewImg" class="max-w-full max-h-full object-contain border border-[#444] rounded" alt="AI Generated Preview">
+            <div class="text-sm text-gray-400 mt-2 text-center" id="aiPreviewInfo"></div>
+          </div>
+          
+          <!-- Empty State -->
+          <div id="aiEmptyState" class="flex flex-col items-center justify-center text-gray-500">
+            <div class="text-6xl mb-4">🎨</div>
+            <div class="text-lg font-medium mb-2">No Preview Available</div>
+            <div class="text-sm text-center">Generate AI art to see a preview here</div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-4">
+          <button id="applyAI" class="hidden flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-medium">
+            ✅ Apply to Canvas
+          </button>
+          <button id="regenerateAI" class="hidden flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded font-medium">
+            🔄 Regenerate
+          </button>
+        </div>
+      </div>
+      
+      <!-- Controls Panel (Right Side) -->
+      <div class="w-1/2 pl-4 flex flex-col">
+        <h3 class="text-purple-400 font-semibold mb-4">⚙️ AI Pixel Art Generator</h3>
+      
+      <!-- AI Service Selection -->
+      <div class="mb-4 p-3 bg-[#1a1d23] rounded border border-[#444]">
+        <h4 class="text-gray-300 font-medium mb-3">🤖 AI Service</h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="aiService" class="block text-sm text-gray-400 mb-1">Service:</label>
+            <select id="aiService" class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+              <option value="auto" selected>Auto (Best Available)</option>
+              <option value="openai">OpenAI DALL-E 3</option>
+              <option value="stableDiffusion">Stable Diffusion</option>
+              <option value="replicate">Replicate (Pixel Art)</option>
+              <option value="local">Local Generation</option>
+            </select>
+          </div>
+          <div>
+            <label for="aiStyle" class="block text-sm text-gray-400 mb-1">Style:</label>
+            <select id="aiStyle" class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+              <option value="pixel" selected>Pixel Art</option>
+              <option value="minimal">Minimal</option>
+              <option value="detailed">Detailed</option>
+              <option value="retro">Retro Gaming</option>
+              <option value="anime">Anime Style</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Settings Section -->
+      <div class="mb-4 p-3 bg-[#1a1d23] rounded border border-[#444]">
+        <h4 class="text-gray-300 font-medium mb-3">⚙️ Settings</h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="aiArtSize" class="block text-sm text-gray-400 mb-1">Art Size:</label>
+            <select id="aiArtSize" class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+              <option value="8">8x8 (Small)</option>
+              <option value="12" selected>12x12 (Medium)</option>
+              <option value="16">16x16 (Large)</option>
+              <option value="24">24x24 (Extra Large)</option>
+              <option value="32">32x32 (Huge)</option>
+              <option value="custom">Custom Size...</option>
+            </select>
+            <div id="customSizeInput" class="hidden mt-2">
+              <div class="flex gap-2">
+                <div class="flex-1">
+                  <label for="customWidth" class="block text-xs text-gray-400 mb-1">Width:</label>
+                  <input type="number" id="customWidth" min="1" max="64" value="12" class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400 text-sm">
+                </div>
+                <div class="flex-1">
+                  <label for="customHeight" class="block text-xs text-gray-400 mb-1">Height:</label>
+                  <input type="number" id="customHeight" min="1" max="64" value="12" class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400 text-sm">
+                </div>
+              </div>
+              <div class="text-xs text-gray-500 mt-1">
+                💡 Max size: 64x64 pixels for best performance
+              </div>
+            </div>
+          </div>
+          <div>
+            <label for="aiQuality" class="block text-sm text-gray-400 mb-1">Quality:</label>
+            <select id="aiQuality" class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+              <option value="standard" selected>Standard</option>
+              <option value="hd">HD</option>
+              <option value="ultra">Ultra HD</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- API Key Configuration (Collapsible) -->
+      <div class="mb-4">
+        <button id="toggleApiKeys" class="text-purple-400 text-sm hover:text-purple-300 mb-2">
+          🔑 Configure API Keys (Optional)
+        </button>
+        <div id="apiKeySection" class="hidden p-3 bg-[#1a1d23] rounded border border-[#444]">
+          <h4 class="text-gray-300 font-medium mb-3">🔑 API Keys</h4>
+          <div class="space-y-3">
+            <div>
+              <label for="openaiKey" class="block text-sm text-gray-400 mb-1">OpenAI API Key:</label>
+              <input type="password" id="openaiKey" placeholder="sk-..." class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+            </div>
+            <div>
+              <label for="stableDiffusionKey" class="block text-sm text-gray-400 mb-1">Stable Diffusion API Key:</label>
+              <input type="password" id="stableDiffusionKey" placeholder="sk-..." class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+            </div>
+            <div>
+              <label for="replicateKey" class="block text-sm text-gray-400 mb-1">Replicate API Key:</label>
+              <input type="password" id="replicateKey" placeholder="r8_..." class="w-full p-2 bg-[#282C34] border border-[#444] rounded text-gray-200 focus:outline-none focus:border-purple-400">
+            </div>
+            <div class="text-xs text-gray-500">
+              💡 API keys are stored locally and never sent to our servers. Get keys from:
+              <a href="https://platform.openai.com/api-keys" target="_blank" class="text-purple-400 hover:underline">OpenAI</a> |
+              <a href="https://platform.stability.ai/account/keys" target="_blank" class="text-purple-400 hover:underline">Stability AI</a> |
+              <a href="https://replicate.com/account/api-tokens" target="_blank" class="text-purple-400 hover:underline">Replicate</a>
+            </div>
+            <div id="aiServiceStatus" class="mt-3 p-2 bg-[#282C34] rounded text-xs">
+              <div class="font-medium text-gray-300 mb-1">Available Services:</div>
+              <div id="serviceStatusList" class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 bg-gray-500 rounded-full"></span>
+                  <span>Loading services...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <input type="text" id="aiInput" placeholder="Describe the pixel art you want to generate..." class="w-full p-3 bg-[#282C34] border border-[#444] rounded text-gray-200 mb-4 focus:outline-none focus:border-purple-400">
+      
+      <div class="flex gap-2 justify-end mt-auto">
+        <button id="cancelAI" class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">Cancel</button>
+        <button id="generateAI" class="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-800">Generate</button>
+      </div>
+    </div>
+  </div>
+  <!-- General Modal (About, Help, etc) -->
+  <div id="modal-bg" class="modal-bg hidden" tabindex="-1">
+    <div id="modal" class="modal">
+      <span class="modal-close" id="modalCloseBtn">&times;</span>
+      <div id="modal-content" class="mt-1"></div>
+    </div>
+  </div>
+  <input type="file" id="openFileInput" class="hidden" accept=".json">
+  <script src="script-simple.js?v=10"></script>
+</body>
+</html>

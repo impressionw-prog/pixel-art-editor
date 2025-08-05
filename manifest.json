@@ -1,0 +1,84 @@
+{
+  "name": "PixelPro - Professional Pixel Art Editor",
+  "short_name": "PixelPro",
+  "description": "Create stunning pixel art with AI-powered tools and professional editing features",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#23272E",
+  "theme_color": "#3B82F6",
+  "orientation": "landscape-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["graphics", "productivity", "art"],
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMyMzI3MkUiLz4KPHJlY3QgeD0iMTIiIHk9IjEyIiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9IiMyNTYzZWIiLz4KPHJlY3QgeD0iNzIiIHk9IjEyIiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9IiNmYmJmMjQiLz4KPHJlY3QgeD0iMTIiIHk9IjcyIiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9IiMzOGJkZjgiLz4KPHJlY3QgeD0iNzIiIHk9IjcyIiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9IiNlMTFkNDgiLz4KPHJlY3QgeD0iMTMyIiB5PSIxMiIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiBmaWxsPSIjMTA5ODY2Ii8+CjxyZWN0IHg9IjEzMiIgeT0iNzIiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iI2Y1OTM5Ii8+CjxyZWN0IHg9IjEyIiB5PSIxMzIiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iI2Y1OTM5Ii8+CjxyZWN0IHg9IjcyIiB5PSIxMzIiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iIzEwOTg2NiIvPgo8cmVjdCB4PSIxMzIiIHk9IjEzMiIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiBmaWxsPSIjMzg4MmYzIi8+Cjwvc3ZnPgo=",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiMyMzI3MkUiLz4KPHJlY3QgeD0iMzIiIHk9IjMyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzI1NjNlYiIvPgo8cmVjdCB4PSIxOTIiIHk9IjMyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iI2ZiYmYyNCIvPgo8cmVjdCB4PSIzMiIgeT0iMTkyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzM4YmRmOCIvPgo8cmVjdCB4PSIxOTIiIHk9IjE5MiIgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNlMTFkNDgiLz4KPHJlY3QgeD0iMzUyIHk9IjMyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzEwOTg2NiIvPgo8cmVjdCB4PSIzNTIiIHk9IjE5MiIgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmNTkzOSIvPgo8cmVjdCB4PSIzMiIgeT0iMzUyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iI2Y1OTM5Ii8+CjxyZWN0IHg9IjE5MiIgeT0iMzUyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzEwOTg2NiIvPgo8cmVjdCB4PSIzNTIiIHk9IjM1MiIgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiMzODgyZjMiLz4KPC9zdmc+Cg==",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIiBmaWxsPSIjMjMyNzJFIi8+CjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjQwIiByeD0iMTYiIGZpbGw9IiMyNjJhMzAiLz4KPHJlY3QgeD0iODAiIHk9IjgwIiB3aWR0aD0iMTEyMCIgaGVpZ2h0PSI1NjAiIHJ4PSI4IiBmaWxsPSIjMjMyNzJFIi8+CjxyZWN0IHg9IjEwMCIgeT0iMTAwIiB3aWR0aD0iMTA4MCIgaGVpZ2h0PSI1MjAiIGZpbGw9IiNmZmZmZmYiLz4KPHJlY3QgeD0iMTIwIiB5PSIxMjAiIHdpZHRoPSIxMDQwIiBoZWlnaHQ9IjQ4MCIgZmlsbD0iI2YwZjBmMCIvLz4KPHJlY3QgeD0iMTQwIiB5PSIxNDAiIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjQ0MCIgZmlsbD0iI2Y1ZjVmNSIvLz4KPHJlY3QgeD0iMTYwIiB5PSIxNjAiIHdpZHRoPSI5NjAiIGhlaWdodD0iNDAwIiBmaWxsPSIjZmFmYWZhIi8+CjxyZWN0IHg9IjE4MCIgeT0iMTgwIiB3aWR0aD0iOTIwIiBoZWlnaHQ9IjM2MCIgZmlsbD0iI2Y5ZjlmOSIvLz4KPHJlY3QgeD0iMjAwIiB5PSIyMDAiIHdpZHRoPSI4ODAiIGhlaWdodD0iMzIwIiBmaWxsPSIjZjNmM2YzIi8+CjxyZWN0IHg9IjIyMCIgeT0iMjIwIiB3aWR0aD0iODQwIiBoZWlnaHQ9IjI4MCIgZmlsbD0iI2Y3ZjdmNyIvLz4KPHJlY3QgeD0iMjQwIiB5PSIyNDAiIHdpZHRoPSI4MDAiIGhlaWdodD0iMjQwIiBmaWxsPSIjZjVmNWY1Ii8+CjxyZWN0IHg9IjI2MCIgeT0iMjYwIiB3aWR0aD0iNzYwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2YzZjNmMyIvPgo8cmVjdCB4PSIyODAiIHk9IjI4MCIgd2lkdGg9IjcyMCIgaGVpZ2h0PSIxNjAiIGZpbGw9IiNmMWYxZjEiLz4KPHJlY3QgeD0iMzAwIiB5PSIzMDAiIHdpZHRoPSI2ODAiIGhlaWdodD0iMTIwIiBmaWxsPSIjZWZlZmVmIi8+CjxyZWN0IHg9IjMyMCIgeT0iMzIwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZWRlZGVkIi8+CjxyZWN0IHg9IjM0MCIgeT0iMzQwIiB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZWNlY2VjIi8+CjxyZWN0IHg9IjM2MCIgeT0iMzYwIiB3aWR0aD0iNTYwIiBoZWlnaHQ9IjAiIGZpbGw9IiNlYmViZWIiLz4KPC9zdmc+Cg==",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "PixelPro Editor Interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Project",
+      "short_name": "New",
+      "description": "Create a new pixel art project",
+      "url": "/?action=new",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiMyMzI3MkUiLz4KPHBhdGggZD0iTTQ4IDI0djQ4TTI0IDQ4aDQ4IiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iNCIvPgo8L3N2Zz4K",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Open File",
+      "short_name": "Open",
+      "description": "Open an existing pixel art file",
+      "url": "/?action=open",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiMyMzI3MkUiLz4KPHBhdGggZD0iTTI0IDQ4aDQ4TTQ4IDI0bC04IDggOCA4IiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iNCIvPgo8L3N2Zz4K",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "AI Generator",
+      "short_name": "AI",
+      "description": "Generate pixel art with AI",
+      "url": "/?action=ai",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiMyMzI3MkUiLz4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E3M2ZmIiBzdHJva2Utd2lkdGg9IjQiLz4KPHBhdGggZD0iTTQ4IDI0djQ4TTI0IDQ4aDQ4IiBzdHJva2U9IiNhNzNmZiIgc3Ryb2tlLXdpZHRoPSI0Ii8+Cjwvc3ZnPgo=",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+} 

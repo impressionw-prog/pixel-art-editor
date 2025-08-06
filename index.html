@@ -488,6 +488,177 @@
     </div>
   </nav>
   
+  <!-- Options Bar - Tool-specific controls -->
+  <div id="optionsBar" class="bg-[#2a2a2a] border-b border-[#373737] px-4 py-2 flex items-center gap-4 shadow-sm z-30">
+    <!-- Tool Name Display -->
+    <div class="flex items-center gap-3">
+      <span class="text-gray-300 text-sm font-medium" id="activeToolName">Pencil</span>
+      <div class="w-px h-4 bg-[#373737]"></div>
+    </div>
+    
+    <!-- Tool-specific controls container -->
+    <div id="toolOptions" class="flex items-center gap-4 flex-1">
+      
+      <!-- Pencil Tool Options -->
+      <div id="pencilOptions" class="tool-options hidden">
+        <div class="flex items-center gap-2">
+          <label class="text-xs text-gray-400">Size:</label>
+          <input type="range" id="pencilSize" min="1" max="5" value="1" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+          <span id="pencilSizeValue" class="text-xs text-gray-300 w-4">1</span>
+        </div>
+      </div>
+      
+      <!-- Brush Tool Options -->
+      <div id="brushOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Size:</label>
+            <input type="range" id="brushSize" min="1" max="10" value="3" class="w-20 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="brushSizeValue" class="text-xs text-gray-300 w-4">3</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Shape:</label>
+            <div class="flex gap-1">
+              <button id="brushShapeSquare" class="shape-btn-mini active" title="Square">■</button>
+              <button id="brushShapeCircle" class="shape-btn-mini" title="Circle">●</button>
+              <button id="brushShapeDiamond" class="shape-btn-mini" title="Diamond">◆</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Opacity:</label>
+            <input type="range" id="brushOpacity" min="10" max="100" value="100" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="brushOpacityValue" class="text-xs text-gray-300 w-8">100%</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Eraser Tool Options -->
+      <div id="eraserOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Size:</label>
+            <input type="range" id="eraserSize" min="1" max="10" value="3" class="w-20 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="eraserSizeValue" class="text-xs text-gray-300 w-4">3</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Mode:</label>
+            <select id="eraserMode" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="pixel">Pixel</option>
+              <option value="area">Area</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Line Tool Options -->
+      <div id="lineOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Width:</label>
+            <input type="range" id="lineWidth" min="1" max="5" value="1" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="lineWidthValue" class="text-xs text-gray-300 w-4">1</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Style:</label>
+            <select id="lineStyle" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="solid">Solid</option>
+              <option value="dashed">Dashed</option>
+              <option value="dotted">Dotted</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Rectangle Tool Options -->
+      <div id="rectangleOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Fill:</label>
+            <input type="checkbox" id="rectangleFilled" class="w-3 h-3 bg-[#1a1a1a] border border-[#373737] rounded">
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Border:</label>
+            <input type="range" id="rectangleBorder" min="0" max="5" value="1" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="rectangleBorderValue" class="text-xs text-gray-300 w-4">1</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Radius:</label>
+            <input type="range" id="rectangleRadius" min="0" max="10" value="0" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="rectangleRadiusValue" class="text-xs text-gray-300 w-4">0</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Circle Tool Options -->
+      <div id="circleOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Fill:</label>
+            <input type="checkbox" id="circleFilled" class="w-3 h-3 bg-[#1a1a1a] border border-[#373737] rounded">
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Border:</label>
+            <input type="range" id="circleBorder" min="0" max="5" value="1" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="circleBorderValue" class="text-xs text-gray-300 w-4">1</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Text Tool Options -->
+      <div id="textOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Font:</label>
+            <select id="textFont" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="monospace">Monospace</option>
+              <option value="sans-serif">Sans-serif</option>
+              <option value="serif">Serif</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Size:</label>
+            <input type="range" id="textSize" min="8" max="32" value="12" class="w-16 h-2 bg-[#1a1a1a] rounded-lg appearance-none cursor-pointer">
+            <span id="textSizeValue" class="text-xs text-gray-300 w-4">12</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Style:</label>
+            <div class="flex gap-1">
+              <button id="textBold" class="text-style-btn" title="Bold">B</button>
+              <button id="textItalic" class="text-style-btn" title="Italic">I</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AI Tool Options -->
+      <div id="aiOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Style:</label>
+            <select id="aiStyle" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="pixel">Pixel Art</option>
+              <option value="retro">Retro</option>
+              <option value="cartoon">Cartoon</option>
+              <option value="realistic">Realistic</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Size:</label>
+            <select id="aiSize" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="16">16×16</option>
+              <option value="32">32×32</option>
+              <option value="64">64×64</option>
+            </select>
+          </div>
+          <button id="aiGenerate" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded">
+            Generate
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
   <!-- Application Bar -->
   <div id="appBar" class="bg-[#1a1d23] border-b border-[#373737] px-4 py-2 flex items-center justify-between shadow-sm z-40">
     <!-- Frame Controls Section -->

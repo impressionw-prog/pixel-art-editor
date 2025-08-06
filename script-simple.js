@@ -558,6 +558,9 @@ function init() {
   // Set up grid controls
   setupGridControls();
   
+  // Initialize options bar
+  updateOptionsBar('draw', 'Pencil');
+  
   // Set up undo/redo system
   setupUndoRedo();
   
@@ -584,25 +587,26 @@ function init() {
 // Setup all tools
 function setupTools() {
   const toolButtons = [
-    { id: 'toolDraw', tool: 'draw' },
-    { id: 'toolBrush', tool: 'brush' },
-    { id: 'toolEraser', tool: 'eraser' },
-    { id: 'toolFill', tool: 'fill' },
-    { id: 'toolLine', tool: 'line' },
-    { id: 'toolRect', tool: 'rectangle' },
-    { id: 'toolCircle', tool: 'circle' },
-    { id: 'toolEyedropper', tool: 'eyedropper' },
-    { id: 'toolMove', tool: 'move' },
-    { id: 'toolText', tool: 'text' },
-    { id: 'toolTransform', tool: 'transform' },
-    { id: 'toolAI', tool: 'ai' }
+    { id: 'toolDraw', tool: 'draw', name: 'Pencil' },
+    { id: 'toolBrush', tool: 'brush', name: 'Brush' },
+    { id: 'toolEraser', tool: 'eraser', name: 'Eraser' },
+    { id: 'toolFill', tool: 'fill', name: 'Fill' },
+    { id: 'toolLine', tool: 'line', name: 'Line' },
+    { id: 'toolRect', tool: 'rectangle', name: 'Rectangle' },
+    { id: 'toolCircle', tool: 'circle', name: 'Circle' },
+    { id: 'toolEyedropper', tool: 'eyedropper', name: 'Eyedropper' },
+    { id: 'toolMove', tool: 'move', name: 'Move' },
+    { id: 'toolText', tool: 'text', name: 'Text' },
+    { id: 'toolTransform', tool: 'transform', name: 'Transform' },
+    { id: 'toolAI', tool: 'ai', name: 'AI Generator' }
   ];
   
-  toolButtons.forEach(({ id, tool }) => {
+  toolButtons.forEach(({ id, tool, name }) => {
     const btn = document.getElementById(id);
     if (btn) {
       btn.addEventListener('click', () => {
         setCurrentTool(tool);
+        updateOptionsBar(tool, name);
       });
     }
   });
@@ -690,6 +694,267 @@ function resetToolState() {
   document.querySelectorAll('.pixel.moved-pixel').forEach(pixel => {
     pixel.classList.remove('moved-pixel');
   });
+}
+
+// Update options bar based on current tool
+function updateOptionsBar(tool, toolName) {
+  console.log(`🎛️ Updating options bar for tool: ${tool}`);
+  
+  // Update tool name display
+  const activeToolName = document.getElementById('activeToolName');
+  if (activeToolName) {
+    activeToolName.textContent = toolName;
+  }
+  
+  // Hide all tool options
+  const allOptions = document.querySelectorAll('.tool-options');
+  allOptions.forEach(option => {
+    option.classList.add('hidden');
+  });
+  
+  // Show options for current tool
+  const currentOptions = document.getElementById(`${tool}Options`);
+  if (currentOptions) {
+    currentOptions.classList.remove('hidden');
+  }
+  
+  // Setup tool-specific controls
+  setupToolOptions(tool);
+}
+
+// Setup tool-specific option controls
+function setupToolOptions(tool) {
+  switch (tool) {
+    case 'pencil':
+      setupPencilOptions();
+      break;
+    case 'brush':
+      setupBrushOptions();
+      break;
+    case 'eraser':
+      setupEraserOptions();
+      break;
+    case 'line':
+      setupLineOptions();
+      break;
+    case 'rectangle':
+      setupRectangleOptions();
+      break;
+    case 'circle':
+      setupCircleOptions();
+      break;
+    case 'text':
+      setupTextOptions();
+      break;
+    case 'ai':
+      setupAIOptions();
+      break;
+  }
+}
+
+// Pencil tool options
+function setupPencilOptions() {
+  const pencilSize = document.getElementById('pencilSize');
+  const pencilSizeValue = document.getElementById('pencilSizeValue');
+  
+  if (pencilSize && pencilSizeValue) {
+    pencilSize.addEventListener('input', (e) => {
+      const value = e.target.value;
+      pencilSizeValue.textContent = value;
+      toolState.pencilSize = parseInt(value);
+    });
+  }
+}
+
+// Brush tool options
+function setupBrushOptions() {
+  const brushSize = document.getElementById('brushSize');
+  const brushSizeValue = document.getElementById('brushSizeValue');
+  const brushOpacity = document.getElementById('brushOpacity');
+  const brushOpacityValue = document.getElementById('brushOpacityValue');
+  
+  if (brushSize && brushSizeValue) {
+    brushSize.addEventListener('input', (e) => {
+      const value = e.target.value;
+      brushSizeValue.textContent = value;
+      toolState.brushSize = parseInt(value);
+    });
+  }
+  
+  if (brushOpacity && brushOpacityValue) {
+    brushOpacity.addEventListener('input', (e) => {
+      const value = e.target.value;
+      brushOpacityValue.textContent = value + '%';
+      toolState.brushOpacity = parseInt(value) / 100;
+    });
+  }
+  
+  // Brush shape buttons
+  const shapeButtons = document.querySelectorAll('#brushOptions .shape-btn-mini');
+  shapeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      shapeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      toolState.brushShape = btn.title.toLowerCase();
+    });
+  });
+}
+
+// Eraser tool options
+function setupEraserOptions() {
+  const eraserSize = document.getElementById('eraserSize');
+  const eraserSizeValue = document.getElementById('eraserSizeValue');
+  const eraserMode = document.getElementById('eraserMode');
+  
+  if (eraserSize && eraserSizeValue) {
+    eraserSize.addEventListener('input', (e) => {
+      const value = e.target.value;
+      eraserSizeValue.textContent = value;
+      toolState.eraserSize = parseInt(value);
+    });
+  }
+  
+  if (eraserMode) {
+    eraserMode.addEventListener('change', (e) => {
+      toolState.eraserMode = e.target.value;
+    });
+  }
+}
+
+// Line tool options
+function setupLineOptions() {
+  const lineWidth = document.getElementById('lineWidth');
+  const lineWidthValue = document.getElementById('lineWidthValue');
+  const lineStyle = document.getElementById('lineStyle');
+  
+  if (lineWidth && lineWidthValue) {
+    lineWidth.addEventListener('input', (e) => {
+      const value = e.target.value;
+      lineWidthValue.textContent = value;
+      toolState.lineWidth = parseInt(value);
+    });
+  }
+  
+  if (lineStyle) {
+    lineStyle.addEventListener('change', (e) => {
+      toolState.lineStyle = e.target.value;
+    });
+  }
+}
+
+// Rectangle tool options
+function setupRectangleOptions() {
+  const rectangleFilled = document.getElementById('rectangleFilled');
+  const rectangleBorder = document.getElementById('rectangleBorder');
+  const rectangleBorderValue = document.getElementById('rectangleBorderValue');
+  const rectangleRadius = document.getElementById('rectangleRadius');
+  const rectangleRadiusValue = document.getElementById('rectangleRadiusValue');
+  
+  if (rectangleFilled) {
+    rectangleFilled.addEventListener('change', (e) => {
+      toolState.rectangleFilled = e.target.checked;
+    });
+  }
+  
+  if (rectangleBorder && rectangleBorderValue) {
+    rectangleBorder.addEventListener('input', (e) => {
+      const value = e.target.value;
+      rectangleBorderValue.textContent = value;
+      toolState.rectangleBorder = parseInt(value);
+    });
+  }
+  
+  if (rectangleRadius && rectangleRadiusValue) {
+    rectangleRadius.addEventListener('input', (e) => {
+      const value = e.target.value;
+      rectangleRadiusValue.textContent = value;
+      toolState.rectangleRadius = parseInt(value);
+    });
+  }
+}
+
+// Circle tool options
+function setupCircleOptions() {
+  const circleFilled = document.getElementById('circleFilled');
+  const circleBorder = document.getElementById('circleBorder');
+  const circleBorderValue = document.getElementById('circleBorderValue');
+  
+  if (circleFilled) {
+    circleFilled.addEventListener('change', (e) => {
+      toolState.circleFilled = e.target.checked;
+    });
+  }
+  
+  if (circleBorder && circleBorderValue) {
+    circleBorder.addEventListener('input', (e) => {
+      const value = e.target.value;
+      circleBorderValue.textContent = value;
+      toolState.circleBorder = parseInt(value);
+    });
+  }
+}
+
+// Text tool options
+function setupTextOptions() {
+  const textFont = document.getElementById('textFont');
+  const textSize = document.getElementById('textSize');
+  const textSizeValue = document.getElementById('textSizeValue');
+  const textBold = document.getElementById('textBold');
+  const textItalic = document.getElementById('textItalic');
+  
+  if (textFont) {
+    textFont.addEventListener('change', (e) => {
+      toolState.textFont = e.target.value;
+    });
+  }
+  
+  if (textSize && textSizeValue) {
+    textSize.addEventListener('input', (e) => {
+      const value = e.target.value;
+      textSizeValue.textContent = value;
+      toolState.textSize = parseInt(value);
+    });
+  }
+  
+  if (textBold) {
+    textBold.addEventListener('click', () => {
+      textBold.classList.toggle('active');
+      toolState.textBold = textBold.classList.contains('active');
+    });
+  }
+  
+  if (textItalic) {
+    textItalic.addEventListener('click', () => {
+      textItalic.classList.toggle('active');
+      toolState.textItalic = textItalic.classList.contains('active');
+    });
+  }
+}
+
+// AI tool options
+function setupAIOptions() {
+  const aiStyle = document.getElementById('aiStyle');
+  const aiSize = document.getElementById('aiSize');
+  const aiGenerate = document.getElementById('aiGenerate');
+  
+  if (aiStyle) {
+    aiStyle.addEventListener('change', (e) => {
+      toolState.aiStyle = e.target.value;
+    });
+  }
+  
+  if (aiSize) {
+    aiSize.addEventListener('change', (e) => {
+      toolState.aiSize = parseInt(e.target.value);
+    });
+  }
+  
+  if (aiGenerate) {
+    aiGenerate.addEventListener('click', () => {
+      // This will be handled by the AI tool click handler
+      console.log('AI Generate button clicked');
+    });
+  }
 }
 
 // Setup start screen

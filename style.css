@@ -3309,3 +3309,193 @@ body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #23272E;
     max-height: 80px;
   }
 }
+
+/* Options Bar Styles */
+#optionsBar {
+  background: #2a2a2a;
+  border-bottom: 1px solid #373737;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  z-index: 30;
+}
+
+.tool-options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tool-options.hidden {
+  display: none;
+}
+
+.tool-options label {
+  font-size: 11px;
+  color: #999;
+  white-space: nowrap;
+}
+
+.tool-options input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1a1a1a;
+  border-radius: 4px;
+  outline: none;
+  height: 6px;
+}
+
+.tool-options input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #1f2937;
+}
+
+.tool-options input[type="range"]::-webkit-slider-thumb:hover {
+  background: #60a5fa;
+}
+
+.tool-options input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #1f2937;
+}
+
+.tool-options input[type="range"]::-moz-range-thumb:hover {
+  background: #60a5fa;
+}
+
+.tool-options select {
+  background: #1a1a1a;
+  color: #ccc;
+  font-size: 11px;
+  border: 1px solid #373737;
+  border-radius: 3px;
+  padding: 2px 6px;
+  outline: none;
+}
+
+.tool-options select:hover {
+  border-color: #3b82f6;
+}
+
+.tool-options select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.tool-options input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #1a1a1a;
+  border: 1px solid #373737;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tool-options input[type="checkbox"]:checked {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.tool-options input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -1px;
+  left: 1px;
+  color: white;
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.shape-btn-mini {
+  width: 16px;
+  height: 16px;
+  background: #1a1a1a;
+  border: 1px solid #373737;
+  border-radius: 2px;
+  color: #ccc;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.shape-btn-mini:hover {
+  background: #2a2a2a;
+  border-color: #3b82f6;
+}
+
+.shape-btn-mini.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.text-style-btn {
+  width: 20px;
+  height: 20px;
+  background: #1a1a1a;
+  border: 1px solid #373737;
+  border-radius: 2px;
+  color: #ccc;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.text-style-btn:hover {
+  background: #2a2a2a;
+  border-color: #3b82f6;
+}
+
+.text-style-btn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* Responsive adjustments for options bar */
+@media (max-width: 1024px) {
+  #optionsBar {
+    padding: 6px 12px;
+    gap: 12px;
+  }
+  
+  .tool-options {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  #optionsBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .tool-options {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

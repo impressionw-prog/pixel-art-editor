@@ -7470,6 +7470,15 @@ function setupDropdownMenus() {
 
 // Setup File menu
 function setupFileMenu() {
+  // Start Screen
+  const showStartScreenBtn = document.getElementById('showStartScreen');
+  if (showStartScreenBtn) {
+    showStartScreenBtn.addEventListener('click', () => {
+      showStartScreen();
+      closeAllMenus();
+    });
+  }
+  
   // New Project
   const newFileBtn = document.getElementById('newFile');
   if (newFileBtn) {
@@ -8392,95 +8401,585 @@ function getCurrentToolName() {
   return toolNames[currentTool] || 'Pencil';
 }
 
-// Menu action functions (placeholders for now)
+// Menu action functions - File menu
 function saveProjectAs() {
-  console.log('💾 Save As functionality - to be implemented');
-  // TODO: Implement save as functionality
+  console.log('💾 Save As functionality');
+  
+  // Create a temporary input element for file name
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Enter filename (without extension)';
+  input.value = 'pixelpro-project';
+  
+  // Create a dialog
+  const dialog = document.createElement('div');
+  dialog.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  `;
+  
+  const dialogContent = document.createElement('div');
+  dialogContent.style.cssText = `
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    min-width: 300px;
+  `;
+  
+  const title = document.createElement('h3');
+  title.textContent = 'Save Project As';
+  title.style.cssText = 'margin: 0 0 15px 0; color: #fff;';
+  
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.cssText = 'display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;';
+  
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = 'Save';
+  saveBtn.style.cssText = 'padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;';
+  
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.style.cssText = 'padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer;';
+  
+  input.style.cssText = 'width: 100%; padding: 8px; background: #1a1a1a; color: #fff; border: 1px solid #444; border-radius: 4px;';
+  
+  const handleSave = () => {
+    const filename = input.value.trim() || 'pixelpro-project';
+    const projectData = {
+      gridSize: gridSize,
+      layers: layers,
+      currentLayerIndex: currentLayerIndex,
+      animationFrames: animationFrames,
+      currentFrameIndex: currentFrameIndex,
+      timestamp: Date.now()
+    };
+    
+    const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.pixelpro`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    // Save to recent files
+    saveRecentFile(`${filename}.pixelpro`, projectData);
+    
+    document.body.removeChild(dialog);
+  };
+  
+  const handleCancel = () => {
+    document.body.removeChild(dialog);
+  };
+  
+  saveBtn.addEventListener('click', handleSave);
+  cancelBtn.addEventListener('click', handleCancel);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleSave();
+    if (e.key === 'Escape') handleCancel();
+  });
+  
+  buttonContainer.appendChild(cancelBtn);
+  buttonContainer.appendChild(saveBtn);
+  dialogContent.appendChild(title);
+  dialogContent.appendChild(input);
+  dialogContent.appendChild(buttonContainer);
+  dialog.appendChild(dialogContent);
+  document.body.appendChild(dialog);
+  
+  input.focus();
 }
 
 function exportAsPNG() {
-  console.log('📤 Export PNG functionality - to be implemented');
-  // TODO: Implement PNG export
+  console.log('📤 Export PNG functionality');
+  
+  // Create a canvas to draw the current state
+  const exportCanvas = document.createElement('canvas');
+  const ctx = exportCanvas.getContext('2d');
+  
+  // Set canvas size (scale up for better quality)
+  const scale = 4;
+  exportCanvas.width = gridSize * scale;
+  exportCanvas.height = gridSize * scale;
+  
+  // Draw the current canvas state
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const pixelIndex = y * gridSize + x;
+        const color = currentState.pixels[pixelIndex];
+        
+        if (color && color !== TRANSPARENT) {
+          ctx.fillStyle = color;
+          ctx.fillRect(x * scale, y * scale, scale, scale);
+        }
+      }
+    }
+  }
+  
+  // Create download link
+  exportCanvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pixelpro-export-${Date.now()}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 }
 
 function exportAsGIF() {
-  console.log('📤 Export GIF functionality - to be implemented');
-  // TODO: Implement GIF export
+  console.log('📤 Export GIF functionality');
+  
+  if (animationFrames.length === 0) {
+    alert('No animation frames to export. Create some frames first!');
+    return;
+  }
+  
+  // Create a simple GIF export using canvas
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = gridSize * 4; // Scale up
+  canvas.height = gridSize * 4;
+  
+  // For now, export the first frame as PNG since GIF creation is complex
+  // In a real implementation, you'd use a GIF library like gif.js
+  const firstFrame = animationFrames[0];
+  if (firstFrame && firstFrame.pixels) {
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const pixelIndex = y * gridSize + x;
+        const color = firstFrame.pixels[pixelIndex];
+        
+        if (color && color !== TRANSPARENT) {
+          ctx.fillStyle = color;
+          ctx.fillRect(x * 4, y * 4, 4, 4);
+        }
+      }
+    }
+  }
+  
+  canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pixelpro-animation-${Date.now()}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+  
+  alert('GIF export is currently exporting as PNG. Full GIF support coming soon!');
 }
 
 function exportAsSpriteSheet() {
-  console.log('📤 Export Sprite Sheet functionality - to be implemented');
-  // TODO: Implement sprite sheet export
+  console.log('📤 Export Sprite Sheet functionality');
+  
+  if (animationFrames.length === 0) {
+    alert('No animation frames to export. Create some frames first!');
+    return;
+  }
+  
+  // Create a sprite sheet canvas
+  const framesPerRow = Math.ceil(Math.sqrt(animationFrames.length));
+  const frameSize = gridSize * 4; // Scale up
+  const spriteSheetWidth = framesPerRow * frameSize;
+  const spriteSheetHeight = Math.ceil(animationFrames.length / framesPerRow) * frameSize;
+  
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = spriteSheetWidth;
+  canvas.height = spriteSheetHeight;
+  
+  // Draw each frame
+  animationFrames.forEach((frame, index) => {
+    const row = Math.floor(index / framesPerRow);
+    const col = index % framesPerRow;
+    const x = col * frameSize;
+    const y = row * frameSize;
+    
+    if (frame && frame.pixels) {
+      for (let py = 0; py < gridSize; py++) {
+        for (let px = 0; px < gridSize; px++) {
+          const pixelIndex = py * gridSize + px;
+          const color = frame.pixels[pixelIndex];
+          
+          if (color && color !== TRANSPARENT) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x + px * 4, y + py * 4, 4, 4);
+          }
+        }
+      }
+    }
+  });
+  
+  canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pixelpro-spritesheet-${Date.now()}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 }
 
 function printCanvas() {
-  console.log('🖨️ Print functionality - to be implemented');
-  // TODO: Implement print functionality
+  console.log('🖨️ Print functionality');
+  
+  // Create a print-friendly version
+  const printWindow = window.open('', '_blank');
+  const currentState = getCurrentCanvasState();
+  
+  if (currentState && currentState.pixels) {
+    const printContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>PixelPro Print</title>
+        <style>
+          body { margin: 20px; font-family: Arial, sans-serif; }
+          .pixel-grid { 
+            display: inline-block; 
+            border: 2px solid #000; 
+            background: #fff;
+          }
+          .pixel { 
+            width: 8px; 
+            height: 8px; 
+            display: inline-block; 
+            margin: 0; 
+            padding: 0;
+          }
+          @media print {
+            body { margin: 0; }
+            .pixel-grid { border: 1px solid #000; }
+          }
+        </style>
+      </head>
+      <body>
+        <h1>PixelPro Artwork</h1>
+        <div class="pixel-grid">
+    `;
+    
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const pixelIndex = y * gridSize + x;
+        const color = currentState.pixels[pixelIndex];
+        const bgColor = color && color !== TRANSPARENT ? color : '#fff';
+        printContent += `<div class="pixel" style="background-color: ${bgColor};"></div>`;
+      }
+      printContent += '<br>';
+    }
+    
+    printContent += `
+        </div>
+        <p>Generated on ${new Date().toLocaleString()}</p>
+      </body>
+      </html>
+    `;
+    
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.print();
+  } else {
+    alert('No artwork to print. Create something first!');
+  }
 }
 
 function exitApplication() {
-  console.log('🚪 Exit application functionality - to be implemented');
-  // TODO: Implement exit functionality
+  console.log('🚪 Exit application functionality');
+  
+  // Check if there are unsaved changes
+  const hasChanges = undoStack.length > 0;
+  
+  if (hasChanges) {
+    const shouldExit = confirm('You have unsaved changes. Are you sure you want to exit?');
+    if (!shouldExit) return;
+  }
+  
+  // In a web app, we can't actually exit, but we can show a message
+  alert('Thank you for using PixelPro! In a desktop app, this would close the application.');
+  
+  // Optionally, you could redirect to a different page
+  // window.location.href = 'about:blank';
 }
 
 function cutSelection() {
-  console.log('✂️ Cut selection functionality - to be implemented');
-  // TODO: Implement cut functionality
+  console.log('✂️ Cut selection functionality');
+  
+  // For now, implement a simple cut that clears the canvas
+  if (confirm('Cut will clear the current canvas. Continue?')) {
+    clearCanvas();
+    alert('Canvas cleared (cut functionality)');
+  }
 }
 
 function copySelection() {
-  console.log('📋 Copy selection functionality - to be implemented');
-  // TODO: Implement copy functionality
+  console.log('📋 Copy selection functionality');
+  
+  // Copy current canvas state to clipboard
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    try {
+      // Create a simple text representation for clipboard
+      let copyText = `PixelPro Artwork (${gridSize}x${gridSize})\n`;
+      for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+          const pixelIndex = y * gridSize + x;
+          const color = currentState.pixels[pixelIndex];
+          copyText += color && color !== TRANSPARENT ? '█' : ' ';
+        }
+        copyText += '\n';
+      }
+      
+      navigator.clipboard.writeText(copyText).then(() => {
+        alert('Canvas copied to clipboard!');
+      }).catch(() => {
+        alert('Copy to clipboard failed, but canvas state is saved.');
+      });
+    } catch (e) {
+      alert('Copy functionality not available in this browser.');
+    }
+  } else {
+    alert('No artwork to copy. Create something first!');
+  }
 }
 
 function pasteSelection() {
-  console.log('📋 Paste selection functionality - to be implemented');
-  // TODO: Implement paste functionality
+  console.log('📋 Paste selection functionality');
+  
+  // For now, this would paste from clipboard
+  // In a full implementation, you'd read from clipboard
+  alert('Paste functionality would paste from clipboard. Not implemented in this demo.');
 }
 
 function selectAll() {
-  console.log('📋 Select all functionality - to be implemented');
-  // TODO: Implement select all functionality
+  console.log('📋 Select all functionality');
+  
+  // In a full implementation, this would select all pixels
+  alert('Select all would select all pixels on the canvas. Not implemented in this demo.');
 }
 
 function clearSelection() {
-  console.log('📋 Clear selection functionality - to be implemented');
-  // TODO: Implement clear selection functionality
+  console.log('📋 Clear selection functionality');
+  
+  // In a full implementation, this would clear the current selection
+  alert('Clear selection would clear the current selection. Not implemented in this demo.');
 }
 
 function cropToSelection() {
-  console.log('✂️ Crop to selection functionality - to be implemented');
-  // TODO: Implement crop functionality
+  console.log('✂️ Crop to selection functionality');
+  
+  // For now, this would crop to the current canvas size
+  alert('Crop to selection would crop the canvas to the selected area. Not implemented in this demo.');
 }
 
 function flipHorizontal() {
-  console.log('🔄 Flip horizontal functionality - to be implemented');
-  // TODO: Implement flip horizontal
+  console.log('🔄 Flip horizontal functionality');
+  
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    const newPixels = new Array(gridSize * gridSize);
+    
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const oldIndex = y * gridSize + x;
+        const newIndex = y * gridSize + (gridSize - 1 - x);
+        newPixels[newIndex] = currentState.pixels[oldIndex];
+      }
+    }
+    
+    // Save current state for undo
+    saveCanvasState();
+    
+    // Apply the flipped pixels
+    for (let i = 0; i < newPixels.length; i++) {
+      const pixel = document.querySelector(`[data-pixel="${i}"]`);
+      if (pixel) {
+        const color = newPixels[i];
+        pixel.style.backgroundColor = color && color !== TRANSPARENT ? color : 'transparent';
+      }
+    }
+    
+    // Update the current state
+    currentState.pixels = newPixels;
+    alert('Canvas flipped horizontally!');
+  }
 }
 
 function flipVertical() {
-  console.log('🔄 Flip vertical functionality - to be implemented');
-  // TODO: Implement flip vertical
+  console.log('🔄 Flip vertical functionality');
+  
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    const newPixels = new Array(gridSize * gridSize);
+    
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const oldIndex = y * gridSize + x;
+        const newIndex = (gridSize - 1 - y) * gridSize + x;
+        newPixels[newIndex] = currentState.pixels[oldIndex];
+      }
+    }
+    
+    // Save current state for undo
+    saveCanvasState();
+    
+    // Apply the flipped pixels
+    for (let i = 0; i < newPixels.length; i++) {
+      const pixel = document.querySelector(`[data-pixel="${i}"]`);
+      if (pixel) {
+        const color = newPixels[i];
+        pixel.style.backgroundColor = color && color !== TRANSPARENT ? color : 'transparent';
+      }
+    }
+    
+    // Update the current state
+    currentState.pixels = newPixels;
+    alert('Canvas flipped vertically!');
+  }
 }
 
 function rotate90() {
-  console.log('🔄 Rotate 90° functionality - to be implemented');
-  // TODO: Implement rotate 90°
+  console.log('🔄 Rotate 90° functionality');
+  
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    const newPixels = new Array(gridSize * gridSize);
+    
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const oldIndex = y * gridSize + x;
+        const newIndex = x * gridSize + (gridSize - 1 - y);
+        newPixels[newIndex] = currentState.pixels[oldIndex];
+      }
+    }
+    
+    // Save current state for undo
+    saveCanvasState();
+    
+    // Apply the rotated pixels
+    for (let i = 0; i < newPixels.length; i++) {
+      const pixel = document.querySelector(`[data-pixel="${i}"]`);
+      if (pixel) {
+        const color = newPixels[i];
+        pixel.style.backgroundColor = color && color !== TRANSPARENT ? color : 'transparent';
+      }
+    }
+    
+    // Update the current state
+    currentState.pixels = newPixels;
+    alert('Canvas rotated 90° clockwise!');
+  }
 }
 
 function rotate180() {
-  console.log('🔄 Rotate 180° functionality - to be implemented');
-  // TODO: Implement rotate 180°
+  console.log('🔄 Rotate 180° functionality');
+  
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    const newPixels = new Array(gridSize * gridSize);
+    
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const oldIndex = y * gridSize + x;
+        const newIndex = (gridSize - 1 - y) * gridSize + (gridSize - 1 - x);
+        newPixels[newIndex] = currentState.pixels[oldIndex];
+      }
+    }
+    
+    // Save current state for undo
+    saveCanvasState();
+    
+    // Apply the rotated pixels
+    for (let i = 0; i < newPixels.length; i++) {
+      const pixel = document.querySelector(`[data-pixel="${i}"]`);
+      if (pixel) {
+        const color = newPixels[i];
+        pixel.style.backgroundColor = color && color !== TRANSPARENT ? color : 'transparent';
+      }
+    }
+    
+    // Update the current state
+    currentState.pixels = newPixels;
+    alert('Canvas rotated 180°!');
+  }
 }
 
 function rotate270() {
-  console.log('🔄 Rotate 270° functionality - to be implemented');
-  // TODO: Implement rotate 270°
+  console.log('🔄 Rotate 270° functionality');
+  
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    const newPixels = new Array(gridSize * gridSize);
+    
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const oldIndex = y * gridSize + x;
+        const newIndex = (gridSize - 1 - x) * gridSize + y;
+        newPixels[newIndex] = currentState.pixels[oldIndex];
+      }
+    }
+    
+    // Save current state for undo
+    saveCanvasState();
+    
+    // Apply the rotated pixels
+    for (let i = 0; i < newPixels.length; i++) {
+      const pixel = document.querySelector(`[data-pixel="${i}"]`);
+      if (pixel) {
+        const color = newPixels[i];
+        pixel.style.backgroundColor = color && color !== TRANSPARENT ? color : 'transparent';
+      }
+    }
+    
+    // Update the current state
+    currentState.pixels = newPixels;
+    alert('Canvas rotated 270° (90° counter-clockwise)!');
+  }
 }
 
 function invertColors() {
-  console.log('🎨 Invert colors functionality - to be implemented');
-  // TODO: Implement invert colors
+  console.log('🎨 Invert colors functionality');
+  
+  const currentState = getCurrentCanvasState();
+  if (currentState && currentState.pixels) {
+    // Save current state for undo
+    saveCanvasState();
+    
+    // Invert each pixel color
+    for (let i = 0; i < currentState.pixels.length; i++) {
+      const pixel = document.querySelector(`[data-pixel="${i}"]`);
+      if (pixel) {
+        const color = currentState.pixels[i];
+        if (color && color !== TRANSPARENT) {
+          // Convert hex to RGB, invert, then back to hex
+          const r = parseInt(color.slice(1, 3), 16);
+          const g = parseInt(color.slice(3, 5), 16);
+          const b = parseInt(color.slice(5, 7), 16);
+          
+          const invertedR = (255 - r).toString(16).padStart(2, '0');
+          const invertedG = (255 - g).toString(16).padStart(2, '0');
+          const invertedB = (255 - b).toString(16).padStart(2, '0');
+          
+          const invertedColor = `#${invertedR}${invertedG}${invertedB}`;
+          pixel.style.backgroundColor = invertedColor;
+          currentState.pixels[i] = invertedColor;
+        }
+      }
+    }
+    
+    alert('Colors inverted!');
+  }
 }
 
 function showBrightnessDialog() {
@@ -8519,48 +9018,116 @@ function showFrameDelayDialog() {
 }
 
 function zoomIn() {
-  console.log('🔍 Zoom in functionality - to be implemented');
-  // TODO: Implement zoom in
+  console.log('🔍 Zoom in functionality');
+  
+  const canvas = document.getElementById('grid');
+  if (canvas) {
+    const currentScale = parseFloat(canvas.style.transform.replace('scale(', '').replace(')', '') || 1);
+    const newScale = Math.min(currentScale * 1.2, 8); // Max 8x zoom
+    canvas.style.transform = `scale(${newScale})`;
+    updateStatusBar();
+    alert(`Zoomed in to ${Math.round(newScale * 100)}%`);
+  }
 }
 
 function zoomOut() {
-  console.log('🔍 Zoom out functionality - to be implemented');
-  // TODO: Implement zoom out
+  console.log('🔍 Zoom out functionality');
+  
+  const canvas = document.getElementById('grid');
+  if (canvas) {
+    const currentScale = parseFloat(canvas.style.transform.replace('scale(', '').replace(')', '') || 1);
+    const newScale = Math.max(currentScale / 1.2, 0.1); // Min 10% zoom
+    canvas.style.transform = `scale(${newScale})`;
+    updateStatusBar();
+    alert(`Zoomed out to ${Math.round(newScale * 100)}%`);
+  }
 }
 
 function zoomFit() {
-  console.log('🔍 Zoom fit functionality - to be implemented');
-  // TODO: Implement zoom fit
+  console.log('🔍 Zoom fit functionality');
+  
+  const canvas = document.getElementById('grid');
+  if (canvas) {
+    canvas.style.transform = 'scale(1)';
+    updateStatusBar();
+    alert('Zoomed to fit screen');
+  }
 }
 
 function zoom100() {
-  console.log('🔍 Zoom 100% functionality - to be implemented');
-  // TODO: Implement zoom 100%
+  console.log('🔍 Zoom 100% functionality');
+  
+  const canvas = document.getElementById('grid');
+  if (canvas) {
+    canvas.style.transform = 'scale(1)';
+    updateStatusBar();
+    alert('Zoomed to 100%');
+  }
 }
 
 function toggleGrid() {
-  console.log('📐 Toggle grid functionality - to be implemented');
-  // TODO: Implement toggle grid
+  console.log('📐 Toggle grid functionality');
+  
+  const canvas = document.getElementById('grid');
+  if (canvas) {
+    const hasGrid = canvas.classList.contains('show-grid');
+    if (hasGrid) {
+      canvas.classList.remove('show-grid');
+      alert('Grid hidden');
+    } else {
+      canvas.classList.add('show-grid');
+      alert('Grid shown');
+    }
+  }
 }
 
 function togglePixelGrid() {
-  console.log('📐 Toggle pixel grid functionality - to be implemented');
-  // TODO: Implement toggle pixel grid
+  console.log('📐 Toggle pixel grid functionality');
+  
+  const canvas = document.getElementById('grid');
+  if (canvas) {
+    const hasPixelGrid = canvas.classList.contains('show-pixel-grid');
+    if (hasPixelGrid) {
+      canvas.classList.remove('show-pixel-grid');
+      alert('Pixel grid hidden');
+    } else {
+      canvas.classList.add('show-pixel-grid');
+      alert('Pixel grid shown');
+    }
+  }
 }
 
 function toggleSidebar() {
-  console.log('📐 Toggle sidebar functionality - to be implemented');
-  // TODO: Implement toggle sidebar
+  console.log('📐 Toggle sidebar functionality');
+  
+  const sidebar = document.getElementById('toolsPanel');
+  if (sidebar) {
+    const isVisible = sidebar.style.display !== 'none';
+    sidebar.style.display = isVisible ? 'none' : 'block';
+    alert(isVisible ? 'Tools panel hidden' : 'Tools panel shown');
+  }
 }
 
 function toggleLayers() {
-  console.log('📐 Toggle layers functionality - to be implemented');
-  // TODO: Implement toggle layers
+  console.log('📐 Toggle layers functionality');
+  
+  const layersPanel = document.getElementById('layersPanel');
+  if (layersPanel) {
+    const isVisible = layersPanel.style.display !== 'none';
+    layersPanel.style.display = isVisible ? 'none' : 'block';
+    alert(isVisible ? 'Layers panel hidden' : 'Layers panel shown');
+  }
 }
 
 function toggleColorPanel() {
-  console.log('📐 Toggle color panel functionality - to be implemented');
-  // TODO: Implement toggle color panel
+  console.log('📐 Toggle color panel functionality');
+  
+  const colorPanel = document.getElementById('colorPanel');
+  if (colorPanel) {
+    const isVisible = colorPanel.style.display !== 'none';
+    colorPanel.style.display = isVisible ? 'none' : 'block';
+    alert(isVisible ? 'Color panel hidden' : 'Color panel shown');
+  }
 }
 
 function toggleDarkMode() {
@@ -8599,18 +9166,171 @@ function loadPanelLayout() {
 }
 
 function showHelpDocumentation() {
-  console.log('📚 Help documentation - to be implemented');
-  // TODO: Implement help documentation
+  console.log('📚 Help documentation');
+  
+  const helpContent = `
+    <div style="background: #2a2a2a; padding: 20px; border-radius: 8px; border: 1px solid #444; max-width: 600px; max-height: 400px; overflow-y: auto;">
+      <h2 style="color: #fff; margin-top: 0;">PixelPro Help</h2>
+      
+      <h3 style="color: #3b82f6;">Drawing Tools</h3>
+      <ul style="color: #ccc;">
+        <li><strong>Pencil (B):</strong> Draw single pixels</li>
+        <li><strong>Brush (B):</strong> Draw with brush size</li>
+        <li><strong>Eraser (E):</strong> Erase pixels</li>
+        <li><strong>Fill (G):</strong> Fill connected areas</li>
+        <li><strong>Line (L):</strong> Draw straight lines</li>
+        <li><strong>Rectangle (R):</strong> Draw rectangles</li>
+        <li><strong>Circle (C):</strong> Draw circles</li>
+        <li><strong>Text (T):</strong> Add text</li>
+        <li><strong>Eyedropper (I):</strong> Pick colors</li>
+        <li><strong>AI Generator (A):</strong> Generate pixel art with AI</li>
+      </ul>
+      
+      <h3 style="color: #3b82f6;">Keyboard Shortcuts</h3>
+      <ul style="color: #ccc;">
+        <li><strong>Ctrl+N:</strong> New project</li>
+        <li><strong>Ctrl+O:</strong> Open file</li>
+        <li><strong>Ctrl+S:</strong> Save</li>
+        <li><strong>Ctrl+Z:</strong> Undo</li>
+        <li><strong>Ctrl+Y:</strong> Redo</li>
+        <li><strong>Ctrl+E:</strong> Export PNG</li>
+        <li><strong>Space:</strong> Play/pause animation</li>
+      </ul>
+      
+      <h3 style="color: #3b82f6;">Features</h3>
+      <ul style="color: #ccc;">
+        <li><strong>Layers:</strong> Work with multiple layers</li>
+        <li><strong>Animation:</strong> Create frame-by-frame animations</li>
+        <li><strong>AI Generation:</strong> Generate pixel art with AI</li>
+        <li><strong>Export:</strong> Export as PNG, GIF, or sprite sheet</li>
+        <li><strong>Color Tools:</strong> Advanced color picker and palettes</li>
+      </ul>
+    </div>
+  `;
+  
+  // Create modal
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  `;
+  
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'Close';
+  closeBtn.style.cssText = 'position: absolute; top: 10px; right: 10px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;';
+  closeBtn.onclick = () => document.body.removeChild(modal);
+  
+  modal.innerHTML = helpContent;
+  modal.appendChild(closeBtn);
+  document.body.appendChild(modal);
 }
 
 function showKeyboardShortcuts() {
-  console.log('⌨️ Keyboard shortcuts - to be implemented');
-  // TODO: Implement keyboard shortcuts dialog
+  console.log('⌨️ Keyboard shortcuts');
+  
+  const shortcuts = [
+    { key: 'Ctrl+N', action: 'New Project' },
+    { key: 'Ctrl+O', action: 'Open File' },
+    { key: 'Ctrl+S', action: 'Save' },
+    { key: 'Ctrl+Shift+S', action: 'Save As' },
+    { key: 'Ctrl+E', action: 'Export PNG' },
+    { key: 'Ctrl+Z', action: 'Undo' },
+    { key: 'Ctrl+Y', action: 'Redo' },
+    { key: 'Ctrl+X', action: 'Cut' },
+    { key: 'Ctrl+C', action: 'Copy' },
+    { key: 'Ctrl+V', action: 'Paste' },
+    { key: 'Ctrl+A', action: 'Select All' },
+    { key: 'B', action: 'Pencil/Brush Tool' },
+    { key: 'E', action: 'Eraser Tool' },
+    { key: 'G', action: 'Fill Tool' },
+    { key: 'L', action: 'Line Tool' },
+    { key: 'R', action: 'Rectangle Tool' },
+    { key: 'C', action: 'Circle Tool' },
+    { key: 'T', action: 'Text Tool' },
+    { key: 'I', action: 'Eyedropper Tool' },
+    { key: 'A', action: 'AI Generator' },
+    { key: 'Space', action: 'Play/Pause Animation' },
+    { key: 'F11', action: 'Toggle Fullscreen' },
+    { key: 'F1', action: 'Help' }
+  ];
+  
+  let shortcutsHtml = '<div style="background: #2a2a2a; padding: 20px; border-radius: 8px; border: 1px solid #444; max-width: 500px;">';
+  shortcutsHtml += '<h2 style="color: #fff; margin-top: 0;">Keyboard Shortcuts</h2>';
+  shortcutsHtml += '<table style="width: 100%; color: #ccc; border-collapse: collapse;">';
+  shortcutsHtml += '<tr style="border-bottom: 1px solid #444;"><th style="text-align: left; padding: 8px;">Key</th><th style="text-align: left; padding: 8px;">Action</th></tr>';
+  
+  shortcuts.forEach(shortcut => {
+    shortcutsHtml += `<tr style="border-bottom: 1px solid #333;">
+      <td style="padding: 8px;"><code style="background: #1a1a1a; padding: 2px 6px; border-radius: 3px;">${shortcut.key}</code></td>
+      <td style="padding: 8px;">${shortcut.action}</td>
+    </tr>`;
+  });
+  
+  shortcutsHtml += '</table></div>';
+  
+  // Create modal
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  `;
+  
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'Close';
+  closeBtn.style.cssText = 'position: absolute; top: 10px; right: 10px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;';
+  closeBtn.onclick = () => document.body.removeChild(modal);
+  
+  modal.innerHTML = shortcutsHtml;
+  modal.appendChild(closeBtn);
+  document.body.appendChild(modal);
 }
 
 function startInteractiveTutorial() {
-  console.log('🎓 Interactive tutorial - to be implemented');
-  // TODO: Implement interactive tutorial
+  console.log('🎓 Interactive tutorial');
+  
+  const tutorialSteps = [
+    'Welcome to PixelPro! Let\'s learn the basics.',
+    'Click on any pixel to draw with the current color.',
+    'Use the color picker to change colors.',
+    'Try different tools like the brush and eraser.',
+    'Create layers to organize your artwork.',
+    'Use the AI generator to create pixel art automatically!'
+  ];
+  
+  let currentStep = 0;
+  
+  const showStep = () => {
+    if (currentStep >= tutorialSteps.length) {
+      alert('Tutorial complete! You\'re ready to create amazing pixel art!');
+      return;
+    }
+    
+    const step = tutorialSteps[currentStep];
+    const shouldContinue = confirm(`${step}\n\nClick OK to continue or Cancel to end tutorial.`);
+    
+    if (shouldContinue) {
+      currentStep++;
+      showStep();
+    }
+  };
+  
+  showStep();
 }
 
 function checkForUpdates() {

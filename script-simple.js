@@ -4827,6 +4827,7 @@ function updateHueSlider() {
 // Set foreground color
 function setForegroundColor(color) {
   foregroundColor = color;
+  currentColor = color; // Update current drawing color
   updateColorDisplays();
   updateColorInputs(color);
   addToRecentColors(color);
@@ -5079,14 +5080,18 @@ function setupColorPanel() {
   if (foregroundColorEl) {
     foregroundColorEl.addEventListener('click', () => {
       console.log('Foreground color clicked');
-      // Could add a color picker dialog here
+      // Set current color to foreground
+      currentColor = foregroundColor;
+      updateColorDisplays();
     });
   }
   
   if (backgroundColorEl) {
     backgroundColorEl.addEventListener('click', () => {
       console.log('Background color clicked');
-      // Could add a color picker dialog here
+      // Set current color to background
+      currentColor = backgroundColor;
+      updateColorDisplays();
     });
   }
   
@@ -5122,6 +5127,7 @@ function setupColorPanel() {
       const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
       
       setForegroundColor(hex);
+      currentColor = hex; // Update current color for drawing
       
       // Update cursor position
       const cursor = document.getElementById('colorCursor');
@@ -5130,8 +5136,9 @@ function setupColorPanel() {
         cursor.style.top = y + 'px';
       }
       
-      // Update color field background
-      updateColorField();
+      // Update all color displays
+      updateColorDisplays();
+      updateColorInputs(hex);
     }
     
     colorField.addEventListener('mousedown', (e) => {
@@ -5175,6 +5182,7 @@ function setupColorPanel() {
       const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
       
       setForegroundColor(hex);
+      currentColor = hex; // Update current color for drawing
       
       // Update cursor position
       const hueCursor = document.getElementById('hueCursor');
@@ -5182,7 +5190,9 @@ function setupColorPanel() {
         hueCursor.style.left = x + 'px';
       }
       
-      // Update color field background
+      // Update all color displays
+      updateColorDisplays();
+      updateColorInputs(hex);
       updateColorField();
     }
     
@@ -5226,6 +5236,9 @@ function setupColorPanel() {
     const rgb = hsbToRgb(currentHue, currentSaturation, currentBrightness);
     const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
     setForegroundColor(hex);
+    currentColor = hex;
+    updateColorDisplays();
+    updateColorField();
   });
   
   setupValueInput('satInput', 0, 100, (s) => {
@@ -5233,6 +5246,9 @@ function setupColorPanel() {
     const rgb = hsbToRgb(currentHue, currentSaturation, currentBrightness);
     const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
     setForegroundColor(hex);
+    currentColor = hex;
+    updateColorDisplays();
+    updateColorField();
   });
   
   setupValueInput('briInput', 0, 100, (b) => {
@@ -5240,6 +5256,9 @@ function setupColorPanel() {
     const rgb = hsbToRgb(currentHue, currentSaturation, currentBrightness);
     const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
     setForegroundColor(hex);
+    currentColor = hex;
+    updateColorDisplays();
+    updateColorField();
   });
   
   setupValueInput('redInput', 0, 255, (r) => {
@@ -5247,6 +5266,9 @@ function setupColorPanel() {
     if (rgb) {
       const hex = rgbToHex(r, rgb.g, rgb.b);
       setForegroundColor(hex);
+      currentColor = hex;
+      updateColorDisplays();
+      updateColorInputs(hex);
     }
   });
   
@@ -5255,6 +5277,9 @@ function setupColorPanel() {
     if (rgb) {
       const hex = rgbToHex(rgb.r, g, rgb.b);
       setForegroundColor(hex);
+      currentColor = hex;
+      updateColorDisplays();
+      updateColorInputs(hex);
     }
   });
   
@@ -5263,6 +5288,9 @@ function setupColorPanel() {
     if (rgb) {
       const hex = rgbToHex(rgb.r, rgb.g, b);
       setForegroundColor(hex);
+      currentColor = hex;
+      updateColorDisplays();
+      updateColorInputs(hex);
     }
   });
   
@@ -5276,6 +5304,19 @@ function setupColorPanel() {
       if (value.length === 6) {
         const hex = '#' + value;
         setForegroundColor(hex);
+        currentColor = hex;
+        updateColorDisplays();
+        updateColorInputs(hex);
+        
+        // Update HSB values
+        const hsb = hexToHsb(hex);
+        if (hsb) {
+          currentHue = hsb.h;
+          currentSaturation = hsb.s;
+          currentBrightness = hsb.b;
+          updateColorField();
+          updateHueSlider();
+        }
       }
     });
   }
@@ -5287,6 +5328,21 @@ function setupColorPanel() {
       const color = swatch.dataset.color;
       if (color) {
         setForegroundColor(color);
+        currentColor = color;
+        
+        // Update HSB values
+        const hsb = hexToHsb(color);
+        if (hsb) {
+          currentHue = hsb.h;
+          currentSaturation = hsb.s;
+          currentBrightness = hsb.b;
+        }
+        
+        // Update all displays
+        updateColorDisplays();
+        updateColorInputs(color);
+        updateColorField();
+        updateHueSlider();
         
         // Update active state
         swatches.forEach(s => s.classList.remove('active'));
@@ -5309,6 +5365,22 @@ function setupColorPanel() {
         
         newSwatch.addEventListener('click', () => {
           setForegroundColor(foregroundColor);
+          currentColor = foregroundColor;
+          
+          // Update HSB values
+          const hsb = hexToHsb(foregroundColor);
+          if (hsb) {
+            currentHue = hsb.h;
+            currentSaturation = hsb.s;
+            currentBrightness = hsb.b;
+          }
+          
+          // Update all displays
+          updateColorDisplays();
+          updateColorInputs(foregroundColor);
+          updateColorField();
+          updateHueSlider();
+          
           document.querySelectorAll('.ps-swatch').forEach(s => s.classList.remove('active'));
           newSwatch.classList.add('active');
         });
@@ -5359,9 +5431,20 @@ function setupColorPanel() {
   // Initialize color system
   setForegroundColor(foregroundColor);
   setBackgroundColor(backgroundColor);
+  currentColor = foregroundColor; // Set initial drawing color
+  
+  // Initialize HSB values from current color
+  const hsb = hexToHsb(foregroundColor);
+  if (hsb) {
+    currentHue = hsb.h;
+    currentSaturation = hsb.s;
+    currentBrightness = hsb.b;
+  }
   
   // Initialize color picker with current color
   console.log('🎨 Initializing color picker...');
+  updateColorDisplays();
+  updateColorInputs(foregroundColor);
   updateColorField();
   updateHueSlider();
   
@@ -5380,6 +5463,13 @@ function setupColorPanel() {
   // Test color picker elements
   setTimeout(() => {
     testColorPicker();
+    
+    // Ensure color panel is properly initialized
+    if (colorPanel) {
+      colorPanel.style.display = 'block';
+      colorPanel.style.visibility = 'visible';
+      console.log('🎨 Color panel should now be visible and functional');
+    }
   }, 1000);
 }
 

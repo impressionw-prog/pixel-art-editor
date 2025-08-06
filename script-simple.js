@@ -4791,7 +4791,13 @@ function updateColorField() {
   const hueHex = rgbToHex(hueColor.r, hueColor.g, hueColor.b);
   
   console.log(`🎨 Updating color field background with hue: ${hueHex}`);
-  colorField.style.background = `linear-gradient(to right, #fff, ${hueHex})`;
+  
+  // Create a proper HSB color field with saturation on X-axis and brightness on Y-axis
+  colorField.style.background = `
+    linear-gradient(to right, #fff, ${hueHex}),
+    linear-gradient(to bottom, transparent, #000)
+  `;
+  colorField.style.backgroundBlendMode = 'multiply';
   
   // Update cursor position
   const cursor = document.getElementById('colorCursor');
@@ -5080,18 +5086,56 @@ function setupColorPanel() {
   if (foregroundColorEl) {
     foregroundColorEl.addEventListener('click', () => {
       console.log('Foreground color clicked');
-      // Set current color to foreground
-      currentColor = foregroundColor;
-      updateColorDisplays();
+      
+      // Create a native color picker as fallback
+      const colorInput = document.createElement('input');
+      colorInput.type = 'color';
+      colorInput.value = foregroundColor;
+      colorInput.style.position = 'absolute';
+      colorInput.style.left = '-9999px';
+      document.body.appendChild(colorInput);
+      
+      colorInput.addEventListener('change', (e) => {
+        const newColor = e.target.value;
+        setForegroundColor(newColor);
+        currentColor = newColor;
+        
+        // Update HSB values
+        const hsb = hexToHsb(newColor);
+        if (hsb) {
+          currentHue = hsb.h;
+          currentSaturation = hsb.s;
+          currentBrightness = hsb.b;
+          updateColorField();
+          updateHueSlider();
+        }
+        
+        document.body.removeChild(colorInput);
+      });
+      
+      colorInput.click();
     });
   }
   
   if (backgroundColorEl) {
     backgroundColorEl.addEventListener('click', () => {
       console.log('Background color clicked');
-      // Set current color to background
-      currentColor = backgroundColor;
-      updateColorDisplays();
+      
+      // Create a native color picker as fallback
+      const colorInput = document.createElement('input');
+      colorInput.type = 'color';
+      colorInput.value = backgroundColor;
+      colorInput.style.position = 'absolute';
+      colorInput.style.left = '-9999px';
+      document.body.appendChild(colorInput);
+      
+      colorInput.addEventListener('change', (e) => {
+        const newColor = e.target.value;
+        setBackgroundColor(newColor);
+        document.body.removeChild(colorInput);
+      });
+      
+      colorInput.click();
     });
   }
   
@@ -5141,6 +5185,13 @@ function setupColorPanel() {
       updateColorInputs(hex);
     }
     
+    // Add click event for immediate response
+    colorField.addEventListener('click', (e) => {
+      console.log('🎨 Color field clicked');
+      updateFromColorField(e);
+      e.preventDefault();
+    });
+    
     colorField.addEventListener('mousedown', (e) => {
       console.log('🎨 Color field mousedown');
       isDragging = true;
@@ -5157,6 +5208,29 @@ function setupColorPanel() {
     document.addEventListener('mouseup', () => {
       if (isDragging) {
         console.log('🎨 Color field mouseup');
+        isDragging = false;
+      }
+    });
+    
+    // Add touch events for mobile support
+    colorField.addEventListener('touchstart', (e) => {
+      console.log('🎨 Color field touchstart');
+      isDragging = true;
+      const touch = e.touches[0];
+      updateFromColorField(touch);
+      e.preventDefault();
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        updateFromColorField(touch);
+      }
+    });
+    
+    document.addEventListener('touchend', () => {
+      if (isDragging) {
+        console.log('🎨 Color field touchend');
         isDragging = false;
       }
     });
@@ -5196,6 +5270,13 @@ function setupColorPanel() {
       updateColorField();
     }
     
+    // Add click event for immediate response
+    hueSlider.addEventListener('click', (e) => {
+      console.log('🎨 Hue slider clicked');
+      updateFromHueSlider(e);
+      e.preventDefault();
+    });
+    
     hueSlider.addEventListener('mousedown', (e) => {
       console.log('🎨 Hue slider mousedown');
       isDragging = true;
@@ -5212,6 +5293,29 @@ function setupColorPanel() {
     document.addEventListener('mouseup', () => {
       if (isDragging) {
         console.log('🎨 Hue slider mouseup');
+        isDragging = false;
+      }
+    });
+    
+    // Add touch events for mobile support
+    hueSlider.addEventListener('touchstart', (e) => {
+      console.log('🎨 Hue slider touchstart');
+      isDragging = true;
+      const touch = e.touches[0];
+      updateFromHueSlider(touch);
+      e.preventDefault();
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        updateFromHueSlider(touch);
+      }
+    });
+    
+    document.addEventListener('touchend', () => {
+      if (isDragging) {
+        console.log('🎨 Hue slider touchend');
         isDragging = false;
       }
     });
@@ -5469,6 +5573,28 @@ function setupColorPanel() {
       colorPanel.style.display = 'block';
       colorPanel.style.visibility = 'visible';
       console.log('🎨 Color panel should now be visible and functional');
+    }
+    
+    // Force update color field and hue slider
+    updateColorField();
+    updateHueSlider();
+    
+    // Test if elements are working
+    const colorField = document.getElementById('colorField');
+    const hueSlider = document.getElementById('hueSlider');
+    const colorCursor = document.getElementById('colorCursor');
+    const hueCursor = document.getElementById('hueCursor');
+    
+    console.log('🎨 Color picker test results:');
+    console.log('- Color field:', colorField ? 'Found' : 'Missing');
+    console.log('- Hue slider:', hueSlider ? 'Found' : 'Missing');
+    console.log('- Color cursor:', colorCursor ? 'Found' : 'Missing');
+    console.log('- Hue cursor:', hueCursor ? 'Found' : 'Missing');
+    
+    if (colorField && hueSlider) {
+      console.log('🎨 Color picker should be working now!');
+    } else {
+      console.error('🎨 Color picker elements missing!');
     }
   }, 1000);
 }

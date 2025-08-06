@@ -5344,6 +5344,11 @@ function setupColorPanel() {
     colorPanel.classList.add('lg:block');
   }
   
+  // Initialize color state
+  currentHue = 0;
+  currentSaturation = 0;
+  currentBrightness = 0;
+  
   // Setup foreground/background color clicks
   const foregroundColorEl = document.getElementById('foregroundColor');
   const backgroundColorEl = document.getElementById('backgroundColor');
@@ -5366,11 +5371,11 @@ function setupColorPanel() {
         currentColor = newColor;
         
         // Update HSB values
-        const hsb = hexToHsb(newColor);
-        if (hsb) {
-          currentHue = hsb.h;
-          currentSaturation = hsb.s;
-          currentBrightness = hsb.b;
+        const fgHsb = hexToHsb(newColor);
+        if (fgHsb) {
+          currentHue = fgHsb.h;
+          currentSaturation = fgHsb.s;
+          currentBrightness = fgHsb.b;
           updateColorField();
           updateHueSlider();
         }
@@ -5678,11 +5683,11 @@ function setupColorPanel() {
         updateColorInputs(hex);
         
         // Update HSB values
-        const hsb = hexToHsb(hex);
-        if (hsb) {
-          currentHue = hsb.h;
-          currentSaturation = hsb.s;
-          currentBrightness = hsb.b;
+        const hexHsb = hexToHsb(hex);
+        if (hexHsb) {
+          currentHue = hexHsb.h;
+          currentSaturation = hexHsb.s;
+          currentBrightness = hexHsb.b;
           updateColorField();
           updateHueSlider();
         }
@@ -5700,11 +5705,11 @@ function setupColorPanel() {
         currentColor = color;
         
         // Update HSB values
-        const hsb = hexToHsb(color);
-        if (hsb) {
-          currentHue = hsb.h;
-          currentSaturation = hsb.s;
-          currentBrightness = hsb.b;
+        const swatchHsb = hexToHsb(color);
+        if (swatchHsb) {
+          currentHue = swatchHsb.h;
+          currentSaturation = swatchHsb.s;
+          currentBrightness = swatchHsb.b;
         }
         
         // Update all displays
@@ -5737,11 +5742,11 @@ function setupColorPanel() {
           currentColor = foregroundColor;
           
           // Update HSB values
-          const hsb = hexToHsb(foregroundColor);
-          if (hsb) {
-            currentHue = hsb.h;
-            currentSaturation = hsb.s;
-            currentBrightness = hsb.b;
+          const addSwatchHsb = hexToHsb(foregroundColor);
+          if (addSwatchHsb) {
+            currentHue = addSwatchHsb.h;
+            currentSaturation = addSwatchHsb.s;
+            currentBrightness = addSwatchHsb.b;
           }
           
           // Update all displays
@@ -5828,6 +5833,23 @@ function setupColorPanel() {
   updateColorSchemes();
   
   console.log('🎨 Color system initialized successfully');
+  
+  // Initialize color picker with current color
+  console.log('🎨 Initializing color picker...');
+  
+  // Set initial color state from foreground color
+  const initialHsb = hexToHsb(foregroundColor);
+  if (initialHsb) {
+    currentHue = initialHsb.h;
+    currentSaturation = initialHsb.s;
+    currentBrightness = initialHsb.b;
+  }
+  
+  // Update all displays
+  updateColorDisplays();
+  updateColorInputs(foregroundColor);
+  updateColorField();
+  updateHueSlider();
   
   // Test color picker elements
   setTimeout(() => {

@@ -553,7 +553,7 @@ function init() {
   setupLayers();
   
   // Set up color system
-  setupColorPanel();
+  // Color panel removed from start screen
   
   // Set up grid controls
   setupGridControls();

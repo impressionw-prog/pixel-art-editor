@@ -267,8 +267,22 @@ function setupCanvasSettingsModal() {
   
   // Canvas preset buttons
   const presetButtons = document.querySelectorAll('.canvas-preset-btn');
-  presetButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+  console.log(`📏 Found ${presetButtons.length} canvas preset buttons`);
+  
+  if (presetButtons.length === 0) {
+    console.error('❌ No canvas preset buttons found!');
+    // Try alternative selector
+    const altButtons = document.querySelectorAll('[data-size]');
+    console.log(`📏 Found ${altButtons.length} buttons with data-size attribute`);
+  }
+  
+  presetButtons.forEach((btn, index) => {
+    console.log(`📏 Setting up preset button ${index + 1}:`, btn.dataset.size, btn.textContent);
+    
+    // Add both click and mousedown events for better responsiveness
+    const handlePresetClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       console.log('📏 Canvas preset clicked:', btn.dataset.size);
       const size = parseInt(btn.dataset.size);
       if (size) {
@@ -278,9 +292,38 @@ function setupCanvasSettingsModal() {
           widthInput.value = size;
           heightInput.value = size;
           console.log(`✅ Canvas size set to ${size}x${size}`);
+          
+          // Update visual feedback - remove active from all, add to clicked
+          presetButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Update preview text
+          const preview = document.getElementById('canvasPreview');
+          if (preview) {
+            preview.textContent = `${size}×${size} pixels (${size * size} total)`;
+          }
+          
+          // Add visual feedback
+          btn.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            btn.style.transform = 'scale(1)';
+          }, 150);
+        } else {
+          console.error('❌ Canvas size inputs not found');
         }
+      } else {
+        console.error('❌ Invalid size from preset button:', btn.dataset.size);
       }
-    });
+    };
+    
+    btn.addEventListener('click', handlePresetClick);
+    btn.addEventListener('mousedown', handlePresetClick);
+    
+    // Make sure button is clickable
+    btn.style.cursor = 'pointer';
+    btn.style.userSelect = 'none';
+    
+    console.log(`✅ Preset button ${index + 1} handler added`);
   });
   
   console.log('✅ Canvas settings modal setup complete');

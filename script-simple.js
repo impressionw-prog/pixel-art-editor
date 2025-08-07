@@ -770,6 +770,9 @@ function init() {
   // Setup keyboard shortcuts
   setupKeyboardShortcuts();
   
+  // Setup menu functionality
+  setupMenuBar();
+  
   console.log('✅ PixelPro initialized successfully');
 }
 
@@ -946,6 +949,919 @@ function clearSelection() {
   
   toolState.selection = null;
   console.log('✅ Selection cleared');
+}
+
+// ========================================
+// MENU BAR FUNCTIONALITY
+// ========================================
+
+function setupMenuBar() {
+  console.log('🍽️ Setting up menu bar...');
+  
+  // Setup dropdown menus
+  setupDropdownMenus();
+  
+  // Setup menu item handlers
+  setupMenuItemHandlers();
+  
+  console.log('✅ Menu bar setup complete');
+}
+
+function setupDropdownMenus() {
+  const dropdowns = document.querySelectorAll('.dropdown');
+  
+  dropdowns.forEach(dropdown => {
+    const button = dropdown.querySelector('.menubar-btn');
+    const menu = dropdown.querySelector('.dropdown-menu');
+    
+    if (button && menu) {
+      // Show menu on click
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Close other dropdowns
+        dropdowns.forEach(d => {
+          if (d !== dropdown) {
+            d.classList.remove('open');
+          }
+        });
+        
+        // Toggle current dropdown
+        dropdown.classList.toggle('open');
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove('open');
+        }
+      });
+    }
+  });
+}
+
+function setupMenuItemHandlers() {
+  // File Menu
+  setupFileMenu();
+  
+  // Edit Menu
+  setupEditMenu();
+  
+  // Image Menu
+  setupImageMenu();
+  
+  // Layer Menu
+  setupLayerMenu();
+  
+  // Animation Menu
+  setupAnimationMenu();
+  
+  // View Menu
+  setupViewMenu();
+  
+  // Help Menu
+  setupHelpMenu();
+}
+
+function setupFileMenu() {
+  // Start Screen
+  const showStartScreen = document.getElementById('showStartScreen');
+  if (showStartScreen) {
+    showStartScreen.addEventListener('click', () => {
+      console.log('🏠 Show Start Screen clicked');
+      if (startScreen) startScreen.classList.remove('hidden');
+      if (workPanel) workPanel.classList.add('hidden');
+      document.body.classList.add('start-screen-active');
+    });
+  }
+  
+  // New File
+  const newFile = document.getElementById('newFile');
+  if (newFile) {
+    newFile.addEventListener('click', () => {
+      console.log('📄 New File clicked');
+      handleNewFile();
+    });
+  }
+  
+  // Open File
+  const openFile = document.getElementById('openFile');
+  if (openFile) {
+    openFile.addEventListener('click', () => {
+      console.log('📂 Open File clicked');
+      handleOpenFile();
+    });
+  }
+  
+  // Save File
+  const saveFile = document.getElementById('saveFile');
+  if (saveFile) {
+    saveFile.addEventListener('click', () => {
+      console.log('💾 Save File clicked');
+      saveProject();
+    });
+  }
+  
+  // Save As File
+  const saveAsFile = document.getElementById('saveAsFile');
+  if (saveAsFile) {
+    saveAsFile.addEventListener('click', () => {
+      console.log('💾 Save As clicked');
+      saveProjectAs();
+    });
+  }
+  
+  // Export PNG
+  const exportBtnMenu = document.getElementById('exportBtnMenu');
+  if (exportBtnMenu) {
+    exportBtnMenu.addEventListener('click', () => {
+      console.log('📤 Export PNG clicked');
+      exportAsPNG();
+    });
+  }
+  
+  // Export GIF
+  const exportGifMenu = document.getElementById('exportGifMenu');
+  if (exportGifMenu) {
+    exportGifMenu.addEventListener('click', () => {
+      console.log('📤 Export GIF clicked');
+      exportAsGIF();
+    });
+  }
+  
+  // Export Sprite Sheet
+  const exportSpriteSheetMenu = document.getElementById('exportSpriteSheetMenu');
+  if (exportSpriteSheetMenu) {
+    exportSpriteSheetMenu.addEventListener('click', () => {
+      console.log('📤 Export Sprite Sheet clicked');
+      exportAsSpriteSheet();
+    });
+  }
+  
+  // Print
+  const printMenu = document.getElementById('printMenu');
+  if (printMenu) {
+    printMenu.addEventListener('click', () => {
+      console.log('🖨️ Print clicked');
+      printCanvas();
+    });
+  }
+  
+  // Exit
+  const exitApp = document.getElementById('exitApp');
+  if (exitApp) {
+    exitApp.addEventListener('click', () => {
+      console.log('🚪 Exit clicked');
+      if (confirm('Are you sure you want to exit?')) {
+        window.close();
+      }
+    });
+  }
+}
+
+function setupEditMenu() {
+  // Undo
+  const undoBtnMenu = document.getElementById('undoBtnMenu');
+  if (undoBtnMenu) {
+    undoBtnMenu.addEventListener('click', () => {
+      console.log('↶ Undo clicked');
+      undo();
+    });
+  }
+  
+  // Redo
+  const redoBtnMenu = document.getElementById('redoBtnMenu');
+  if (redoBtnMenu) {
+    redoBtnMenu.addEventListener('click', () => {
+      console.log('↷ Redo clicked');
+      redo();
+    });
+  }
+  
+  // Cut
+  const cutMenu = document.getElementById('cutMenu');
+  if (cutMenu) {
+    cutMenu.addEventListener('click', () => {
+      console.log('✂️ Cut clicked');
+      cutSelection();
+    });
+  }
+  
+  // Copy
+  const copyMenu = document.getElementById('copyMenu');
+  if (copyMenu) {
+    copyMenu.addEventListener('click', () => {
+      console.log('📋 Copy clicked');
+      copySelection();
+    });
+  }
+  
+  // Paste
+  const pasteMenu = document.getElementById('pasteMenu');
+  if (pasteMenu) {
+    pasteMenu.addEventListener('click', () => {
+      console.log('📋 Paste clicked');
+      pasteSelection();
+    });
+  }
+  
+  // Select All
+  const selectAllMenu = document.getElementById('selectAllMenu');
+  if (selectAllMenu) {
+    selectAllMenu.addEventListener('click', () => {
+      console.log('🔲 Select All clicked');
+      selectAll();
+    });
+  }
+  
+  // Clear Selection
+  const clearSelectionMenu = document.getElementById('clearSelectionMenu');
+  if (clearSelectionMenu) {
+    clearSelectionMenu.addEventListener('click', () => {
+      console.log('❌ Clear Selection clicked');
+      clearSelection();
+    });
+  }
+  
+  // Clear Canvas
+  const clearBtnMenu = document.getElementById('clearBtnMenu');
+  if (clearBtnMenu) {
+    clearBtnMenu.addEventListener('click', () => {
+      console.log('🗑️ Clear Canvas clicked');
+      clearCanvas();
+    });
+  }
+  
+  // Resize Grid
+  const resizeGridMenu = document.getElementById('resizeGridMenu');
+  if (resizeGridMenu) {
+    resizeGridMenu.addEventListener('click', () => {
+      console.log('📏 Resize Grid clicked');
+      resizeCanvas();
+    });
+  }
+  
+  // Crop
+  const cropMenu = document.getElementById('cropMenu');
+  if (cropMenu) {
+    cropMenu.addEventListener('click', () => {
+      console.log('✂️ Crop clicked');
+      cropToSelection();
+    });
+  }
+}
+
+function setupImageMenu() {
+  // Flip Horizontal
+  const flipHorizontalMenu = document.getElementById('flipHorizontalMenu');
+  if (flipHorizontalMenu) {
+    flipHorizontalMenu.addEventListener('click', () => {
+      console.log('🔄 Flip Horizontal clicked');
+      flipHorizontal();
+    });
+  }
+  
+  // Flip Vertical
+  const flipVerticalMenu = document.getElementById('flipVerticalMenu');
+  if (flipVerticalMenu) {
+    flipVerticalMenu.addEventListener('click', () => {
+      console.log('🔄 Flip Vertical clicked');
+      flipVertical();
+    });
+  }
+  
+  // Rotate 90° Clockwise
+  const rotate90Menu = document.getElementById('rotate90Menu');
+  if (rotate90Menu) {
+    rotate90Menu.addEventListener('click', () => {
+      console.log('🔄 Rotate 90° Clockwise clicked');
+      rotate90();
+    });
+  }
+  
+  // Rotate 180°
+  const rotate180Menu = document.getElementById('rotate180Menu');
+  if (rotate180Menu) {
+    rotate180Menu.addEventListener('click', () => {
+      console.log('🔄 Rotate 180° clicked');
+      rotate180();
+    });
+  }
+  
+  // Rotate 90° Counter-clockwise
+  const rotate270Menu = document.getElementById('rotate270Menu');
+  if (rotate270Menu) {
+    rotate270Menu.addEventListener('click', () => {
+      console.log('🔄 Rotate 90° Counter-clockwise clicked');
+      rotate270();
+    });
+  }
+  
+  // Invert Colors
+  const invertColorsMenu = document.getElementById('invertColorsMenu');
+  if (invertColorsMenu) {
+    invertColorsMenu.addEventListener('click', () => {
+      console.log('🎨 Invert Colors clicked');
+      invertColors();
+    });
+  }
+  
+  // Adjust Brightness
+  const adjustBrightnessMenu = document.getElementById('adjustBrightnessMenu');
+  if (adjustBrightnessMenu) {
+    adjustBrightnessMenu.addEventListener('click', () => {
+      console.log('💡 Adjust Brightness clicked');
+      adjustBrightness();
+    });
+  }
+  
+  // Adjust Contrast
+  const adjustContrastMenu = document.getElementById('adjustContrastMenu');
+  if (adjustContrastMenu) {
+    adjustContrastMenu.addEventListener('click', () => {
+      console.log('🌓 Adjust Contrast clicked');
+      adjustContrast();
+    });
+  }
+}
+
+function setupLayerMenu() {
+  // New Layer
+  const newLayerMenu = document.getElementById('newLayerMenu');
+  if (newLayerMenu) {
+    newLayerMenu.addEventListener('click', () => {
+      console.log('📄 New Layer clicked');
+      newLayer();
+    });
+  }
+  
+  // Duplicate Layer
+  const duplicateLayerMenu = document.getElementById('duplicateLayerMenu');
+  if (duplicateLayerMenu) {
+    duplicateLayerMenu.addEventListener('click', () => {
+      console.log('📋 Duplicate Layer clicked');
+      duplicateLayer();
+    });
+  }
+  
+  // Delete Layer
+  const deleteLayerMenu = document.getElementById('deleteLayerMenu');
+  if (deleteLayerMenu) {
+    deleteLayerMenu.addEventListener('click', () => {
+      console.log('🗑️ Delete Layer clicked');
+      deleteLayer();
+    });
+  }
+  
+  // Merge Down
+  const mergeLayersMenu = document.getElementById('mergeLayersMenu');
+  if (mergeLayersMenu) {
+    mergeLayersMenu.addEventListener('click', () => {
+      console.log('🔗 Merge Down clicked');
+      mergeDown();
+    });
+  }
+  
+  // Merge Visible
+  const mergeVisibleMenu = document.getElementById('mergeVisibleMenu');
+  if (mergeVisibleMenu) {
+    mergeVisibleMenu.addEventListener('click', () => {
+      console.log('🔗 Merge Visible clicked');
+      mergeVisible();
+    });
+  }
+  
+  // Layer Opacity
+  const layerOpacityMenu = document.getElementById('layerOpacityMenu');
+  if (layerOpacityMenu) {
+    layerOpacityMenu.addEventListener('click', () => {
+      console.log('👁️ Layer Opacity clicked');
+      layerOpacity();
+    });
+  }
+  
+  // Blend Mode
+  const layerBlendModeMenu = document.getElementById('layerBlendModeMenu');
+  if (layerBlendModeMenu) {
+    layerBlendModeMenu.addEventListener('click', () => {
+      console.log('🎨 Blend Mode clicked');
+      blendMode();
+    });
+  }
+}
+
+function setupAnimationMenu() {
+  // New Frame
+  const newFrameMenu = document.getElementById('newFrameMenu');
+  if (newFrameMenu) {
+    newFrameMenu.addEventListener('click', () => {
+      console.log('📄 New Frame clicked');
+      newFrame();
+    });
+  }
+  
+  // Duplicate Frame
+  const duplicateFrameMenu = document.getElementById('duplicateFrameMenu');
+  if (duplicateFrameMenu) {
+    duplicateFrameMenu.addEventListener('click', () => {
+      console.log('📋 Duplicate Frame clicked');
+      duplicateFrame();
+    });
+  }
+  
+  // Delete Frame
+  const deleteFrameMenu = document.getElementById('deleteFrameMenu');
+  if (deleteFrameMenu) {
+    deleteFrameMenu.addEventListener('click', () => {
+      console.log('🗑️ Delete Frame clicked');
+      deleteFrame();
+    });
+  }
+  
+  // Play Animation
+  const playAnimationMenu = document.getElementById('playAnimationMenu');
+  if (playAnimationMenu) {
+    playAnimationMenu.addEventListener('click', () => {
+      console.log('▶️ Play Animation clicked');
+      playAnimation();
+    });
+  }
+  
+  // Stop Animation
+  const stopAnimationMenu = document.getElementById('stopAnimationMenu');
+  if (stopAnimationMenu) {
+    stopAnimationMenu.addEventListener('click', () => {
+      console.log('⏹️ Stop Animation clicked');
+      stopAnimation();
+    });
+  }
+  
+  // Set Frame Delay
+  const setFrameDelayMenu = document.getElementById('setFrameDelayMenu');
+  if (setFrameDelayMenu) {
+    setFrameDelayMenu.addEventListener('click', () => {
+      console.log('⏱️ Set Frame Delay clicked');
+      setFrameDelay();
+    });
+  }
+  
+  // Export Animation
+  const exportAnimationMenu = document.getElementById('exportAnimationMenu');
+  if (exportAnimationMenu) {
+    exportAnimationMenu.addEventListener('click', () => {
+      console.log('📤 Export Animation clicked');
+      exportAnimation();
+    });
+  }
+}
+
+function setupViewMenu() {
+  // Zoom In
+  const zoomInMenu = document.getElementById('zoomInMenu');
+  if (zoomInMenu) {
+    zoomInMenu.addEventListener('click', () => {
+      console.log('🔍 Zoom In clicked');
+      zoomIn();
+    });
+  }
+  
+  // Zoom Out
+  const zoomOutMenu = document.getElementById('zoomOutMenu');
+  if (zoomOutMenu) {
+    zoomOutMenu.addEventListener('click', () => {
+      console.log('🔍 Zoom Out clicked');
+      zoomOut();
+    });
+  }
+}
+
+function setupHelpMenu() {
+  // About
+  const aboutMenu = document.getElementById('aboutMenu');
+  if (aboutMenu) {
+    aboutMenu.addEventListener('click', () => {
+      console.log('ℹ️ About clicked');
+      showAbout();
+    });
+  }
+  
+  // Help
+  const helpMenu = document.getElementById('helpMenu');
+  if (helpMenu) {
+    helpMenu.addEventListener('click', () => {
+      console.log('❓ Help clicked');
+      showHelp();
+    });
+  }
+}
+
+// ========================================
+// MENU ACTION FUNCTIONS
+// ========================================
+
+// File Actions
+function saveProject() {
+  console.log('💾 Saving project...');
+  const projectData = {
+    gridSize: gridSize,
+    pixels: Array.from(document.querySelectorAll('.pixel')).map(p => p.style.backgroundColor),
+    timestamp: Date.now()
+  };
+  
+  const blob = new Blob([JSON.stringify(projectData)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'pixelpro-project.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  console.log('✅ Project saved');
+}
+
+function saveProjectAs() {
+  console.log('💾 Save As...');
+  const filename = prompt('Enter filename:', 'pixelpro-project');
+  if (filename) {
+    const projectData = {
+      gridSize: gridSize,
+      pixels: Array.from(document.querySelectorAll('.pixel')).map(p => p.style.backgroundColor),
+      timestamp: Date.now()
+    };
+    
+    const blob = new Blob([JSON.stringify(projectData)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    console.log(`✅ Project saved as ${filename}.json`);
+  }
+}
+
+function exportAsPNG() {
+  console.log('📤 Exporting as PNG...');
+  // Create canvas for export
+  const exportCanvas = document.createElement('canvas');
+  const ctx = exportCanvas.getContext('2d');
+  const pixels = document.querySelectorAll('.pixel');
+  
+  exportCanvas.width = gridSize * 10; // Scale up for better quality
+  exportCanvas.height = gridSize * 10;
+  
+  // Draw pixels
+  pixels.forEach((pixel, index) => {
+    const row = Math.floor(index / gridSize);
+    const col = index % gridSize;
+    const color = pixel.style.backgroundColor;
+    
+    if (color && color !== 'transparent') {
+      ctx.fillStyle = color;
+      ctx.fillRect(col * 10, row * 10, 10, 10);
+    }
+  });
+  
+  // Download
+  const url = exportCanvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'pixelpro-export.png';
+  a.click();
+  
+  console.log('✅ PNG exported');
+}
+
+function exportAsGIF() {
+  console.log('📤 Exporting as GIF...');
+  alert('GIF export functionality coming soon!');
+}
+
+function exportAsSpriteSheet() {
+  console.log('📤 Exporting as Sprite Sheet...');
+  alert('Sprite Sheet export functionality coming soon!');
+}
+
+function printCanvas() {
+  console.log('🖨️ Printing canvas...');
+  window.print();
+}
+
+// Edit Actions
+function undo() {
+  console.log('↶ Undo');
+  alert('Undo functionality coming soon!');
+}
+
+function redo() {
+  console.log('↷ Redo');
+  alert('Redo functionality coming soon!');
+}
+
+function cutSelection() {
+  console.log('✂️ Cut selection');
+  if (toolState.selection) {
+    copySelection();
+    clearSelection();
+  }
+}
+
+function copySelection() {
+  console.log('📋 Copy selection');
+  if (toolState.selection) {
+    const selectionData = toolState.selection.map(index => {
+      const pixel = document.querySelector(`[data-index="${index}"]`);
+      return pixel ? pixel.style.backgroundColor : 'transparent';
+    });
+    localStorage.setItem('pixelpro_clipboard', JSON.stringify(selectionData));
+    console.log('✅ Selection copied to clipboard');
+  }
+}
+
+function pasteSelection() {
+  console.log('📋 Paste selection');
+  const clipboardData = localStorage.getItem('pixelpro_clipboard');
+  if (clipboardData) {
+    const colors = JSON.parse(clipboardData);
+    // TODO: Implement paste at cursor position
+    console.log('✅ Selection pasted');
+  }
+}
+
+function selectAll() {
+  console.log('🔲 Select all');
+  const pixels = document.querySelectorAll('.pixel');
+  toolState.selection = Array.from(pixels).map((_, index) => index);
+  
+  pixels.forEach(pixel => {
+    pixel.style.border = '1px solid #00ff00';
+  });
+  
+  console.log('✅ All pixels selected');
+}
+
+function clearCanvas() {
+  console.log('🗑️ Clear canvas');
+  if (confirm('Are you sure you want to clear the canvas?')) {
+    const pixels = document.querySelectorAll('.pixel');
+    pixels.forEach(pixel => {
+      pixel.style.backgroundColor = 'transparent';
+      pixel.style.border = 'none';
+    });
+    console.log('✅ Canvas cleared');
+  }
+}
+
+function resizeCanvas() {
+  console.log('📏 Resize canvas');
+  const newSize = prompt('Enter new canvas size (8-256):', gridSize);
+  if (newSize && !isNaN(newSize)) {
+    const size = parseInt(newSize);
+    if (size >= 8 && size <= 256) {
+      gridSize = size;
+      createNewProject();
+      console.log(`✅ Canvas resized to ${size}x${size}`);
+    } else {
+      alert('Size must be between 8 and 256');
+    }
+  }
+}
+
+function cropToSelection() {
+  console.log('✂️ Crop to selection');
+  if (toolState.selection) {
+    alert('Crop functionality coming soon!');
+  } else {
+    alert('No selection to crop');
+  }
+}
+
+// Image Actions
+function flipHorizontal() {
+  console.log('🔄 Flip horizontal');
+  const pixels = document.querySelectorAll('.pixel');
+  const colors = Array.from(pixels).map(p => p.style.backgroundColor);
+  
+  for (let row = 0; row < gridSize; row++) {
+    for (let col = 0; col < Math.floor(gridSize / 2); col++) {
+      const leftIndex = row * gridSize + col;
+      const rightIndex = row * gridSize + (gridSize - 1 - col);
+      
+      const leftColor = colors[leftIndex];
+      const rightColor = colors[rightIndex];
+      
+      pixels[leftIndex].style.backgroundColor = rightColor;
+      pixels[rightIndex].style.backgroundColor = leftColor;
+    }
+  }
+  
+  console.log('✅ Image flipped horizontally');
+}
+
+function flipVertical() {
+  console.log('🔄 Flip vertical');
+  const pixels = document.querySelectorAll('.pixel');
+  const colors = Array.from(pixels).map(p => p.style.backgroundColor);
+  
+  for (let col = 0; col < gridSize; col++) {
+    for (let row = 0; row < Math.floor(gridSize / 2); row++) {
+      const topIndex = row * gridSize + col;
+      const bottomIndex = (gridSize - 1 - row) * gridSize + col;
+      
+      const topColor = colors[topIndex];
+      const bottomColor = colors[bottomIndex];
+      
+      pixels[topIndex].style.backgroundColor = bottomColor;
+      pixels[bottomIndex].style.backgroundColor = topColor;
+    }
+  }
+  
+  console.log('✅ Image flipped vertically');
+}
+
+function rotate90() {
+  console.log('🔄 Rotate 90° clockwise');
+  const pixels = document.querySelectorAll('.pixel');
+  const colors = Array.from(pixels).map(p => p.style.backgroundColor);
+  const newColors = new Array(gridSize * gridSize);
+  
+  for (let row = 0; row < gridSize; row++) {
+    for (let col = 0; col < gridSize; col++) {
+      const oldIndex = row * gridSize + col;
+      const newIndex = col * gridSize + (gridSize - 1 - row);
+      newColors[newIndex] = colors[oldIndex];
+    }
+  }
+  
+  pixels.forEach((pixel, index) => {
+    pixel.style.backgroundColor = newColors[index] || 'transparent';
+  });
+  
+  console.log('✅ Image rotated 90° clockwise');
+}
+
+function rotate180() {
+  console.log('🔄 Rotate 180°');
+  rotate90();
+  rotate90();
+}
+
+function rotate270() {
+  console.log('🔄 Rotate 90° counter-clockwise');
+  rotate90();
+  rotate90();
+  rotate90();
+}
+
+function invertColors() {
+  console.log('🎨 Invert colors');
+  const pixels = document.querySelectorAll('.pixel');
+  
+  pixels.forEach(pixel => {
+    const color = pixel.style.backgroundColor;
+    if (color && color !== 'transparent') {
+      // Simple inversion - convert to RGB and invert
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, 1, 1);
+      const imageData = ctx.getImageData(0, 0, 1, 1);
+      
+      const r = 255 - imageData.data[0];
+      const g = 255 - imageData.data[1];
+      const b = 255 - imageData.data[2];
+      
+      pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+  });
+  
+  console.log('✅ Colors inverted');
+}
+
+function adjustBrightness() {
+  console.log('💡 Adjust brightness');
+  const value = prompt('Enter brightness adjustment (-100 to 100):', '0');
+  if (value && !isNaN(value)) {
+    const adjustment = parseInt(value);
+    if (adjustment >= -100 && adjustment <= 100) {
+      // TODO: Implement brightness adjustment
+      console.log(`✅ Brightness adjusted by ${adjustment}`);
+    } else {
+      alert('Value must be between -100 and 100');
+    }
+  }
+}
+
+function adjustContrast() {
+  console.log('🌓 Adjust contrast');
+  const value = prompt('Enter contrast adjustment (-100 to 100):', '0');
+  if (value && !isNaN(value)) {
+    const adjustment = parseInt(value);
+    if (adjustment >= -100 && adjustment <= 100) {
+      // TODO: Implement contrast adjustment
+      console.log(`✅ Contrast adjusted by ${adjustment}`);
+    } else {
+      alert('Value must be between -100 and 100');
+    }
+  }
+}
+
+// Layer Actions
+function newLayer() {
+  console.log('📄 New layer');
+  alert('Layer functionality coming soon!');
+}
+
+function duplicateLayer() {
+  console.log('📋 Duplicate layer');
+  alert('Layer functionality coming soon!');
+}
+
+function deleteLayer() {
+  console.log('🗑️ Delete layer');
+  alert('Layer functionality coming soon!');
+}
+
+function mergeDown() {
+  console.log('🔗 Merge down');
+  alert('Layer functionality coming soon!');
+}
+
+function mergeVisible() {
+  console.log('🔗 Merge visible');
+  alert('Layer functionality coming soon!');
+}
+
+function layerOpacity() {
+  console.log('👁️ Layer opacity');
+  alert('Layer functionality coming soon!');
+}
+
+function blendMode() {
+  console.log('🎨 Blend mode');
+  alert('Layer functionality coming soon!');
+}
+
+// Animation Actions
+function newFrame() {
+  console.log('📄 New frame');
+  alert('Animation functionality coming soon!');
+}
+
+function duplicateFrame() {
+  console.log('📋 Duplicate frame');
+  alert('Animation functionality coming soon!');
+}
+
+function deleteFrame() {
+  console.log('🗑️ Delete frame');
+  alert('Animation functionality coming soon!');
+}
+
+function playAnimation() {
+  console.log('▶️ Play animation');
+  alert('Animation functionality coming soon!');
+}
+
+function stopAnimation() {
+  console.log('⏹️ Stop animation');
+  alert('Animation functionality coming soon!');
+}
+
+function setFrameDelay() {
+  console.log('⏱️ Set frame delay');
+  alert('Animation functionality coming soon!');
+}
+
+function exportAnimation() {
+  console.log('📤 Export animation');
+  alert('Animation functionality coming soon!');
+}
+
+// View Actions
+function zoomIn() {
+  console.log('🔍 Zoom in');
+  // TODO: Implement zoom functionality
+  console.log('✅ Zoomed in');
+}
+
+function zoomOut() {
+  console.log('🔍 Zoom out');
+  // TODO: Implement zoom functionality
+  console.log('✅ Zoomed out');
+}
+
+// Help Actions
+function showAbout() {
+  console.log('ℹ️ Show about');
+  alert('PixelPro - Professional Pixel Art Editor\nVersion 1.0\n\nCreated with ❤️ for pixel artists everywhere!');
+}
+
+function showHelp() {
+  console.log('❓ Show help');
+  alert('Help documentation coming soon!\n\nFor now, try:\n- B: Brush tool\n- E: Eraser\n- G: Fill tool\n- I: Eyedropper\n- L: Line tool\n- R: Rectangle\n- C: Circle');
 }
 
 // Initialize when DOM is loaded

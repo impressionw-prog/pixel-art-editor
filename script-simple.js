@@ -202,6 +202,108 @@ function init() {
   console.log('✅ PixelPro initialized successfully');
 }
 
+// ========================================
+// CANVAS SETTINGS MODAL HANDLERS
+// ========================================
+
+function setupCanvasSettingsModal() {
+  console.log('🎨 Setting up canvas settings modal...');
+  
+  // Create Project button
+  const createCanvasBtn = document.getElementById('createCanvas');
+  if (createCanvasBtn) {
+    createCanvasBtn.addEventListener('click', () => {
+      console.log('🎨 Create Project button clicked!');
+      try {
+        // Get canvas size from inputs
+        const widthInput = document.getElementById('canvasWidth');
+        const heightInput = document.getElementById('canvasHeight');
+        
+        if (widthInput && heightInput) {
+          gridSize = parseInt(widthInput.value) || 16;
+          console.log(`✅ Creating project with size: ${gridSize}x${gridSize}`);
+          
+          // Hide modal
+          const modal = document.getElementById('canvasSettingsModal');
+          if (modal) modal.classList.add('hidden');
+          
+          // Hide start screen and show work panel
+          const startScreen = document.getElementById('startScreen');
+          const workPanel = document.getElementById('workPanel');
+          if (startScreen) startScreen.classList.add('hidden');
+          if (workPanel) workPanel.classList.remove('hidden');
+          document.body.classList.remove('start-screen-active');
+          
+          // Create the project
+          createNewProject();
+          
+          console.log('✅ Project created successfully!');
+        } else {
+          console.error('❌ Canvas size inputs not found');
+          alert('Canvas size inputs not found. Please refresh the page.');
+        }
+      } catch (error) {
+        console.error('❌ Error creating project:', error);
+        alert('Error creating project. Please try again.');
+      }
+    });
+    console.log('✅ Create Project button handler added');
+  } else {
+    console.error('❌ Create Project button not found');
+  }
+  
+  // Cancel button
+  const cancelBtn = document.getElementById('cancelCanvasSettings');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      console.log('❌ Cancel button clicked!');
+      const modal = document.getElementById('canvasSettingsModal');
+      if (modal) modal.classList.add('hidden');
+    });
+    console.log('✅ Cancel button handler added');
+  } else {
+    console.error('❌ Cancel button not found');
+  }
+  
+  // Canvas preset buttons
+  const presetButtons = document.querySelectorAll('.canvas-preset-btn');
+  presetButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      console.log('📏 Canvas preset clicked:', btn.dataset.size);
+      const size = parseInt(btn.dataset.size);
+      if (size) {
+        const widthInput = document.getElementById('canvasWidth');
+        const heightInput = document.getElementById('canvasHeight');
+        if (widthInput && heightInput) {
+          widthInput.value = size;
+          heightInput.value = size;
+          console.log(`✅ Canvas size set to ${size}x${size}`);
+        }
+      }
+    });
+  });
+  
+  console.log('✅ Canvas settings modal setup complete');
+}
+
+// ========================================
+// INITIALIZATION
+// ========================================
+
+function init() {
+  console.log('🎨 Initializing PixelPro...');
+  
+  // Show start screen by default
+  if (startScreen) startScreen.classList.remove('hidden');
+  if (workPanel) workPanel.classList.add('hidden');
+  document.body.classList.add('start-screen-active');
+  
+  // Setup canvas settings modal
+  setupCanvasSettingsModal();
+  
+  console.log('✅ PixelPro initialized successfully');
+}
+
 // Initialize when DOM is loaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);

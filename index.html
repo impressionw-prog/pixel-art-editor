@@ -993,8 +993,9 @@
   
   <!-- Main Photoshop-style Layout -->
   <div class="flex w-full min-h-screen overflow-hidden" style="height: calc(100vh - 7rem);">
-    <!-- Toolbar (vertical, left) -->
-    <nav id="sidebar" class="toolbar flex flex-col items-center py-2 flex-shrink-0 z-20">
+    <!-- Toolbar (two columns, left) -->
+    <nav id="sidebar" class="toolbar grid grid-cols-2 gap-1 p-2 flex-shrink-0 z-20 w-24">
+      <!-- Drawing Tools -->
       <button id="toolDraw" class="toolbar-btn" title="Pencil (B)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1020,8 +1021,6 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
       <button id="toolFill" class="toolbar-btn" title="Fill (G)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1030,8 +1029,8 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      
+      <!-- Shape Tools -->
       <button id="toolLine" class="toolbar-btn" title="Line (L)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1053,8 +1052,6 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
       <button id="toolEyedropper" class="toolbar-btn" title="Eyedropper (I)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1065,6 +1062,8 @@
           </svg>
         </span>
       </button>
+      
+      <!-- Utility Tools -->
       <button id="toolMove" class="toolbar-btn" title="Move (V)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1076,8 +1075,6 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
       <button id="toolText" class="toolbar-btn" title="Text (T)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1104,9 +1101,8 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
-      <!-- Pixel Art Specific Tools -->
+      
+      <!-- Pixel Art Tools -->
       <button id="toolDither" class="toolbar-btn" title="Dithering Tool (D)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1146,8 +1142,8 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      
+      <!-- Advanced Tools -->
       <button id="toolGradient" class="toolbar-btn" title="Gradient Tool (G)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1184,8 +1180,6 @@
           </svg>
         </span>
       </button>
-      <!-- Tool Group Separator -->
-      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
       <button id="toolSelection" class="toolbar-btn" title="Selection Tool (V)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1197,6 +1191,8 @@
           </svg>
         </span>
       </button>
+      
+      <!-- Selection Tools -->
       <button id="toolMagicWand" class="toolbar-btn" title="Magic Wand (W)">
         <span class="tool-ic">
           <svg viewBox="0 0 24 24">
@@ -1727,6 +1723,6 @@
     </div>
   </div>
   <input type="file" id="openFileInput" class="hidden" accept=".json">
-    <script src="script-simple.js?v=32"></script>
+    <script src="script-simple.js?v=33"></script>
 </body>
 </html>

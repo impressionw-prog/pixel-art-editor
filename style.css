@@ -193,18 +193,18 @@ body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #23272E;
 }
 
 .toolbar {
-  min-width: 52px;
-  width: 52px;
+  min-width: 96px;
+  width: 96px;
   background: #1B1B1B;
   border-right: 1px solid #2A2A2A;
   box-shadow: inset -1px 0 0 #2A2A2A;
 }
 .toolbar-btn {
   padding: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 0;
-  margin: 1px 4px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin: 1px;
   background: none;
   border: none;
   color: #CCCCCC;

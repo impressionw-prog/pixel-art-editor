@@ -174,8 +174,9 @@ function setupCanvas() {
   
   for (let i = 0; i < gridSize * gridSize; i++) {
     const pixel = document.createElement('div');
-    pixel.className = 'pixel';
+    pixel.className = 'pixel transparent';
     pixel.style.backgroundColor = 'transparent';
+    pixel.style.setProperty('--pixel-color', 'transparent');
     pixel.dataset.index = i;
     
     // Mouse event handlers
@@ -304,12 +305,22 @@ function handleGlobalMouseUp() {
 // ========================================
 
 function drawPixel(pixel) {
-  pixel.style.backgroundColor = currentColor;
+  if (currentColor === 'transparent' || currentColor === null) {
+    pixel.style.backgroundColor = 'transparent';
+    pixel.classList.add('transparent');
+    pixel.style.setProperty('--pixel-color', 'transparent');
+  } else {
+    pixel.style.backgroundColor = currentColor;
+    pixel.classList.remove('transparent');
+    pixel.style.setProperty('--pixel-color', currentColor);
+  }
   console.log(`✅ Drew pixel ${pixel.dataset.index} with color ${currentColor}`);
 }
 
 function erasePixel(pixel) {
   pixel.style.backgroundColor = 'transparent';
+  pixel.classList.add('transparent');
+  pixel.style.setProperty('--pixel-color', 'transparent');
   console.log(`✅ Erased pixel ${pixel.dataset.index}`);
 }
 
@@ -331,7 +342,15 @@ function fillArea(pixel) {
     const currentPixel = pixels[index];
     if (currentPixel.style.backgroundColor !== targetColor) continue;
     
-    currentPixel.style.backgroundColor = fillColor;
+    if (fillColor === 'transparent' || fillColor === null) {
+      currentPixel.style.backgroundColor = 'transparent';
+      currentPixel.classList.add('transparent');
+      currentPixel.style.setProperty('--pixel-color', 'transparent');
+    } else {
+      currentPixel.style.backgroundColor = fillColor;
+      currentPixel.classList.remove('transparent');
+      currentPixel.style.setProperty('--pixel-color', fillColor);
+    }
     
     // Add neighbors
     const row = Math.floor(index / gridSize);
@@ -389,7 +408,15 @@ function finishLine(pixel) {
   line.forEach(index => {
     const linePixel = document.querySelector(`[data-index="${index}"]`);
     if (linePixel) {
-      linePixel.style.backgroundColor = currentColor;
+      if (currentColor === 'transparent' || currentColor === null) {
+        linePixel.style.backgroundColor = 'transparent';
+        linePixel.classList.add('transparent');
+        linePixel.style.setProperty('--pixel-color', 'transparent');
+      } else {
+        linePixel.style.backgroundColor = currentColor;
+        linePixel.classList.remove('transparent');
+        linePixel.style.setProperty('--pixel-color', currentColor);
+      }
     }
   });
   
@@ -458,7 +485,15 @@ function finishRectangle(pixel) {
   rect.forEach(index => {
     const rectPixel = document.querySelector(`[data-index="${index}"]`);
     if (rectPixel) {
-      rectPixel.style.backgroundColor = currentColor;
+      if (currentColor === 'transparent' || currentColor === null) {
+        rectPixel.style.backgroundColor = 'transparent';
+        rectPixel.classList.add('transparent');
+        rectPixel.style.setProperty('--pixel-color', 'transparent');
+      } else {
+        rectPixel.style.backgroundColor = currentColor;
+        rectPixel.classList.remove('transparent');
+        rectPixel.style.setProperty('--pixel-color', currentColor);
+      }
     }
   });
   
@@ -515,7 +550,15 @@ function finishCircle(pixel) {
   circle.forEach(index => {
     const circlePixel = document.querySelector(`[data-index="${index}"]`);
     if (circlePixel) {
-      circlePixel.style.backgroundColor = currentColor;
+      if (currentColor === 'transparent' || currentColor === null) {
+        circlePixel.style.backgroundColor = 'transparent';
+        circlePixel.classList.add('transparent');
+        circlePixel.style.setProperty('--pixel-color', 'transparent');
+      } else {
+        circlePixel.style.backgroundColor = currentColor;
+        circlePixel.classList.remove('transparent');
+        circlePixel.style.setProperty('--pixel-color', currentColor);
+      }
     }
   });
   
@@ -772,6 +815,9 @@ function init() {
   
   // Setup menu functionality
   setupMenuBar();
+  
+  // Setup color picker
+  setupColorPicker();
   
   console.log('✅ PixelPro initialized successfully');
 }
@@ -1608,6 +1654,8 @@ function clearCanvas() {
     const pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
       pixel.style.backgroundColor = 'transparent';
+      pixel.classList.add('transparent');
+      pixel.style.setProperty('--pixel-color', 'transparent');
       pixel.style.border = 'none';
     });
     console.log('✅ Canvas cleared');
@@ -1862,6 +1910,68 @@ function showAbout() {
 function showHelp() {
   console.log('❓ Show help');
   alert('Help documentation coming soon!\n\nFor now, try:\n- B: Brush tool\n- E: Eraser\n- G: Fill tool\n- I: Eyedropper\n- L: Line tool\n- R: Rectangle\n- C: Circle');
+}
+
+// ========================================
+// COLOR PICKER FUNCTIONALITY
+// ========================================
+
+function setupColorPicker() {
+  console.log('🎨 Setting up color picker...');
+  
+  if (colorPicker) {
+    // Set initial color
+    colorPicker.value = currentColor;
+    
+    // Listen for color changes
+    colorPicker.addEventListener('input', (e) => {
+      currentColor = e.target.value;
+      console.log(`🎨 Color changed to: ${currentColor}`);
+    });
+    
+    // Add transparent color option
+    addTransparentColorOption();
+    
+    console.log('✅ Color picker setup complete');
+  } else {
+    console.error('❌ Color picker not found');
+  }
+}
+
+function addTransparentColorOption() {
+  // Create a transparent color button
+  const transparentBtn = document.createElement('button');
+  transparentBtn.innerHTML = '🫥';
+  transparentBtn.title = 'Transparent Color';
+  transparentBtn.className = 'transparent-color-btn';
+  transparentBtn.style.cssText = `
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(45deg, #2a2a2a 25%, transparent 25%), 
+                linear-gradient(-45deg, #2a2a2a 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #2a2a2a 75%), 
+                linear-gradient(-45deg, transparent 75%, #2a2a2a 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+    border: 1px solid #2A2A2A;
+    border-radius: 0;
+    cursor: pointer;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  `;
+  
+  transparentBtn.addEventListener('click', () => {
+    currentColor = 'transparent';
+    console.log('🎨 Transparent color selected');
+  });
+  
+  // Insert after color picker
+  if (colorPicker && colorPicker.parentNode) {
+    colorPicker.parentNode.insertBefore(transparentBtn, colorPicker.nextSibling);
+  }
 }
 
 // Initialize when DOM is loaded

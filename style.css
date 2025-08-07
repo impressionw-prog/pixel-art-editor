@@ -193,18 +193,18 @@ body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #23272E;
 }
 
 .toolbar {
-  min-width: 96px;
-  width: 96px;
+  min-width: 88px;
+  width: 88px;
   background: #1B1B1B;
   border-right: 1px solid #2A2A2A;
   box-shadow: inset -1px 0 0 #2A2A2A;
 }
 .toolbar-btn {
   padding: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  margin: 1px;
+  width: 36px;
+  height: 36px;
+  border-radius: 3px;
+  margin: 0.5px;
   background: none;
   border: none;
   color: #CCCCCC;
@@ -231,13 +231,13 @@ body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #23272E;
   display: flex; 
   align-items: center; 
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .tool-ic svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   stroke-width: 1.5;
   fill: none;
   stroke: currentColor;

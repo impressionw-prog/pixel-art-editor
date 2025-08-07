@@ -1035,78 +1035,121 @@ function setupAIOptions() {
 function setupStartScreen() {
   console.log('🔧 Setting up start screen...');
   
-  // New File button (proper ID)
-  const startNewFileBtn = document.getElementById('startNewFile');
-  console.log('📄 New File button:', startNewFileBtn);
-  if (startNewFileBtn) {
-    startNewFileBtn.addEventListener('click', () => {
-      console.log('📄 Opening canvas settings...');
-      showCanvasSettingsModal();
-    });
-    console.log('✅ New File button event listener added');
-  } else {
-    console.error('❌ New File button not found!');
+  try {
+    // New File button (proper ID)
+    const startNewFileBtn = document.getElementById('startNewFile');
+    console.log('📄 New File button:', startNewFileBtn);
+    if (startNewFileBtn) {
+      startNewFileBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('📄 Opening canvas settings...');
+        try {
+          showCanvasSettingsModal();
+        } catch (error) {
+          console.error('❌ Error opening canvas settings:', error);
+          alert('Error opening canvas settings. Please try again.');
+        }
+      });
+      console.log('✅ New File button event listener added');
+    } else {
+      console.error('❌ New File button not found!');
+    }
+    
+    // Open File button
+    const startOpenFileBtn = document.getElementById('startOpenFile');
+    console.log('📂 Open File button:', startOpenFileBtn);
+    if (startOpenFileBtn) {
+      startOpenFileBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('📂 Opening file...');
+        try {
+          openFileDialog();
+        } catch (error) {
+          console.error('❌ Error opening file dialog:', error);
+          alert('Error opening file dialog. Please try again.');
+        }
+      });
+      console.log('✅ Open File button event listener added');
+    } else {
+      console.error('❌ Open File button not found!');
+    }
+    
+    // Demo button
+    const startDemoBtn = document.getElementById('startDemo');
+    console.log('🎮 Demo button:', startDemoBtn);
+    if (startDemoBtn) {
+      startDemoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('🎮 Starting demo...');
+        try {
+          hideStartScreen();
+          createDemoProject();
+        } catch (error) {
+          console.error('❌ Error starting demo:', error);
+          alert('Error starting demo. Please try again.');
+        }
+      });
+      console.log('✅ Demo button event listener added');
+    } else {
+      console.error('❌ Demo button not found!');
+    }
+    
+    // Tutorial button
+    const startTutorialBtn = document.getElementById('startTutorial');
+    console.log('🎓 Tutorial button:', startTutorialBtn);
+    if (startTutorialBtn) {
+      startTutorialBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('🎓 Starting tutorial...');
+        try {
+          hideStartScreen();
+          createTutorialProject();
+        } catch (error) {
+          console.error('❌ Error starting tutorial:', error);
+          alert('Error starting tutorial. Please try again.');
+        }
+      });
+      console.log('✅ Tutorial button event listener added');
+    } else {
+      console.error('❌ Tutorial button not found!');
+    }
+    
+    // Clear recent files button
+    const clearRecentBtn = document.getElementById('clearRecent');
+    console.log('🗑️ Clear Recent button:', clearRecentBtn);
+    if (clearRecentBtn) {
+      clearRecentBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('🗑️ Clearing recent files...');
+        try {
+          if (confirm('Clear all recent files? This cannot be undone.')) {
+            clearRecentFiles();
+          }
+        } catch (error) {
+          console.error('❌ Error clearing recent files:', error);
+          alert('Error clearing recent files. Please try again.');
+        }
+      });
+      console.log('✅ Clear Recent button event listener added');
+    } else {
+      console.error('❌ Clear Recent button not found!');
+    }
+    
+    // Load and render recent files
+    try {
+      renderRecentFiles();
+    } catch (error) {
+      console.error('❌ Error rendering recent files:', error);
+    }
+    
+    // Show start screen by default
+    showStartScreen();
+    
+    console.log('✅ Start screen setup complete!');
+    
+  } catch (error) {
+    console.error('❌ Error in setupStartScreen:', error);
   }
-  
-  // Open File button
-  const startOpenFileBtn = document.getElementById('startOpenFile');
-  console.log('📂 Open File button:', startOpenFileBtn);
-  if (startOpenFileBtn) {
-    startOpenFileBtn.addEventListener('click', () => {
-      console.log('📂 Opening file...');
-      openFileDialog();
-    });
-    console.log('✅ Open File button event listener added');
-  } else {
-    console.error('❌ Open File button not found!');
-  }
-  
-  // Demo button
-  const startDemoBtn = document.getElementById('startDemo');
-  if (startDemoBtn) {
-    startDemoBtn.addEventListener('click', () => {
-      console.log('🎮 Starting demo...');
-      hideStartScreen();
-      createDemoProject();
-    });
-  }
-  
-  // Tutorial button
-  const startTutorialBtn = document.getElementById('startTutorial');
-  if (startTutorialBtn) {
-    startTutorialBtn.addEventListener('click', () => {
-      console.log('🎓 Starting tutorial...');
-      hideStartScreen();
-      createTutorialProject();
-    });
-  }
-  
-  // Skip start button
-  const skipBtn = document.getElementById('skipStart');
-  if (skipBtn) {
-    skipBtn.addEventListener('click', () => {
-      console.log('⏭️ Skipping start screen...');
-      hideStartScreen();
-      createNewProject();
-    });
-  }
-  
-  // Clear recent files button
-  const clearRecentBtn = document.getElementById('clearRecent');
-  if (clearRecentBtn) {
-    clearRecentBtn.addEventListener('click', () => {
-      console.log('🗑️ Clearing recent files...');
-      if (confirm('Clear all recent files? This cannot be undone.')) {
-        clearRecentFiles();
-      }
-    });
-  }
-  
-  // Load and render recent files
-  renderRecentFiles();
-  
-  // Show start screen by default
-  showStartScreen();
 }
 
 // Show/hide start screen
@@ -1129,16 +1172,26 @@ function showStartScreen() {
 // Create new project
 function showCanvasSettingsModal() {
   console.log('🎨 Showing canvas settings modal...');
-  const modal = document.getElementById('canvasSettingsModal');
-  console.log('🎨 Canvas settings modal:', modal);
-  if (modal) {
-    modal.classList.remove('hidden');
-    console.log('✅ Canvas settings modal shown');
-    
-    // Set up canvas settings controls
-    setupCanvasSettingsControls();
-  } else {
-    console.error('❌ Canvas settings modal not found!');
+  try {
+    const modal = document.getElementById('canvasSettingsModal');
+    console.log('🎨 Canvas settings modal:', modal);
+    if (modal) {
+      modal.classList.remove('hidden');
+      console.log('✅ Canvas settings modal shown');
+      
+      // Set up canvas settings controls
+      try {
+        setupCanvasSettingsControls();
+      } catch (error) {
+        console.error('❌ Error setting up canvas settings controls:', error);
+      }
+    } else {
+      console.error('❌ Canvas settings modal not found!');
+      alert('Canvas settings modal not found. Please refresh the page.');
+    }
+  } catch (error) {
+    console.error('❌ Error showing canvas settings modal:', error);
+    alert('Error opening canvas settings. Please try again.');
   }
 }
 

@@ -6164,6 +6164,7 @@ function setupColorPanel() {
     console.log('🎨 Color panel setup complete!');
   }, 100);
 }
+}
 
 // Test function to verify color picker elements
 function testColorPicker() {

@@ -656,6 +656,263 @@
         </div>
       </div>
       
+      <!-- Fill Tool Options -->
+      <div id="fillOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Mode:</label>
+            <select id="fillMode" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="flood">Flood Fill</option>
+              <option value="pattern">Pattern Fill</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Eyedropper Tool Options -->
+      <div id="eyedropperOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Sample:</label>
+            <select id="eyedropperSample" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="single">Single Pixel</option>
+              <option value="average">3×3 Average</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Move Tool Options -->
+      <div id="moveOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Mode:</label>
+            <select id="moveMode" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="pixel">Pixel by Pixel</option>
+              <option value="area">Area Move</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Transform Tool Options -->
+      <div id="transformOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Mode:</label>
+            <select id="transformMode" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="rotate">Rotate</option>
+              <option value="scale">Scale</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Dithering Tool Options -->
+      <div id="ditherOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Pattern:</label>
+            <select id="ditherPattern" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="floyd">Floyd-Steinberg</option>
+              <option value="ordered">Ordered</option>
+              <option value="atkinson">Atkinson</option>
+              <option value="bayer">Bayer</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Intensity:</label>
+            <input type="range" id="ditherIntensity" min="0" max="100" value="50" class="range-slider w-20">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Outline Tool Options -->
+      <div id="outlineOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Style:</label>
+            <select id="outlineStyle" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="solid">Solid</option>
+              <option value="dashed">Dashed</option>
+              <option value="dotted">Dotted</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Width:</label>
+            <input type="range" id="outlineWidth" min="1" max="3" value="1" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shading Tool Options -->
+      <div id="shadeOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Type:</label>
+            <select id="shadeType" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="cell">Cell Shading</option>
+              <option value="gradient">Gradient</option>
+              <option value="crosshatch">Crosshatch</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Levels:</label>
+            <input type="range" id="shadeLevels" min="2" max="5" value="3" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mirror Tool Options -->
+      <div id="mirrorOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Axis:</label>
+            <select id="mirrorAxis" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="horizontal">Horizontal</option>
+              <option value="vertical">Vertical</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Live:</label>
+            <input type="checkbox" id="mirrorLive" class="w-4 h-4">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gradient Tool Options -->
+      <div id="gradientOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Type:</label>
+            <select id="gradientType" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="linear">Linear</option>
+              <option value="radial">Radial</option>
+              <option value="angular">Angular</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Steps:</label>
+            <input type="range" id="gradientSteps" min="2" max="16" value="8" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pattern Tool Options -->
+      <div id="patternOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Pattern:</label>
+            <select id="patternType" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="checker">Checker</option>
+              <option value="stripes">Stripes</option>
+              <option value="dots">Dots</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Scale:</label>
+            <input type="range" id="patternScale" min="1" max="8" value="2" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Symmetry Tool Options -->
+      <div id="symmetryOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Type:</label>
+            <select id="symmetryType" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="horizontal">Horizontal</option>
+              <option value="vertical">Vertical</option>
+              <option value="radial">Radial</option>
+              <option value="diagonal">Diagonal</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Lines:</label>
+            <input type="range" id="symmetryLines" min="2" max="8" value="2" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Selection Tool Options -->
+      <div id="selectionOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Mode:</label>
+            <select id="selectionMode" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="rectangular">Rectangular</option>
+              <option value="elliptical">Elliptical</option>
+              <option value="freehand">Freehand</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Feather:</label>
+            <input type="range" id="selectionFeather" min="0" max="5" value="0" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Magic Wand Tool Options -->
+      <div id="magicWandOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Tolerance:</label>
+            <input type="range" id="magicWandTolerance" min="0" max="100" value="32" class="range-slider w-20">
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Contiguous:</label>
+            <input type="checkbox" id="magicWandContiguous" class="w-4 h-4" checked>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Lasso Tool Options -->
+      <div id="lassoOptions" class="tool-options hidden">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Mode:</label>
+            <select id="lassoMode" class="bg-[#1a1a1a] text-gray-300 text-xs border border-[#373737] rounded px-2 py-1">
+              <option value="freehand">Freehand</option>
+              <option value="polygonal">Polygonal</option>
+              <option value="magnetic">Magnetic</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Smooth:</label>
+            <input type="range" id="lassoSmooth" min="0" max="10" value="2" class="range-slider w-16">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Edit Controls Section -->
+      <div id="editOptions" class="tool-options">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-400">Edit:</label>
+            <div class="flex items-center gap-2">
+              <button id="undoBtn" class="app-btn text-yellow-300" title="Undo (Ctrl+Z)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M9 14L4 9l5-5"/><path d="M4 9h11a4 4 0 110 8h-1"/>
+                </svg>
+              </button>
+              <button id="redoBtn" class="app-btn text-green-400" title="Redo (Ctrl+Y)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M15 14l5-5-5-5"/><path d="M20 9H9a4 4 0 100 8h1"/>
+                </svg>
+              </button>
+              <button id="clearBtn" class="app-btn text-red-400" title="Clear Canvas (Ctrl+Shift+C)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
   
@@ -695,26 +952,10 @@
       </div>
     </div>
     
-    <!-- Edit Controls Section -->
+    <!-- Export Controls Section -->
     <div class="flex items-center gap-4">
-      <div class="text-gray-400 text-sm font-medium">Edit:</div>
+      <div class="text-gray-400 text-sm font-medium">Export:</div>
       <div class="flex items-center gap-2">
-        <button id="undoBtn" class="app-btn text-yellow-300" title="Undo (Ctrl+Z)">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M9 14L4 9l5-5"/><path d="M4 9h11a4 4 0 110 8h-1"/>
-          </svg>
-        </button>
-        <button id="redoBtn" class="app-btn text-green-400" title="Redo (Ctrl+Y)">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M15 14l5-5-5-5"/><path d="M20 9H9a4 4 0 100 8h1"/>
-          </svg>
-        </button>
-        <button id="clearBtn" class="app-btn text-red-400" title="Clear Canvas (Ctrl+Shift+C)">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/>
-          </svg>
-        </button>
-        <div class="w-px h-6 bg-[#373737] mx-2"></div>
         <button id="exportBtn" class="app-btn bg-blue-600 hover:bg-blue-700 text-white" title="Export PNG">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
@@ -860,6 +1101,119 @@
           <svg viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <!-- Pixel Art Specific Tools -->
+      <button id="toolDither" class="toolbar-btn" title="Dithering Tool (D)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3h6v6H3z"/>
+            <path d="M15 3h6v6h-6z"/>
+            <path d="M3 15h6v6H3z"/>
+            <path d="M15 15h6v6h-6z"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolOutline" class="toolbar-btn" title="Outline Tool (O)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3h18v18H3z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M6 6h12v12H6z" fill="currentColor"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolShade" class="toolbar-btn" title="Shading Tool (S)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor"/>
+            <path d="M12 4v16" stroke="currentColor" stroke-width="2"/>
+            <path d="M4 12h16" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="3" fill="currentColor"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolMirror" class="toolbar-btn" title="Mirror Tool (M)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2v20"/>
+            <path d="M2 12h20"/>
+            <path d="M6 6l6 6-6 6"/>
+            <path d="M18 6l-6 6 6 6"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <button id="toolGradient" class="toolbar-btn" title="Gradient Tool (G)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M6 6h12" stroke="currentColor" stroke-width="2"/>
+            <path d="M6 12h12" stroke="currentColor" stroke-width="2"/>
+            <path d="M6 18h12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolPattern" class="toolbar-btn" title="Pattern Tool (P)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3h6v6H3z"/>
+            <path d="M15 3h6v6h-6z"/>
+            <path d="M3 15h6v6H3z"/>
+            <path d="M15 15h6v6h-6z"/>
+            <path d="M9 9h6v6H9z"/>
+            <path d="M9 3v6"/>
+            <path d="M15 9h6"/>
+            <path d="M9 15v6"/>
+            <path d="M3 9h6"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolSymmetry" class="toolbar-btn" title="Symmetry Tool (Y)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2v20"/>
+            <path d="M2 12h20"/>
+            <path d="M6 6l6 6-6 6"/>
+            <path d="M18 6l-6 6 6 6"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+          </svg>
+        </span>
+      </button>
+      <!-- Tool Group Separator -->
+      <div class="w-8 h-px bg-[#2A2A2A] my-1"></div>
+      <button id="toolSelection" class="toolbar-btn" title="Selection Tool (V)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3h6v6H3z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15 3h6v6h-6z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M3 15h6v6H3z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15 15h6v6h-6z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M9 9h6v6H9z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolMagicWand" class="toolbar-btn" title="Magic Wand (W)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"/>
+            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="none" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </span>
+      </button>
+      <button id="toolLasso" class="toolbar-btn" title="Lasso Tool (L)">
+        <span class="tool-ic">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3c0 0 3 2 6 2s6-2 6-2"/>
+            <path d="M15 3c0 0 3 2 6 2s6-2 6-2"/>
+            <path d="M3 21c0 0 3-2 6-2s6 2 6 2"/>
+            <path d="M15 21c0 0 3-2 6-2s6 2 6 2"/>
+            <path d="M3 3v18"/>
+            <path d="M21 3v18"/>
           </svg>
         </span>
       </button>
@@ -1630,6 +1984,7 @@
     </div>
   </div>
   <input type="file" id="openFileInput" class="hidden" accept=".json">
-  <script src="script-simple.js?v=10"></script>
+  <script src="script-simple.js?v=18"></script>
+<script src="fix-color-picker.js"></script>
 </body>
 </html>

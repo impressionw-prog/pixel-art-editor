@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # PixelPro Deployment Script
-# This script helps you deploy PixelPro to various hosting platforms
+# This script helps deploy PixelPro to various hosting platforms
 
 echo "🎨 PixelPro Deployment Script"
 echo "=============================="
@@ -12,187 +12,109 @@ if ! command -v git &> /dev/null; then
     exit 1
 fi
 
-# Function to deploy to GitHub Pages
-deploy_github_pages() {
-    echo "🚀 Deploying to GitHub Pages..."
-    
-    # Check if this is already a git repository
-    if [ ! -d ".git" ]; then
-        echo "📁 Initializing Git repository..."
-        git init
-        git add .
-        git commit -m "Initial commit: PixelPro pixel art editor"
-        echo "✅ Git repository initialized"
-    else
-        echo "📁 Git repository already exists"
-        git add .
-        git commit -m "Update: PixelPro pixel art editor" || true
-    fi
-    
-    echo ""
-    echo "📋 Next steps for GitHub Pages:"
-    echo "1. Create a new repository on GitHub: https://github.com/new"
-    echo "2. Name it 'pixelpro' or 'pixel-art-editor'"
-    echo "3. Run these commands:"
-    echo "   git remote add origin https://github.com/YOUR_USERNAME/pixelpro.git"
-    echo "   git branch -M main"
-    echo "   git push -u origin main"
-    echo "4. Go to Settings → Pages → Source: Deploy from a branch"
-    echo "5. Select 'main' branch and '/ (root)' folder"
-    echo "6. Your app will be live at: https://YOUR_USERNAME.github.io/pixelpro"
-    echo ""
-}
-
-# Function to deploy to Netlify
-deploy_netlify() {
-    echo "🚀 Deploying to Netlify..."
-    
-    # Check if netlify-cli is installed
-    if ! command -v netlify &> /dev/null; then
-        echo "📦 Installing Netlify CLI..."
-        npm install -g netlify-cli
-    fi
-    
-    echo "🌐 Opening Netlify deploy page..."
-    echo "📋 Instructions:"
-    echo "1. Drag and drop this entire folder to the deploy area"
-    echo "2. Your app will be live instantly with a random URL"
-    echo "3. You can customize the URL in the site settings"
-    echo ""
-    echo "💡 Alternative: Use 'netlify deploy' command for CLI deployment"
-    echo ""
-}
-
-# Function to deploy to Vercel
-deploy_vercel() {
-    echo "🚀 Deploying to Vercel..."
-    
-    # Check if vercel is installed
-    if ! command -v vercel &> /dev/null; then
-        echo "📦 Installing Vercel CLI..."
-        npm install -g vercel
-    fi
-    
-    echo "🌐 Opening Vercel..."
-    echo "📋 Instructions:"
-    echo "1. Run: vercel"
-    echo "2. Follow the prompts to create an account"
-    echo "3. Your app will be deployed automatically"
-    echo "4. You'll get a URL like: https://pixelpro-YOUR_USERNAME.vercel.app"
-    echo ""
-}
-
-# Function to create a simple local server
-start_local_server() {
-    echo "🚀 Starting local development server..."
-    
-    # Check if Python is available
-    if command -v python3 &> /dev/null; then
-        echo "🐍 Starting Python HTTP server on port 8000..."
-        echo "🌐 Open your browser to: http://localhost:8000"
-        echo "📋 Press Ctrl+C to stop the server"
-        echo ""
-        python3 -m http.server 8000
-    elif command -v python &> /dev/null; then
-        echo "🐍 Starting Python HTTP server on port 8000..."
-        echo "🌐 Open your browser to: http://localhost:8000"
-        echo "📋 Press Ctrl+C to stop the server"
-        echo ""
-        python -m http.server 8000
-    elif command -v node &> /dev/null; then
-        echo "📦 Installing and starting Node.js server..."
-        npm install -g http-server
-        echo "🌐 Open your browser to: http://localhost:8080"
-        echo "📋 Press Ctrl+C to stop the server"
-        echo ""
-        http-server -p 8080
-    else
-        echo "❌ No suitable server found. Please install Python or Node.js."
-        echo "💡 You can also open index.html directly in your browser."
-    fi
-}
-
-# Function to validate files
-validate_files() {
-    echo "🔍 Validating project files..."
-    
-    required_files=("index.html" "style.css" "script-simple.js" "manifest.json")
-    missing_files=()
-    
-    for file in "${required_files[@]}"; do
-        if [ ! -f "$file" ]; then
-            missing_files+=("$file")
-        fi
-    done
-    
-    if [ ${#missing_files[@]} -eq 0 ]; then
-        echo "✅ All required files are present"
-        return 0
-    else
-        echo "❌ Missing required files:"
-        for file in "${missing_files[@]}"; do
-            echo "   - $file"
-        done
-        return 1
-    fi
-}
-
-# Main menu
-show_menu() {
-    echo ""
-    echo "Choose a deployment option:"
-    echo "1) Deploy to GitHub Pages (Free, Easy)"
-    echo "2) Deploy to Netlify (Free, Professional)"
-    echo "3) Deploy to Vercel (Free, Fast)"
-    echo "4) Start local development server"
-    echo "5) Validate project files"
-    echo "6) Show deployment guide"
-    echo "7) Exit"
-    echo ""
-    read -p "Enter your choice (1-7): " choice
-    
-    case $choice in
-        1)
-            deploy_github_pages
-            ;;
-        2)
-            deploy_netlify
-            ;;
-        3)
-            deploy_vercel
-            ;;
-        4)
-            start_local_server
-            ;;
-        5)
-            validate_files
-            ;;
-        6)
-            echo ""
-            echo "📖 Opening deployment guide..."
-            if command -v open &> /dev/null; then
-                open deploy-guide.md
-            elif command -v xdg-open &> /dev/null; then
-                xdg-open deploy-guide.md
-            else
-                echo "📄 Please open deploy-guide.md in your text editor"
-            fi
-            ;;
-        7)
-            echo "👋 Goodbye!"
-            exit 0
-            ;;
-        *)
-            echo "❌ Invalid choice. Please try again."
-            show_menu
-            ;;
-    esac
-}
-
-# Check if files are valid before showing menu
-if validate_files; then
-    show_menu
-else
-    echo "❌ Please ensure all required files are present before deploying."
+# Check if we're in the right directory
+if [ ! -f "index.html" ]; then
+    echo "❌ Please run this script from the PixelPro directory"
     exit 1
-fi 
+fi
+
+# Initialize git repository if not already done
+if [ ! -d ".git" ]; then
+    echo "📁 Initializing Git repository..."
+    git init
+    git add .
+    git commit -m "Initial commit: PixelPro pixel art editor"
+fi
+
+echo ""
+echo "🌐 Choose your deployment platform:"
+echo "1. GitHub Pages (Free)"
+echo "2. Netlify (Free, recommended)"
+echo "3. Vercel (Free)"
+echo "4. Firebase Hosting (Free)"
+echo "5. Manual deployment"
+echo ""
+
+read -p "Enter your choice (1-5): " choice
+
+case $choice in
+    1)
+        echo "🚀 Deploying to GitHub Pages..."
+        echo ""
+        echo "📋 Steps to deploy to GitHub Pages:"
+        echo "1. Create a new repository on GitHub"
+        echo "2. Push your code to GitHub:"
+        echo "   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git"
+        echo "   git branch -M main"
+        echo "   git push -u origin main"
+        echo "3. Go to repository Settings > Pages"
+        echo "4. Select 'Deploy from a branch' and choose 'main'"
+        echo "5. Your site will be available at: https://YOUR_USERNAME.github.io/YOUR_REPO_NAME"
+        ;;
+    2)
+        echo "🚀 Deploying to Netlify..."
+        echo ""
+        echo "📋 Steps to deploy to Netlify:"
+        echo "1. Go to https://netlify.com and sign up/login"
+        echo "2. Click 'New site from Git'"
+        echo "3. Connect your GitHub account"
+        echo "4. Select your PixelPro repository"
+        echo "5. Deploy settings:"
+        echo "   - Build command: (leave empty)"
+        echo "   - Publish directory: ."
+        echo "6. Click 'Deploy site'"
+        echo "7. Your site will be available at the provided URL"
+        ;;
+    3)
+        echo "🚀 Deploying to Vercel..."
+        echo ""
+        echo "📋 Steps to deploy to Vercel:"
+        echo "1. Go to https://vercel.com and sign up/login"
+        echo "2. Click 'New Project'"
+        echo "3. Import your GitHub repository"
+        echo "4. Configure project:"
+        echo "   - Framework Preset: Other"
+        echo "   - Root Directory: ."
+        echo "5. Click 'Deploy'"
+        echo "6. Your site will be available at the provided URL"
+        ;;
+    4)
+        echo "🚀 Deploying to Firebase Hosting..."
+        echo ""
+        echo "📋 Steps to deploy to Firebase:"
+        echo "1. Install Firebase CLI: npm install -g firebase-tools"
+        echo "2. Login to Firebase: firebase login"
+        echo "3. Initialize Firebase: firebase init hosting"
+        echo "4. Configure:"
+        echo "   - Public directory: ."
+        echo "   - Single-page app: Yes"
+        echo "5. Deploy: firebase deploy"
+        echo "6. Your site will be available at the provided URL"
+        ;;
+    5)
+        echo "📁 Manual Deployment Options:"
+        echo ""
+        echo "You can deploy to any static hosting service:"
+        echo "- Upload all files to your hosting provider"
+        echo "- Ensure index.html is in the root directory"
+        echo "- Configure your server to serve index.html for all routes"
+        echo ""
+        echo "Alternative local server for testing:"
+        echo "python3 -m http.server 8000"
+        ;;
+    *)
+        echo "❌ Invalid choice. Please run the script again."
+        exit 1
+        ;;
+esac
+
+echo ""
+echo "✅ Deployment instructions provided!"
+echo ""
+echo "💡 Tips:"
+echo "- Make sure all your files are committed to git"
+echo "- Test locally first: python3 -m http.server 8000"
+echo "- Check browser console for any errors"
+echo "- Update the README.md with your live URL once deployed"
+echo ""
+echo "🎨 Happy pixel art creating!" 

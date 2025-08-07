@@ -1,189 +1,163 @@
-# PixelPro - Professional Pixel Art Editor with AI Integration
+# PixelPro - Professional Pixel Art Editor
 
-🎨 **PixelPro** is a powerful, web-based pixel art editor with real AI integration for generating stunning pixel art using cutting-edge AI models.
+A powerful, web-based pixel art editor with AI integration, professional tools, and a modern interface.
 
-## ✨ Features
+## 🌟 Features
 
-### 🎨 Professional Pixel Art Editor
-- **Multiple Drawing Tools**: Pencil, Brush, Eraser, Fill, Line, Rectangle, Circle, Eyedropper, Move, Text, Transform
-- **Layer System**: Full layer management with blend modes and effects
-- **Animation System**: Frame-by-frame animation with timeline
-- **Color Management**: HSB picker, swatches, palettes, and color theory tools
-- **Undo/Redo**: Professional history management
-- **Export Options**: PNG, GIF, and multiple formats
+- **Professional Pixel Art Tools**: Pencil, brush, eraser, fill, line, rectangle, circle, and more
+- **AI-Powered Generation**: Create pixel art using AI with OpenAI, Stable Diffusion, and Replicate
+- **Layer System**: Full layer support with opacity, blend modes, and visibility controls
+- **Animation Support**: Create animated pixel art with frame-by-frame editing
+- **Advanced Color Panel**: HSB color picker, color harmony, schemes, and swatches
+- **Export Options**: PNG, GIF, and sprite sheet export
+- **Modern UI**: Photoshop-style interface with resizable panels
+- **Keyboard Shortcuts**: Professional workflow with keyboard shortcuts
+- **Responsive Design**: Works on desktop and tablet devices
 
-### 🤖 Real AI Integration
-- **OpenAI DALL-E 3**: High-quality image generation
-- **Stable Diffusion**: Custom style generation
-- **Replicate**: Specialized pixel art models
-- **Local Generation**: Fallback when APIs are unavailable
-- **Smart Fallback**: Automatic service switching
+## 🚀 Live Demo
 
-## 🚀 Getting Started
+**Coming Soon!** The application will be deployed to a live URL.
 
-### 1. Run the Application
+## 🛠️ Local Development
+
+### Prerequisites
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Python 3.x (for local development server)
+
+### Quick Start
+
+1. **Clone or download** the project files
+2. **Navigate** to the project directory:
+   ```bash
+   cd PixelPro
+   ```
+3. **Start the local server**:
+   ```bash
+   python3 -m http.server 8000
+   ```
+4. **Open your browser** and go to:
+   ```
+   http://localhost:8000
+   ```
+
+### Alternative Local Server Options
+
+**Using Node.js (if you have it installed):**
 ```bash
-# Navigate to the project directory
-cd PixelPro
-
-# Start the local server
-python3 -m http.server 8000
-
-# Open in your browser
-# http://localhost:8000
+npx serve .
 ```
 
-### 2. Configure AI Services (Optional)
+**Using PHP (if you have it installed):**
+```bash
+php -S localhost:8000
+```
 
-#### OpenAI DALL-E 3
-1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
-2. Create an account and get your API key
-3. In PixelPro, click the AI tool (🤖)
-4. Click "Configure API Keys"
-5. Enter your OpenAI API key (starts with `sk-`)
+## 🎨 How to Use
 
-#### Stable Diffusion
-1. Visit [Stability AI](https://platform.stability.ai/account/keys)
-2. Create an account and get your API key
-3. Enter your Stability AI API key in PixelPro
+### Getting Started
+1. **Launch the application** - You'll see the start screen
+2. **Create a new project** - Choose canvas size and color palette
+3. **Select tools** - Use the toolbar on the left
+4. **Choose colors** - Use the color panel on the right
+5. **Start creating** - Click and drag on the canvas to draw
 
-#### Replicate (Specialized Pixel Art)
-1. Visit [Replicate](https://replicate.com/account/api-tokens)
-2. Create an account and get your API token
-3. Enter your Replicate token (starts with `r8_`)
+### Key Features
 
-## 🎯 How to Use AI Generation
+#### Color Panel
+- **Color Field**: Click and drag to select saturation and brightness
+- **Hue Slider**: Click and drag to change hue
+- **Input Fields**: Type exact HSB, RGB, or Hex values
+- **Swatches**: Click predefined colors or add your own
+- **Color Harmony**: Generate complementary colors
+- **Color Schemes**: Choose from monochromatic, warm, cool, and earth schemes
 
-### 1. Select AI Tool
-- Click the AI tool (🤖) in the toolbar
-- Or press `A` on your keyboard
+#### Tools
+- **Pencil Tool (B)**: Basic pixel drawing
+- **Brush Tool**: Variable size brush with different shapes
+- **Eraser Tool (E)**: Remove pixels
+- **Fill Tool (G)**: Flood fill areas
+- **Line Tool (L)**: Draw straight lines
+- **Rectangle Tool (R)**: Draw rectangles (filled or outline)
+- **Circle Tool (C)**: Draw circles (filled or outline)
+- **Eyedropper Tool (I)**: Pick colors from canvas
+- **Move Tool (V)**: Move selections
+- **Text Tool (T)**: Add text to your art
+- **AI Generator (A)**: Generate pixel art with AI
 
-### 2. Configure Settings
-- **Service**: Choose your preferred AI service or "Auto" for best available
-- **Style**: Select from Pixel Art, Minimal, Detailed, Retro Gaming, Anime
-- **Size**: Choose from 8x8 to 32x32 pixels
-- **Quality**: Standard, HD, or Ultra HD
+#### Layers
+- **Add Layers**: Create new layers for complex artwork
+- **Layer Visibility**: Toggle layer visibility
+- **Layer Opacity**: Adjust layer transparency
+- **Blend Modes**: Choose how layers blend together
+- **Layer Management**: Duplicate, delete, and reorder layers
 
-### 3. Enter Prompt
-- Describe what you want to generate
-- Examples:
-  - "A cute cat sitting on a cushion"
-  - "A futuristic robot with glowing eyes"
-  - "A medieval castle on a hill"
-  - "A pixel art landscape with mountains"
+#### Animation
+- **Add Frames**: Create animation frames
+- **Frame Management**: Duplicate and delete frames
+- **Play Animation**: Preview your animation
+- **Export GIF**: Save as animated GIF
 
-### 4. Generate
-- Click "Generate" and wait for the AI to create your pixel art
-- The system will automatically try different services if one fails
-- Click "Apply to Canvas" to place the generated art
+## 🔧 Configuration
 
-## 🔧 AI Service Comparison
+### AI Integration
+To use AI features, you'll need API keys:
 
-| Service | Best For | Quality | Speed | Cost |
-|---------|----------|---------|-------|------|
-| **OpenAI DALL-E 3** | High-quality, detailed art | ⭐⭐⭐⭐⭐ | Fast | $0.04/image |
-| **Stable Diffusion** | Custom styles, artistic | ⭐⭐⭐⭐ | Medium | $0.002/image |
-| **Replicate** | Specialized pixel art | ⭐⭐⭐⭐ | Medium | $0.01/image |
-| **Local** | Offline generation | ⭐⭐⭐ | Instant | Free |
+1. **OpenAI**: Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. **Stability AI**: Get your API key from [Stability AI](https://platform.stability.ai/account/keys)
+3. **Replicate**: Get your API key from [Replicate](https://replicate.com/account/api-tokens)
 
-## 🎨 Advanced Features
+**Note**: API keys are stored locally and never sent to our servers.
 
-### Randomization
-- **Different Results**: Each generation produces unique variations
-- **Color Variations**: Random color palettes and adjustments
-- **Pattern Variations**: Mirroring, noise, and style changes
+## 📁 Project Structure
 
-### Smart Prompting
-- **Style Enhancement**: Automatically enhances prompts for better results
-- **Service Optimization**: Different prompts for different AI services
-- **Fallback System**: Graceful degradation when services are unavailable
+```
+PixelPro/
+├── index.html          # Main application file
+├── script-simple.js    # Core application logic
+├── style.css          # Application styling
+├── manifest.json      # PWA manifest
+├── favicon.ico        # Application icon
+├── netlify.toml       # Deployment configuration
+└── README.md          # This file
+```
 
-### Professional Workflow
-- **Layer Integration**: Generated art goes directly to layers
-- **Undo Support**: Full history management for AI generations
-- **Export Ready**: Generated art is immediately exportable
+## 🌐 Deployment
 
-## 🔒 Privacy & Security
+### Netlify (Recommended)
+1. **Push to GitHub**: Upload your project to a GitHub repository
+2. **Connect to Netlify**: 
+   - Go to [netlify.com](https://netlify.com)
+   - Click "New site from Git"
+   - Connect your GitHub repository
+   - Deploy automatically
 
-- **Local Storage**: API keys are stored locally in your browser
-- **No Server Storage**: Your keys never leave your device
-- **Secure Transmission**: All API calls use HTTPS
-- **Optional**: AI features work without API keys (local generation)
+### Alternative Hosting
+- **GitHub Pages**: Free hosting for static sites
+- **Vercel**: Great for static sites and PWAs
+- **Firebase Hosting**: Google's hosting solution
+- **Any static hosting service**
 
-## 🛠️ Technical Details
+## 🎯 Browser Support
 
-### Supported AI Models
-- **OpenAI**: DALL-E 3 (1024x1024)
-- **Stability AI**: Stable Diffusion XL (1024x1024)
-- **Replicate**: Pixel Art XL, Anything V4.0
-
-### Image Processing
-- **Automatic Conversion**: AI images are automatically converted to pixel art
-- **Size Optimization**: Intelligent scaling and pixelation
-- **Color Quantization**: Optimized color palettes for pixel art
-
-### Browser Compatibility
-- **Modern Browsers**: Chrome, Firefox, Safari, Edge
-- **WebGL Support**: Required for optimal performance
-- **Local Storage**: Required for API key persistence
-
-## 🎮 Use Cases
-
-### Game Development
-- **Character Sprites**: Generate unique characters and NPCs
-- **Environment Tiles**: Create landscapes, buildings, and objects
-- **UI Elements**: Buttons, icons, and interface elements
-- **Animation Frames**: Generate sprite sheets for animations
-
-### Art & Design
-- **Concept Art**: Quick pixel art concepts and sketches
-- **Style Exploration**: Try different artistic styles
-- **Color Palettes**: Discover new color combinations
-- **Pattern Generation**: Create textures and patterns
-
-### Education
-- **Learning Pixel Art**: Study AI-generated examples
-- **Style Analysis**: Understand different pixel art techniques
-- **Color Theory**: Explore color relationships
-- **Animation Principles**: Learn frame-by-frame animation
-
-## 🚀 Future Enhancements
-
-### Planned Features
-- **Real-time Collaboration**: Multi-user editing
-- **Advanced AI Models**: More specialized pixel art models
-- **Batch Generation**: Generate multiple variations at once
-- **Style Transfer**: Apply existing art styles to new content
-- **3D Pixel Art**: Isometric and 3D-style generation
-
-### Community Features
-- **Asset Marketplace**: Share and sell pixel art
-- **Style Library**: Community-created styles
-- **Tutorial System**: Learn pixel art techniques
-- **Challenge Mode**: Daily pixel art challenges
+- ✅ Chrome 80+
+- ✅ Firefox 75+
+- ✅ Safari 13+
+- ✅ Edge 80+
 
 ## 🤝 Contributing
 
-We welcome contributions! Here are some ways to help:
-
-- **Bug Reports**: Report issues and bugs
-- **Feature Requests**: Suggest new features
-- **Code Contributions**: Submit pull requests
-- **Documentation**: Improve guides and tutorials
-- **Testing**: Test new features and report issues
+This is a personal project, but suggestions and feedback are welcome!
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- **OpenAI** for DALL-E 3
-- **Stability AI** for Stable Diffusion
-- **Replicate** for specialized models
-- **Tailwind CSS** for styling
-- **Canvas API** for graphics processing
+- **Tailwind CSS** for the styling framework
+- **OpenAI, Stability AI, Replicate** for AI integration
+- **The pixel art community** for inspiration
 
 ---
 
-**Happy Pixel Art Creating! 🎨✨** 
+**PixelPro** - Create amazing pixel art with professional tools and AI assistance! 🎨✨ 

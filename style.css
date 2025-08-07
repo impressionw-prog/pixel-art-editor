@@ -1823,6 +1823,7 @@ body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #23272E;
   bottom: 0;
   background: linear-gradient(to bottom, transparent, #000);
   border-radius: 2px;
+  pointer-events: none;
 }
 
 .ps-color-cursor {
@@ -2247,6 +2248,7 @@ body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #23272E;
   bottom: 0;
   background: linear-gradient(to bottom, transparent, #000);
   border-radius: 2px;
+  pointer-events: none;
 }
 
 .ps-color-cursor {

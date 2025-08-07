@@ -575,6 +575,15 @@ function init() {
   setupEnhancedSwatches();
   loadRecentColors();
   
+  // Ensure color panel is visible and functional
+  setTimeout(() => {
+    if (colorPanel) {
+      colorPanel.style.display = 'block';
+      colorPanel.style.visibility = 'visible';
+      console.log('🎨 Color panel initialized and ready');
+    }
+  }, 500);
+  
   // Set up animation system
   setupAnimationSystem();
   
@@ -598,7 +607,17 @@ function setupTools() {
     { id: 'toolMove', tool: 'move', name: 'Move' },
     { id: 'toolText', tool: 'text', name: 'Text' },
     { id: 'toolTransform', tool: 'transform', name: 'Transform' },
-    { id: 'toolAI', tool: 'ai', name: 'AI Generator' }
+    { id: 'toolAI', tool: 'ai', name: 'AI Generator' },
+    { id: 'toolDither', tool: 'dither', name: 'Dithering' },
+    { id: 'toolOutline', tool: 'outline', name: 'Outline' },
+    { id: 'toolShade', tool: 'shade', name: 'Shading' },
+    { id: 'toolMirror', tool: 'mirror', name: 'Mirror' },
+    { id: 'toolGradient', tool: 'gradient', name: 'Gradient' },
+    { id: 'toolPattern', tool: 'pattern', name: 'Pattern' },
+    { id: 'toolSymmetry', tool: 'symmetry', name: 'Symmetry' },
+    { id: 'toolSelection', tool: 'selection', name: 'Selection' },
+    { id: 'toolMagicWand', tool: 'magicWand', name: 'Magic Wand' },
+    { id: 'toolLasso', tool: 'lasso', name: 'Lasso' }
   ];
   
   toolButtons.forEach(({ id, tool, name }) => {
@@ -651,7 +670,17 @@ function updateCanvasCursor(tool) {
     move: 'move',
     text: 'text',
     transform: 'grab',
-    ai: 'crosshair'
+    ai: 'crosshair',
+    dither: 'crosshair',
+    outline: 'crosshair',
+    shade: 'crosshair',
+    mirror: 'crosshair',
+    gradient: 'crosshair',
+    pattern: 'crosshair',
+    symmetry: 'crosshair',
+    selection: 'crosshair',
+    magicWand: 'crosshair',
+    lasso: 'crosshair'
   };
   
   canvas.style.cursor = cursors[tool] || 'default';
@@ -708,14 +737,59 @@ function updateOptionsBar(tool, toolName) {
   
   // Hide all tool options
   const allOptions = document.querySelectorAll('.tool-options');
+  console.log(`🎛️ Found ${allOptions.length} tool options to hide`);
   allOptions.forEach(option => {
     option.classList.add('hidden');
   });
   
   // Show options for current tool
-  const currentOptions = document.getElementById(`${tool}Options`);
+  let currentOptions = null;
+  
+  // Map tool names to HTML IDs
+  const toolIdMap = {
+    'draw': 'pencilOptions',
+    'brush': 'brushOptions',
+    'eraser': 'eraserOptions',
+    'fill': 'fillOptions',
+    'line': 'lineOptions',
+    'rectangle': 'rectangleOptions',
+    'circle': 'circleOptions',
+    'eyedropper': 'eyedropperOptions',
+    'move': 'moveOptions',
+    'text': 'textOptions',
+    'transform': 'transformOptions',
+    'ai': 'aiOptions',
+    'dither': 'ditherOptions',
+    'outline': 'outlineOptions',
+    'shade': 'shadeOptions',
+    'mirror': 'mirrorOptions',
+    'gradient': 'gradientOptions',
+    'pattern': 'patternOptions',
+    'symmetry': 'symmetryOptions',
+    'selection': 'selectionOptions',
+    'magicWand': 'magicWandOptions',
+    'lasso': 'lassoOptions'
+  };
+  
+  const optionsId = toolIdMap[tool];
+  if (optionsId) {
+    currentOptions = document.getElementById(optionsId);
+  }
+  
   if (currentOptions) {
     currentOptions.classList.remove('hidden');
+    console.log(`🎛️ Showing options for tool: ${tool} (${optionsId})`);
+  } else {
+    console.log(`🎛️ No options found for tool: ${tool} (${optionsId})`);
+  }
+  
+  // Always show edit options (undo/redo/clear)
+  const editOptions = document.getElementById('editOptions');
+  if (editOptions) {
+    editOptions.classList.remove('hidden');
+    console.log(`🎛️ Edit options shown successfully`);
+  } else {
+    console.log(`🎛️ Edit options element not found!`);
   }
   
   // Setup tool-specific controls
@@ -1304,6 +1378,36 @@ function drawPixel(pixel) {
     case 'ai':
       handleAITool(pixel, x, y);
       break;
+    case 'dither':
+      handleDitherTool(pixel, x, y);
+      break;
+    case 'outline':
+      handleOutlineTool(pixel, x, y);
+      break;
+    case 'shade':
+      handleShadeTool(pixel, x, y);
+      break;
+    case 'mirror':
+      handleMirrorTool(pixel, x, y);
+      break;
+    case 'gradient':
+      handleGradientTool(pixel, x, y);
+      break;
+    case 'pattern':
+      handlePatternTool(pixel, x, y);
+      break;
+    case 'symmetry':
+      handleSymmetryTool(pixel, x, y);
+      break;
+    case 'selection':
+      handleSelectionTool(pixel, x, y);
+      break;
+    case 'magicWand':
+      handleMagicWandTool(pixel, x, y);
+      break;
+    case 'lasso':
+      handleLassoTool(pixel, x, y);
+      break;
   }
   
   // Auto-save current frame for animation
@@ -1682,6 +1786,97 @@ function handleAITool(pixel, x, y) {
       console.error('🤖 AI modal elements not found!');
       toolState.aiDialogOpen = false;
     }
+  }
+}
+
+// New Pixel Art Tool Handlers
+function handleDitherTool(pixel, x, y) {
+  if (isMouseDown) {
+    const ditherPattern = document.getElementById('ditherPattern')?.value || 'floyd';
+    const ditherIntensity = document.getElementById('ditherIntensity')?.value || 50;
+    console.log(`🎨 Dithering with ${ditherPattern} pattern at ${ditherIntensity}% intensity`);
+    // TODO: Implement dithering algorithm
+  }
+}
+
+function handleOutlineTool(pixel, x, y) {
+  if (isMouseDown) {
+    const outlineStyle = document.getElementById('outlineStyle')?.value || 'solid';
+    const outlineWidth = document.getElementById('outlineWidth')?.value || 1;
+    console.log(`📝 Creating ${outlineStyle} outline with width ${outlineWidth}`);
+    // TODO: Implement outline creation
+  }
+}
+
+function handleShadeTool(pixel, x, y) {
+  if (isMouseDown) {
+    const shadeType = document.getElementById('shadeType')?.value || 'cell';
+    const shadeLevels = document.getElementById('shadeLevels')?.value || 3;
+    console.log(`🌓 Applying ${shadeType} shading with ${shadeLevels} levels`);
+    // TODO: Implement shading algorithm
+  }
+}
+
+function handleMirrorTool(pixel, x, y) {
+  if (isMouseDown) {
+    const mirrorAxis = document.getElementById('mirrorAxis')?.value || 'horizontal';
+    const mirrorLive = document.getElementById('mirrorLive')?.checked || false;
+    console.log(`🪞 Mirroring on ${mirrorAxis} axis, live: ${mirrorLive}`);
+    // TODO: Implement mirror drawing
+  }
+}
+
+function handleGradientTool(pixel, x, y) {
+  if (isMouseDown) {
+    const gradientType = document.getElementById('gradientType')?.value || 'linear';
+    const gradientSteps = document.getElementById('gradientSteps')?.value || 8;
+    console.log(`🌈 Creating ${gradientType} gradient with ${gradientSteps} steps`);
+    // TODO: Implement gradient creation
+  }
+}
+
+function handlePatternTool(pixel, x, y) {
+  if (isMouseDown) {
+    const patternType = document.getElementById('patternType')?.value || 'checker';
+    const patternScale = document.getElementById('patternScale')?.value || 2;
+    console.log(`🔲 Applying ${patternType} pattern at scale ${patternScale}`);
+    // TODO: Implement pattern application
+  }
+}
+
+function handleSymmetryTool(pixel, x, y) {
+  if (isMouseDown) {
+    const symmetryType = document.getElementById('symmetryType')?.value || 'horizontal';
+    const symmetryLines = document.getElementById('symmetryLines')?.value || 2;
+    console.log(`⚡ Drawing with ${symmetryType} symmetry, ${symmetryLines} lines`);
+    // TODO: Implement symmetry drawing
+  }
+}
+
+function handleSelectionTool(pixel, x, y) {
+  if (isMouseDown) {
+    const selectionMode = document.getElementById('selectionMode')?.value || 'rectangular';
+    const selectionFeather = document.getElementById('selectionFeather')?.value || 0;
+    console.log(`📦 Selecting with ${selectionMode} mode, feather: ${selectionFeather}`);
+    // TODO: Implement selection tools
+  }
+}
+
+function handleMagicWandTool(pixel, x, y) {
+  if (isMouseDown) {
+    const tolerance = document.getElementById('magicWandTolerance')?.value || 32;
+    const contiguous = document.getElementById('magicWandContiguous')?.checked || true;
+    console.log(`🪄 Magic wand with tolerance ${tolerance}, contiguous: ${contiguous}`);
+    // TODO: Implement magic wand selection
+  }
+}
+
+function handleLassoTool(pixel, x, y) {
+  if (isMouseDown) {
+    const lassoMode = document.getElementById('lassoMode')?.value || 'freehand';
+    const lassoSmooth = document.getElementById('lassoSmooth')?.value || 2;
+    console.log(`🪢 Lasso tool in ${lassoMode} mode, smooth: ${lassoSmooth}`);
+    // TODO: Implement lasso selection
   }
 }
 
@@ -5058,9 +5253,10 @@ function updateColorField() {
   console.log(`🎨 Updating color field background with hue: ${hueHex}`);
   
   // Create a proper HSB color field with saturation on X-axis and brightness on Y-axis
+  // Use CSS gradients to create the color field
   colorField.style.background = `
-    linear-gradient(to right, #fff, ${hueHex}),
-    linear-gradient(to bottom, transparent, #000)
+    linear-gradient(to right, #ffffff, ${hueHex}),
+    linear-gradient(to bottom, transparent, #000000)
   `;
   colorField.style.backgroundBlendMode = 'multiply';
   
@@ -5336,24 +5532,33 @@ function renderRecentColors() {
 
 // Setup color panel
 function setupColorPanel() {
-  console.log('🎨 Setting up Photoshop 2025 style color panel...');
-  
-  // Make color panel visible
-  if (colorPanel) {
-    colorPanel.classList.remove('hidden');
-    colorPanel.classList.add('lg:block');
-  }
+  console.log('🎨 Setting up comprehensive color panel...');
   
   // Initialize color state
   currentHue = 0;
-  currentSaturation = 0;
-  currentBrightness = 0;
+  currentSaturation = 100;
+  currentBrightness = 100;
   
-  // Setup foreground/background color clicks
+  // Initialize with current foreground color
+  const initialHsb = hexToHsb(foregroundColor);
+  if (initialHsb) {
+    currentHue = initialHsb.h;
+    currentSaturation = initialHsb.s;
+    currentBrightness = initialHsb.b;
+  }
+  
+  console.log(`🎨 Initial color state: H=${currentHue}, S=${currentSaturation}, B=${currentBrightness}`);
+  
+  // Setup foreground/background color displays
   const foregroundColorEl = document.getElementById('foregroundColor');
   const backgroundColorEl = document.getElementById('backgroundColor');
   
   if (foregroundColorEl) {
+    const preview = foregroundColorEl.querySelector('.ps-color-preview');
+    if (preview) {
+      preview.style.backgroundColor = foregroundColor;
+    }
+    
     foregroundColorEl.addEventListener('click', () => {
       console.log('Foreground color clicked');
       
@@ -5388,6 +5593,11 @@ function setupColorPanel() {
   }
   
   if (backgroundColorEl) {
+    const preview = backgroundColorEl.querySelector('.ps-color-preview');
+    if (preview) {
+      preview.style.backgroundColor = backgroundColor;
+    }
+    
     backgroundColorEl.addEventListener('click', () => {
       console.log('Background color clicked');
       
@@ -5402,6 +5612,13 @@ function setupColorPanel() {
       colorInput.addEventListener('change', (e) => {
         const newColor = e.target.value;
         setBackgroundColor(newColor);
+        
+        // Update preview
+        const preview = backgroundColorEl.querySelector('.ps-color-preview');
+        if (preview) {
+          preview.style.backgroundColor = newColor;
+        }
+        
         document.body.removeChild(colorInput);
       });
       
@@ -5414,21 +5631,87 @@ function setupColorPanel() {
   const resetBtn = document.getElementById('resetColors');
   
   if (swapBtn) {
-    swapBtn.addEventListener('click', swapColors);
+    swapBtn.addEventListener('click', () => {
+      const temp = foregroundColor;
+      setForegroundColor(backgroundColor);
+      setBackgroundColor(temp);
+      
+      // Update HSB values for new foreground color
+      const newFgHsb = hexToHsb(foregroundColor);
+      if (newFgHsb) {
+        currentHue = newFgHsb.h;
+        currentSaturation = newFgHsb.s;
+        currentBrightness = newFgHsb.b;
+        updateColorField();
+        updateHueSlider();
+      }
+      
+      // Update previews
+      const fgPreview = foregroundColorEl?.querySelector('.ps-color-preview');
+      const bgPreview = backgroundColorEl?.querySelector('.ps-color-preview');
+      if (fgPreview) fgPreview.style.backgroundColor = foregroundColor;
+      if (bgPreview) bgPreview.style.backgroundColor = backgroundColor;
+    });
   }
   
   if (resetBtn) {
-    resetBtn.addEventListener('click', resetColors);
+    resetBtn.addEventListener('click', () => {
+      setForegroundColor('#000000');
+      setBackgroundColor('#ffffff');
+      currentColor = '#000000';
+      
+      // Reset HSB values
+      currentHue = 0;
+      currentSaturation = 0;
+      currentBrightness = 0;
+      
+      // Update all displays
+      updateColorDisplays();
+      updateColorInputs('#000000');
+      updateColorField();
+      updateHueSlider();
+      
+      // Update previews
+      const fgPreview = foregroundColorEl?.querySelector('.ps-color-preview');
+      const bgPreview = backgroundColorEl?.querySelector('.ps-color-preview');
+      if (fgPreview) fgPreview.style.backgroundColor = '#000000';
+      if (bgPreview) bgPreview.style.backgroundColor = '#ffffff';
+    });
   }
   
-  // Setup color field interaction
-  const colorField = document.getElementById('colorField');
-  if (colorField) {
-    console.log('🎨 Setting up color field...');
-    let isDragging = false;
-    
-    function updateFromColorField(e) {
-      const rect = colorField.getBoundingClientRect();
+  // Setup color field interaction with retry mechanism
+  function setupColorFieldWithRetry() {
+    const colorField = document.getElementById('colorField');
+    if (colorField) {
+      console.log('🎨 Setting up color field...');
+      
+      // Remove any existing event listeners by cloning the element
+      const newColorField = colorField.cloneNode(true);
+      colorField.parentNode.replaceChild(newColorField, colorField);
+      
+      // Ensure the color field is properly initialized
+      updateColorField();
+      updateHueSlider();
+      
+      return true;
+    } else {
+      console.log('🎨 Color field not found, will retry...');
+      return false;
+    }
+  }
+  
+    // Try to setup color field immediately, retry if needed
+  if (!setupColorFieldWithRetry()) {
+    setTimeout(() => {
+      if (!setupColorFieldWithRetry()) {
+        setTimeout(setupColorFieldWithRetry, 100);
+      }
+    }, 100);
+  }
+  
+  function handleColorFieldClick(e) {
+      console.log('🎨 Color field clicked!');
+      const rect = newColorField.getBoundingClientRect();
       const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
       const y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
       
@@ -5441,7 +5724,7 @@ function setupColorPanel() {
       const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
       
       setForegroundColor(hex);
-      currentColor = hex; // Update current color for drawing
+      currentColor = hex;
       
       // Update cursor position
       const cursor = document.getElementById('colorCursor');
@@ -5450,72 +5733,46 @@ function setupColorPanel() {
         cursor.style.top = y + 'px';
       }
       
-      // Update all color displays
+      // Update all displays
       updateColorDisplays();
       updateColorInputs(hex);
     }
     
-    // Add click event for immediate response
-    colorField.addEventListener('click', (e) => {
-      console.log('🎨 Color field clicked');
-      updateFromColorField(e);
-      e.preventDefault();
+    // Add mouse events
+    newColorField.addEventListener('click', handleColorFieldClick);
+    newColorField.addEventListener('mousedown', (e) => {
+      handleColorFieldClick(e);
+      
+      const handleMouseMove = (e) => {
+        handleColorFieldClick(e);
+      };
+      
+      const handleMouseUp = () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     });
     
-    colorField.addEventListener('mousedown', (e) => {
-      console.log('🎨 Color field mousedown');
-      isDragging = true;
-      updateFromColorField(e);
-      e.preventDefault();
-    });
-    
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        updateFromColorField(e);
-      }
-    });
-    
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        console.log('🎨 Color field mouseup');
-        isDragging = false;
-      }
-    });
-    
-    // Add touch events for mobile support
-    colorField.addEventListener('touchstart', (e) => {
-      console.log('🎨 Color field touchstart');
-      isDragging = true;
-      const touch = e.touches[0];
-      updateFromColorField(touch);
-      e.preventDefault();
-    });
-    
-    document.addEventListener('touchmove', (e) => {
-      if (isDragging) {
-        const touch = e.touches[0];
-        updateFromColorField(touch);
-      }
-    });
-    
-    document.addEventListener('touchend', () => {
-      if (isDragging) {
-        console.log('🎨 Color field touchend');
-        isDragging = false;
-      }
-    });
+    console.log('🎨 Color field events added successfully');
   } else {
-    console.warn('🎨 Color field not found!');
+    console.error('🎨 Color field not found!');
   }
   
   // Setup hue slider interaction
   const hueSlider = document.getElementById('hueSlider');
   if (hueSlider) {
     console.log('🎨 Setting up hue slider...');
-    let isDragging = false;
     
-    function updateFromHueSlider(e) {
-      const rect = hueSlider.getBoundingClientRect();
+    // Remove any existing event listeners by cloning the element
+    const newHueSlider = hueSlider.cloneNode(true);
+    hueSlider.parentNode.replaceChild(newHueSlider, hueSlider);
+    
+    function handleHueSliderClick(e) {
+      console.log('🎨 Hue slider clicked!');
+      const rect = newHueSlider.getBoundingClientRect();
       const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
       
       currentHue = (x / rect.width) * 360;
@@ -5526,7 +5783,7 @@ function setupColorPanel() {
       const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
       
       setForegroundColor(hex);
-      currentColor = hex; // Update current color for drawing
+      currentColor = hex;
       
       // Update cursor position
       const hueCursor = document.getElementById('hueCursor');
@@ -5534,63 +5791,33 @@ function setupColorPanel() {
         hueCursor.style.left = x + 'px';
       }
       
-      // Update all color displays
+      // Update all displays
       updateColorDisplays();
       updateColorInputs(hex);
       updateColorField();
     }
     
-    // Add click event for immediate response
-    hueSlider.addEventListener('click', (e) => {
-      console.log('🎨 Hue slider clicked');
-      updateFromHueSlider(e);
-      e.preventDefault();
+    // Add mouse events
+    newHueSlider.addEventListener('click', handleHueSliderClick);
+    newHueSlider.addEventListener('mousedown', (e) => {
+      handleHueSliderClick(e);
+      
+      const handleMouseMove = (e) => {
+        handleHueSliderClick(e);
+      };
+      
+      const handleMouseUp = () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     });
     
-    hueSlider.addEventListener('mousedown', (e) => {
-      console.log('🎨 Hue slider mousedown');
-      isDragging = true;
-      updateFromHueSlider(e);
-      e.preventDefault();
-    });
-    
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        updateFromHueSlider(e);
-      }
-    });
-    
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        console.log('🎨 Hue slider mouseup');
-        isDragging = false;
-      }
-    });
-    
-    // Add touch events for mobile support
-    hueSlider.addEventListener('touchstart', (e) => {
-      console.log('🎨 Hue slider touchstart');
-      isDragging = true;
-      const touch = e.touches[0];
-      updateFromHueSlider(touch);
-      e.preventDefault();
-    });
-    
-    document.addEventListener('touchmove', (e) => {
-      if (isDragging) {
-        const touch = e.touches[0];
-        updateFromHueSlider(touch);
-      }
-    });
-    
-    document.addEventListener('touchend', () => {
-      if (isDragging) {
-        console.log('🎨 Hue slider touchend');
-        isDragging = false;
-      }
-    });
+    console.log('🎨 Hue slider events added successfully');
   } else {
-    console.warn('🎨 Hue slider not found!');
+    console.error('🎨 Hue slider not found!');
   }
   
   // Setup color value inputs
@@ -5602,9 +5829,16 @@ function setupColorPanel() {
         e.target.value = value;
         updateFn(value);
       });
+      
+      input.addEventListener('blur', (e) => {
+        const value = Math.max(min, Math.min(max, parseInt(e.target.value) || 0));
+        e.target.value = value;
+        updateFn(value);
+      });
     }
   };
   
+  // HSB inputs
   setupValueInput('hueInput', 0, 360, (h) => {
     currentHue = h;
     const rgb = hsbToRgb(currentHue, currentSaturation, currentBrightness);
@@ -5613,6 +5847,7 @@ function setupColorPanel() {
     currentColor = hex;
     updateColorDisplays();
     updateColorField();
+    updateHueSlider();
   });
   
   setupValueInput('satInput', 0, 100, (s) => {
@@ -5635,14 +5870,26 @@ function setupColorPanel() {
     updateColorField();
   });
   
+  // RGB inputs
   setupValueInput('redInput', 0, 255, (r) => {
     const rgb = hexToRgb(foregroundColor);
     if (rgb) {
       const hex = rgbToHex(r, rgb.g, rgb.b);
       setForegroundColor(hex);
       currentColor = hex;
+      
+      // Update HSB values
+      const newHsb = hexToHsb(hex);
+      if (newHsb) {
+        currentHue = newHsb.h;
+        currentSaturation = newHsb.s;
+        currentBrightness = newHsb.b;
+      }
+      
       updateColorDisplays();
       updateColorInputs(hex);
+      updateColorField();
+      updateHueSlider();
     }
   });
   
@@ -5652,8 +5899,19 @@ function setupColorPanel() {
       const hex = rgbToHex(rgb.r, g, rgb.b);
       setForegroundColor(hex);
       currentColor = hex;
+      
+      // Update HSB values
+      const newHsb = hexToHsb(hex);
+      if (newHsb) {
+        currentHue = newHsb.h;
+        currentSaturation = newHsb.s;
+        currentBrightness = newHsb.b;
+      }
+      
       updateColorDisplays();
       updateColorInputs(hex);
+      updateColorField();
+      updateHueSlider();
     }
   });
   
@@ -5663,8 +5921,19 @@ function setupColorPanel() {
       const hex = rgbToHex(rgb.r, rgb.g, b);
       setForegroundColor(hex);
       currentColor = hex;
+      
+      // Update HSB values
+      const newHsb = hexToHsb(hex);
+      if (newHsb) {
+        currentHue = newHsb.h;
+        currentSaturation = newHsb.s;
+        currentBrightness = newHsb.b;
+      }
+      
       updateColorDisplays();
       updateColorInputs(hex);
+      updateColorField();
+      updateHueSlider();
     }
   });
   
@@ -5679,8 +5948,6 @@ function setupColorPanel() {
         const hex = '#' + value;
         setForegroundColor(hex);
         currentColor = hex;
-        updateColorDisplays();
-        updateColorInputs(hex);
         
         // Update HSB values
         const hexHsb = hexToHsb(hex);
@@ -5688,9 +5955,34 @@ function setupColorPanel() {
           currentHue = hexHsb.h;
           currentSaturation = hexHsb.s;
           currentBrightness = hexHsb.b;
-          updateColorField();
-          updateHueSlider();
         }
+        
+        updateColorDisplays();
+        updateColorInputs(hex);
+        updateColorField();
+        updateHueSlider();
+      }
+    });
+    
+    hexInput.addEventListener('blur', (e) => {
+      const value = e.target.value.replace(/[^0-9a-fA-F]/g, '').substring(0, 6);
+      if (value.length === 6) {
+        const hex = '#' + value;
+        setForegroundColor(hex);
+        currentColor = hex;
+        
+        // Update HSB values
+        const hexHsb = hexToHsb(hex);
+        if (hexHsb) {
+          currentHue = hexHsb.h;
+          currentSaturation = hexHsb.s;
+          currentBrightness = hexHsb.b;
+        }
+        
+        updateColorDisplays();
+        updateColorInputs(hex);
+        updateColorField();
+        updateHueSlider();
       }
     });
   }
@@ -5834,23 +6126,6 @@ function setupColorPanel() {
   
   console.log('🎨 Color system initialized successfully');
   
-  // Initialize color picker with current color
-  console.log('🎨 Initializing color picker...');
-  
-  // Set initial color state from foreground color
-  const initialHsb = hexToHsb(foregroundColor);
-  if (initialHsb) {
-    currentHue = initialHsb.h;
-    currentSaturation = initialHsb.s;
-    currentBrightness = initialHsb.b;
-  }
-  
-  // Update all displays
-  updateColorDisplays();
-  updateColorInputs(foregroundColor);
-  updateColorField();
-  updateHueSlider();
-  
   // Test color picker elements
   setTimeout(() => {
     testColorPicker();
@@ -5866,24 +6141,10 @@ function setupColorPanel() {
     updateColorField();
     updateHueSlider();
     
-    // Test if elements are working
-    const colorField = document.getElementById('colorField');
-    const hueSlider = document.getElementById('hueSlider');
-    const colorCursor = document.getElementById('colorCursor');
-    const hueCursor = document.getElementById('hueCursor');
-    
-    console.log('🎨 Color picker test results:');
-    console.log('- Color field:', colorField ? 'Found' : 'Missing');
-    console.log('- Hue slider:', hueSlider ? 'Found' : 'Missing');
-    console.log('- Color cursor:', colorCursor ? 'Found' : 'Missing');
-    console.log('- Hue cursor:', hueCursor ? 'Found' : 'Missing');
-    
-    if (colorField && hueSlider) {
-      console.log('🎨 Color picker should be working now!');
-    } else {
-      console.error('🎨 Color picker elements missing!');
-    }
-  }, 1000);
+    // Test color picker functionality
+    testColorPicker();
+    console.log('🎨 Color panel setup complete!');
+  }, 100);
 }
 
 // Test function to verify color picker elements
@@ -8844,6 +9105,46 @@ function setupKeyboardShortcuts() {
     if (e.key === 'a') {
       e.preventDefault();
       setCurrentTool('ai');
+    }
+    if (e.key === 'd') {
+      e.preventDefault();
+      setCurrentTool('dither');
+    }
+    if (e.key === 'o') {
+      e.preventDefault();
+      setCurrentTool('outline');
+    }
+    if (e.key === 's') {
+      e.preventDefault();
+      setCurrentTool('shade');
+    }
+    if (e.key === 'm') {
+      e.preventDefault();
+      setCurrentTool('mirror');
+    }
+    if (e.key === 'h') {
+      e.preventDefault();
+      setCurrentTool('gradient');
+    }
+    if (e.key === 'u') {
+      e.preventDefault();
+      setCurrentTool('pattern');
+    }
+    if (e.key === 'k') {
+      e.preventDefault();
+      setCurrentTool('symmetry');
+    }
+    if (e.key === 'x') {
+      e.preventDefault();
+      setCurrentTool('selection');
+    }
+    if (e.key === 'w') {
+      e.preventDefault();
+      setCurrentTool('magicWand');
+    }
+    if (e.key === 'j') {
+      e.preventDefault();
+      setCurrentTool('lasso');
     }
     
     // Animation shortcuts

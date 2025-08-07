@@ -1300,104 +1300,7 @@
         </div>
       </main>
       
-      <!-- Photoshop 2025 Style Layers Panel -->
-      <aside id="layersPanel" class="ps-layers-panel flex-shrink-0 resizable-panel">
-        <!-- Panel Header (Drag Handle) -->
-        <div class="ps-panel-header panel-drag-handle">
-          <div class="ps-panel-title">Layers</div>
-          <div class="ps-panel-controls">
-            <button class="ps-panel-menu" title="Panel Options">≡</button>
-            <button id="closeLayers" class="ps-panel-close lg:hidden" title="Close">×</button>
-          </div>
-        </div>
-        
-        <!-- Blend Mode & Opacity Controls -->
-        <div class="ps-blend-controls">
-          <div class="ps-blend-row">
-            <select class="ps-blend-mode">
-              <option>Normal</option>
-              <option>Multiply</option>
-              <option>Screen</option>
-              <option>Overlay</option>
-              <option>Soft Light</option>
-              <option>Hard Light</option>
-            </select>
-          </div>
-          <div class="ps-opacity-row">
-            <label class="ps-opacity-label">Opacity:</label>
-            <div class="ps-opacity-input-wrapper">
-              <input type="range" class="ps-opacity-slider" min="0" max="100" value="100">
-              <input type="number" class="ps-opacity-number" min="0" max="100" value="100">
-              <span class="ps-opacity-percent">%</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Layer Controls Bar -->
-        <div class="ps-layer-controls">
-          <button id="addLayer" class="ps-layer-btn" title="Create a new layer">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <rect x="1" y="1" width="14" height="14" rx="1" fill="none" stroke="currentColor"/>
-              <path d="M8 4v8M4 8h8" stroke="currentColor"/>
-            </svg>
-          </button>
-          <button id="duplicateLayer" class="ps-layer-btn" title="Duplicate layer">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <rect x="1" y="1" width="10" height="10" rx="1" fill="none" stroke="currentColor"/>
-              <rect x="5" y="5" width="10" height="10" rx="1" fill="none" stroke="currentColor"/>
-            </svg>
-          </button>
-          <button id="renameLayer" class="ps-layer-btn" title="Rename layer (F2)">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <path d="M12 2h2v12h-2z" fill="currentColor"/>
-              <path d="M2 2h2v12H2z" fill="currentColor"/>
-              <path d="M5 7h6M5 9h6" stroke="currentColor" stroke-width="1.2"/>
-            </svg>
-          </button>
-          <button class="ps-layer-btn" title="Add layer style">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor"/>
-              <path d="M8 5v6M5 8h6" stroke="currentColor"/>
-            </svg>
-          </button>
-          <button class="ps-layer-btn" title="Add layer mask">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor"/>
-              <circle cx="8" cy="8" r="3" fill="currentColor"/>
-            </svg>
-          </button>
-          <button class="ps-layer-btn" title="Create adjustment layer">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor"/>
-              <path d="M8 2v12" stroke="currentColor"/>
-            </svg>
-          </button>
-          <button class="ps-layer-btn" title="Create new group">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <path d="M3 4h10v8H3z" fill="none" stroke="currentColor"/>
-              <path d="M5 2h6v2H5z" fill="none" stroke="currentColor"/>
-            </svg>
-          </button>
-          <button id="deleteLayer" class="ps-layer-btn" title="Delete layer">
-            <svg viewBox="0 0 16 16" class="ps-icon">
-              <path d="M3 6h10v8H3z" fill="none" stroke="currentColor"/>
-              <path d="M5 6V4h6v2M7 9v3M9 9v3" stroke="currentColor"/>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Layers List Container -->
-        <div class="ps-layers-container">
-          <div id="layersList" class="ps-layers-list">
-            <!-- Layers will be dynamically added here -->
-          </div>
-        </div>
-        
-        <!-- Resize Handles -->
-        <div class="resize-handle resize-handle-right" data-direction="e"></div>
-        <div class="resize-handle resize-handle-bottom" data-direction="s"></div>
-        <div class="resize-handle resize-handle-corner" data-direction="se"></div>
-      </aside>
+      <!-- Layers panel removed from start screen -->
       
 
     </div>
@@ -1824,6 +1727,6 @@
     </div>
   </div>
   <input type="file" id="openFileInput" class="hidden" accept=".json">
-    <script src="script-simple.js?v=24"></script>
+    <script src="script-simple.js?v=25"></script>
 </body>
 </html>

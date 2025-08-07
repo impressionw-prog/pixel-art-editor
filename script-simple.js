@@ -550,7 +550,7 @@ function init() {
   // Canvas will be created when user chooses an option from start screen
   
   // Set up layer system
-  setupLayers();
+  // Layers panel removed from start screen
   
   // Set up color system
   // Color panel removed from start screen

@@ -819,6 +819,9 @@ function init() {
   // Setup color picker
   setupColorPicker();
   
+  // Setup clear canvas button
+  setupClearCanvasButton();
+  
   console.log('✅ PixelPro initialized successfully');
 }
 
@@ -974,6 +977,13 @@ function setupKeyboardShortcuts() {
       case 'backspace':
         if (toolState.selection) {
           clearSelection();
+        }
+        break;
+      case 'c':
+        if (e.ctrlKey && e.shiftKey) {
+          e.preventDefault();
+          console.log('🗑️ Clear canvas shortcut');
+          clearCanvas();
         }
         break;
     }
@@ -1652,13 +1662,28 @@ function clearCanvas() {
   console.log('🗑️ Clear canvas');
   if (confirm('Are you sure you want to clear the canvas?')) {
     const pixels = document.querySelectorAll('.pixel');
-    pixels.forEach(pixel => {
+    console.log(`🗑️ Clearing ${pixels.length} pixels`);
+    
+    pixels.forEach((pixel, index) => {
       pixel.style.backgroundColor = 'transparent';
       pixel.classList.add('transparent');
       pixel.style.setProperty('--pixel-color', 'transparent');
       pixel.style.border = 'none';
+      
+      // Clear any text content
+      if (pixel.textContent) {
+        pixel.textContent = '';
+      }
     });
-    console.log('✅ Canvas cleared');
+    
+    // Clear any selections
+    if (toolState.selection) {
+      toolState.selection = null;
+    }
+    
+    console.log('✅ Canvas cleared successfully');
+  } else {
+    console.log('❌ Canvas clear cancelled');
   }
 }
 
@@ -1972,6 +1997,43 @@ function addTransparentColorOption() {
   if (colorPicker && colorPicker.parentNode) {
     colorPicker.parentNode.insertBefore(transparentBtn, colorPicker.nextSibling);
   }
+}
+
+// ========================================
+// CLEAR CANVAS BUTTON SETUP
+// ========================================
+
+function setupClearCanvasButton() {
+  console.log('🗑️ Setting up clear canvas button...');
+  
+  const clearBtn = document.getElementById('clearBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      console.log('🗑️ Clear canvas button clicked');
+      clearCanvas();
+    });
+    console.log('✅ Clear canvas button setup complete');
+  } else {
+    console.error('❌ Clear canvas button not found');
+  }
+  
+  // Add a test function to global scope for debugging
+  window.testClearCanvas = function() {
+    console.log('🧪 Testing clear canvas...');
+    const pixels = document.querySelectorAll('.pixel');
+    console.log(`Found ${pixels.length} pixels`);
+    
+    if (pixels.length > 0) {
+      const firstPixel = pixels[0];
+      console.log('First pixel before:', firstPixel.style.backgroundColor);
+      firstPixel.style.backgroundColor = 'red';
+      console.log('First pixel after setting red:', firstPixel.style.backgroundColor);
+      firstPixel.style.backgroundColor = 'transparent';
+      console.log('First pixel after setting transparent:', firstPixel.style.backgroundColor);
+    }
+    
+    clearCanvas();
+  };
 }
 
 // Initialize when DOM is loaded

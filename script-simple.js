@@ -1033,22 +1033,32 @@ function setupAIOptions() {
 
 // Setup start screen
 function setupStartScreen() {
+  console.log('🔧 Setting up start screen...');
+  
   // New File button (proper ID)
   const startNewFileBtn = document.getElementById('startNewFile');
+  console.log('📄 New File button:', startNewFileBtn);
   if (startNewFileBtn) {
     startNewFileBtn.addEventListener('click', () => {
       console.log('📄 Opening canvas settings...');
       showCanvasSettingsModal();
     });
+    console.log('✅ New File button event listener added');
+  } else {
+    console.error('❌ New File button not found!');
   }
   
   // Open File button
   const startOpenFileBtn = document.getElementById('startOpenFile');
+  console.log('📂 Open File button:', startOpenFileBtn);
   if (startOpenFileBtn) {
     startOpenFileBtn.addEventListener('click', () => {
       console.log('📂 Opening file...');
       openFileDialog();
     });
+    console.log('✅ Open File button event listener added');
+  } else {
+    console.error('❌ Open File button not found!');
   }
   
   // Demo button
@@ -1118,12 +1128,17 @@ function showStartScreen() {
 
 // Create new project
 function showCanvasSettingsModal() {
+  console.log('🎨 Showing canvas settings modal...');
   const modal = document.getElementById('canvasSettingsModal');
+  console.log('🎨 Canvas settings modal:', modal);
   if (modal) {
     modal.classList.remove('hidden');
+    console.log('✅ Canvas settings modal shown');
     
     // Set up canvas settings controls
     setupCanvasSettingsControls();
+  } else {
+    console.error('❌ Canvas settings modal not found!');
   }
 }
 

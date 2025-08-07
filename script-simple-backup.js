@@ -5776,10 +5776,60 @@ function setupColorPanel() {
     console.error('🎨 Color field not found!');
   }
   
-  // Setup hue slider interaction (simplified)
+  // Setup hue slider interaction
   const hueSlider = document.getElementById('hueSlider');
   if (hueSlider) {
     console.log('🎨 Setting up hue slider...');
+    
+    // Remove any existing event listeners by cloning the element
+    const newHueSlider = hueSlider.cloneNode(true);
+    hueSlider.parentNode.replaceChild(newHueSlider, hueSlider);
+    
+    function handleHueSliderClick(e) {
+      console.log('🎨 Hue slider clicked!');
+      const rect = newHueSlider.getBoundingClientRect();
+      const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+      
+      currentHue = (x / rect.width) * 360;
+      
+      console.log(`🎨 Hue slider: H=${currentHue.toFixed(1)}°`);
+      
+      const rgb = hsbToRgb(currentHue, currentSaturation, currentBrightness);
+      const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+      
+      setForegroundColor(hex);
+      currentColor = hex;
+      
+      // Update cursor position
+      const hueCursor = document.getElementById('hueCursor');
+      if (hueCursor) {
+        hueCursor.style.left = x + 'px';
+      }
+      
+      // Update all displays
+      updateColorDisplays();
+      updateColorInputs(hex);
+      updateColorField();
+    }
+    
+    // Add mouse events
+    newHueSlider.addEventListener('click', handleHueSliderClick);
+    newHueSlider.addEventListener('mousedown', (e) => {
+      handleHueSliderClick(e);
+      
+      const handleMouseMove = (e) => {
+        handleHueSliderClick(e);
+      };
+      
+      const handleMouseUp = () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    });
+    
     console.log('🎨 Hue slider events added successfully');
   } else {
     console.error('🎨 Hue slider not found!');
